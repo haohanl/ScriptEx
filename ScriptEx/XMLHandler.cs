@@ -25,24 +25,29 @@ namespace ScriptEx
             // constants because laziness
             const string attr = "KEY";
             const string elem = "ENTRY";
+
             const string exec = "EXEC";
             const string args = "ARGS";
+            const string path = "PATH";
+            const string auto = "AUTO";
+            const string thread = "THREADSAFE";
 
-            // form command
-            IEnumerable<string> command = from key in xml.Descendants(elem)
+            string[] searchArray = { exec, args, path, auto, thread };
+            string[] returnArray = new string[searchArray.Length];
+
+            int i = 0;
+            foreach (var item in searchArray)
+            {
+                IEnumerable<string> val = from key in xml.Descendants(elem)
                                           where (string)key.Attribute(attr) == attrVal
-                                          from cmd in key.Descendants(exec)
-                                          select (string)cmd;
+                                          from v in key.Descendants(item)
+                                          select (string)v;
 
-            // form args
-            IEnumerable<string> arguments = from key in xml.Descendants(elem)
-                                            where (string)key.Attribute(attr) == attrVal
-                                            from arg in key.Descendants(args)
-                                            select (string)arg;
+                returnArray[i] = string.Join(" ", val);
+                i++;
+            }
 
-            // form return
-            string[] ret = { string.Join(" ", command), string.Join(" ", arguments) };
-            return ret;
+            return returnArray;
         }
     }
 }
