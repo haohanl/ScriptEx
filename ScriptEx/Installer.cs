@@ -12,8 +12,10 @@ namespace ScriptEx
     public static class Installer
     {
 
+        // path to the exe
         public static string Root = System.AppDomain.CurrentDomain.BaseDirectory;
 
+        // execute an executable
         public static void Run(string exec, string args = "")
         {
             Console.WriteLine($"[{CurrTime()}] {exec} {args} | thread initiated.");
@@ -31,11 +33,17 @@ namespace ScriptEx
             Console.WriteLine($"[{CurrTime()}] {exec} {args} | thread terminated.");
         }
 
-        public static void RunThread(string exec, string args = "")
+        // execute a new thread for executing
+        public static void RunThread(string exec, string args = "", bool isThreadSafe = true)
         {
             ThreadStart stThr = () => Run(exec, args);
             Thread thr = new Thread(stThr);
             thr.Start();
+
+            if (!isThreadSafe)
+            {
+                thr.Join();
+            }
         }
 
         public static string LocalExec(string exec)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading;
 
 namespace ScriptEx
@@ -8,6 +9,8 @@ namespace ScriptEx
         const int majVer = 1;
         const int minVer = 0;
         const int subVer = 0;
+
+        const string cmdConfig = "cmd.xml";
 
         static void Main(string[] args)
         {
@@ -22,8 +25,18 @@ namespace ScriptEx
                 HRule('=');
 
                 // XML Intake
-                XMLHandler xmlConfig = new XMLHandler("cmd.xml");
-
+                XMLHandler xmlConfig;
+                try
+                {
+                    xmlConfig = new XMLHandler(cmdConfig);
+                }
+                catch (FileNotFoundException)
+                {
+                    Console.WriteLine($"[-] ERR: {cmdConfig} not found. Application terminating.");
+                    Console.ReadKey();
+                    return;
+                }
+                
                 // Basic interface loop
                 string userInput = "";
                 string shellCommand;
@@ -82,7 +95,7 @@ namespace ScriptEx
             // Param mode
             else
             {
-
+                Console.WriteLine("To be implemented.");
             }
         }
 
