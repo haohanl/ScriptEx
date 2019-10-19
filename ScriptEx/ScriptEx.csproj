@@ -52,7 +52,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AutoItX3.Assembly">
-      <HintPath>..\AU3Test\AutoItX\AutoItX3.Assembly.dll</HintPath>
+      <HintPath>..\AutoItX\AutoItX3.Assembly.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
