@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<COMMANDS>
+	<ENTRY KEY="ts">
+		<EXEC>notepad.exe</EXEC>
+		<ARGS>/Q /W</ARGS>
+	</ENTRY>
+	<ENTRY KEY="ml">
+		<EXEC>MysticLight.exe</EXEC>
+		<ARGS>/SILENT /NORESTART /SP-</ARGS>
+	</ENTRY>
+</COMMANDS>
