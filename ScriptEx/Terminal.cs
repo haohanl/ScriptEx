@@ -138,8 +138,19 @@ namespace ScriptEx
             Console.WriteLine($"ROOT: \t'{Program.Root}'");
             Console.WriteLine($"SRC: \t'{Program.InstallDir}'");
             Console.WriteLine($"DEST: \t'{Program.CopyDestDir}'");
+            HRule();
+            PrintCommands();
             HRule('=');
 
+        }
+
+        static void PrintCommands()
+        {
+            Console.WriteLine("CONFIG LOADED - COMMANDS:");
+            foreach (var item in Program.AppConfig.GetCommandList())
+            {
+                Console.WriteLine($" {item} \t| { Program.AppConfig.GetCommand(item)[2]}");
+            }
         }
 
         static string BuildNumber()

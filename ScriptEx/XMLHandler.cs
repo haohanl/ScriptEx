@@ -10,6 +10,10 @@ namespace ScriptEx
     /// <summary>
     /// To intake an XML configuration of shell commands and provide a searchable link
     /// between a key and its executable and parameters.
+    /// 
+    /// 
+    /// 
+    /// Written by Haohan Liu, in his own damn time.
     /// </summary>
     class XMLHandler
     {
@@ -58,6 +62,17 @@ namespace ScriptEx
 
             returnArray[i] = attrVal;
             return returnArray;
+        }
+
+        public IEnumerable<string> GetCommandList()
+        {
+            const string attr = "KEY";
+            const string elem = "ENTRY";
+
+            IEnumerable<string> val = from key in xml.Descendants(elem)
+                                      select (string)key.Attribute(attr);
+
+            return val;
         }
 
         public string GetNode(string node)
