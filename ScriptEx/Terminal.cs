@@ -129,8 +129,12 @@ namespace ScriptEx
         static void WriteTitle()
         {
             const string title = "ScriptEx";
-            const string subtitle = "Don't worry, it's not sketchy at all.";
+            const string subtitle = "Written by HL, in his own damn time!";
 
+            // Set Console title
+            Console.Title = $"ScriptEx [Build {BuildNumber()}] - It's not a virus, I swear!";
+
+            // Print header
             HRule('=');
             Console.WriteLine($"{title} [Build {BuildNumber()}] | {subtitle}");
             HRule();
