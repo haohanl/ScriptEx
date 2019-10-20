@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<APPCONFIG>
+	<COPYCONFIG>
+		<!--SOURCEROOT is relative to drive from which ScriptEx is executed.-->
+		<SOURCEROOT></SOURCEROOT>
+		<DESTROOT>%USERPROFILE%\Desktop\Setup</DESTROOT>
+	</COPYCONFIG>
+	<COMMANDS>
+		<ENTRY KEY="m">
+			<EXEC>MysticLight.exe</EXEC>
+			<ARGS>/SILENT /NORESTART /SP-</ARGS>
+			<SOURCEPATH>SOFTWARE\Mystic_Light_3\3.0.0.61</SOURCEPATH>
+			<DESTPATH>\MysticLight</DESTPATH>
+			<THREADSAFE>false</THREADSAFE>
+		</ENTRY>
+		<ENTRY KEY="d">
+			<EXEC>Dragon Center.exe</EXEC>
+			<ARGS>/SILENT /NORESTART /SP-</ARGS>
+			<SOURCEPATH>SOFTWARE\Dragon Center\Dragon Center 1.0.0.52</SOURCEPATH>
+			<DESTPATH>\Dragon Center</DESTPATH>
+			<THREADSAFE>false</THREADSAFE>
+		</ENTRY>
+		<ENTRY KEY="i">
+			<EXEC>iCUESetup_3.20.80_release.msi</EXEC>
+			<ARGS>/qb-</ARGS>
+			<SOURCEPATH>SOFTWARE\iCue</SOURCEPATH>
+			<DESTPATH>\iCue</DESTPATH>
+			<THREADSAFE>false</THREADSAFE>
+		</ENTRY>
+		<ENTRY KEY="a">
+			<EXEC>AsusSetup.exe</EXEC>
+			<ARGS>/s /SMS-</ARGS>
+			<SOURCEPATH>SOFTWARE\Aura\Lighting_Control_1.07.71</SOURCEPATH>
+			<DESTPATH>\Aura</DESTPATH>
+			<THREADSAFE>false</THREADSAFE>
+		</ENTRY>
+		<ENTRY KEY="c">
+			<EXEC>CAM_Installer_V4.0.11.exe</EXEC>
+			<ARGS></ARGS>
+			<SOURCEPATH>SOFTWARE\CAM</SOURCEPATH>
+			<DESTPATH>\CAM</DESTPATH>
+			<THREADSAFE>false</THREADSAFE>
+		</ENTRY>
+		<ENTRY KEY="n">
+			<EXEC>setup.exe</EXEC>
+			<ARGS>-noreboot -nosplash</ARGS>
+			<SOURCEPATH>\_GPU_DRIVERS_\NV_436.48</SOURCEPATH>
+			<DESTPATH>\NVidia</DESTPATH>
+			<THREADSAFE>false</THREADSAFE>
+		</ENTRY>
+		<ENTRY KEY="na">
+			<EXEC>NV_INSTALL.exe</EXEC>
+			<ARGS></ARGS>
+			<SOURCEPATH>\AUTO</SOURCEPATH>
+			<DESTPATH>\AUTO</DESTPATH>
+			<THREADSAFE>false</THREADSAFE>
+		</ENTRY>
+	</COMMANDS>
+</APPCONFIG>
