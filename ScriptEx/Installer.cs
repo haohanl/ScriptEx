@@ -17,8 +17,8 @@ namespace ScriptEx
         {
             try
             {
-                Terminal.WriteLine(">", $"'{cmd.AttrVal}' | {cmd.Exec} | install initiated.");
                 var proc = System.Diagnostics.Process.Start(cmd.ExecPath, cmd.Args);
+                Terminal.WriteLine(">", $"'{cmd.AttrVal}' | {cmd.Exec} | install initiated.");
                 proc.WaitForExit();
                 Terminal.WriteLine("<", $"'{cmd.AttrVal}' | {cmd.Exec} | install completed.");
                 proc.Close();

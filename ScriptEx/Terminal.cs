@@ -13,6 +13,13 @@ namespace ScriptEx
         private const string ThreadBlockKey = "|";
         private const string QuitKey = "q";
 
+        private static string userInput;
+
+        private static List<Command> commandLine;
+        private static List<Thread> threadBatch;
+
+        private static bool quitNotDeclared = true;
+
         public static void Start()
         {
             WriteTitle();
@@ -22,85 +29,23 @@ namespace ScriptEx
 
         static void StartTerminalLoop()
         {
-            // Terminal loop vars
-            string userInput;
-            string[] rawCommands;
-            List<Command> userCommands;
-            bool quitNotDeclared = true;
-            List<Thread> threadBatch;
-
             // Begin terminal loop
             do
             {
-                // Read in user commands
-                Console.Write("> ");
-                userInput = Console.ReadLine();
-                rawCommands = userInput.Trim().Split(' ');
-                userCommands = ConvertRawCommands(rawCommands);
+                ReadInput();
 
-                // Process new line
+                // Reset threadBatch
                 threadBatch = new List<Thread>();
 
-                // RoboCopy Data
                 Terminal.WriteLine("#", "Initialising Jobs.");
-                foreach (Command command in userCommands)
-                {
-                    // check for special keys
-                    switch (command.AttrVal)
-                    {
-                        // Thread blocking
-                        case ThreadBlockKey:
-                            break;
-                        // Quit Key
-                        case QuitKey:
-                            break;
-                        // Process command
-                        default:
-                            if (command.IsInvalidCommand())
-                            {
-                                Terminal.WriteLine("!", $"'{command.AttrVal}' is not a valid command. Ignoring.");
-                                break;
-                            }
-                            RoboCopy.Run(command);
-                            break;
-                    }
-                }
 
-                HRule();
+                // RoboCopy Data
+                RunRoboCopy();
+
+
                 // Install executables
-                foreach (Command command in userCommands)
-                {
-                    // check for special keys
-                    switch (command.AttrVal)
-                    {
-                        // Thread blocking
-                        case ThreadBlockKey:
-                            if (threadBatch.Count == 0)
-                            {
-                                Terminal.WriteLine("!", "No commands to thread batch. Ignoring thread batch command.");
-                                break;
-                            }
-
-                            // Block thread batch
-                            Terminal.WriteLine("-", $"Thread block initiated for '{threadBatch.Count}' commands.");
-                            Program.ThreadBatchBlock(threadBatch);
-                            threadBatch = new List<Thread>();
-                            break;
-                        // Quit Key
-                        case QuitKey:
-                            quitNotDeclared = false;
-                            Terminal.WriteLine("-", "Quit key received. Program termination after command threads terminate.");
-                            break;
-                        // Process command
-                        default:
-                            if (command.IsInvalidCommand())
-                            {
-                                break;
-                            }
-                            threadBatch.Add(Installer.RunThread(command));
-                            break;
-                    }
-                }
+                HRule();
+                RunInstaller();
 
                 // Wait for all running threads to terminate
                 Program.ThreadBatchBlock(threadBatch);
@@ -108,6 +53,74 @@ namespace ScriptEx
                 Console.WriteLine();
 
             } while (quitNotDeclared);
+        }
+
+
+        static void RunInstaller()
+        {
+            foreach (Command command in commandLine)
+            {
+                // check for special keys
+                switch (command.AttrVal)
+                {
+                    // Thread blocking
+                    case ThreadBlockKey:
+                        if (threadBatch.Count == 0)
+                        {
+                            Terminal.WriteLine("!", "No commands to thread batch. Ignoring thread batch command.");
+                            break;
+                        }
+
+                        // Block thread batch
+                        Terminal.WriteLine("-", $"Thread block initiated for '{threadBatch.Count}' commands.");
+                        Program.ThreadBatchBlock(threadBatch);
+
+                        // Clear thread batch
+                        threadBatch = new List<Thread>();
+                        break;
+
+                    // Quit Key
+                    case QuitKey:
+                        quitNotDeclared = false;
+                        Terminal.WriteLine("-", "Quit key received. Program termination after command threads terminate.");
+                        break;
+
+                    // Process command
+                    default:
+                        if (command.IsInvalidCommand())
+                        {
+                            break;
+                        }
+                        threadBatch.Add(Installer.RunThread(command));
+                        break;
+                }
+            }
+        }
+
+        static void RunRoboCopy()
+        {
+            foreach (Command command in commandLine)
+            {
+                // check for special keys
+                switch (command.AttrVal)
+                {
+                    // Thread blocking
+                    case ThreadBlockKey:
+                        break;
+                    // Quit Key
+                    case QuitKey:
+                        break;
+                    // Process command
+                    default:
+                        if (command.IsInvalidCommand())
+                        {
+                            Terminal.WriteLine("!", $"'{command.AttrVal}' is not a valid command. Ignoring.");
+                            break;
+                        }
+                        RoboCopy.Run(command);
+                        break;
+                }
+            }
         }
 
         static List<Command> ConvertRawCommands(string[] rawCommands)
@@ -143,21 +156,29 @@ namespace ScriptEx
             Console.WriteLine($"SRC: \t'{Program.InstallDir}'");
             Console.WriteLine($"DEST: \t'{Program.CopyDestDir}'");
             HRule();
-            PrintCommands();
+            PrintCommands(Program.AppConfig);
             HRule('=');
 
         }
 
-        static void PrintCommands()
+        static void ReadInput()
+        {
+            // Read in user commands
+            Console.Write("> ");
+            userInput = Console.ReadLine();
+            commandLine = ConvertRawCommands(userInput.Trim().Split(' '));
+        }
+
+        static void PrintCommands(XMLHandler AppConfig)
         {
             Console.WriteLine("CONFIG LOADED - COMMANDS:");
 
-            var commands = Program.AppConfig.GetKeys("ENTRY", "KEY");
-            var descriptions = Program.AppConfig.GetKeys("ENTRY", "DESC");
+            var commands = AppConfig.GetKeys("ENTRY", "KEY");
+            var descriptions = AppConfig.GetKeys("ENTRY", "DESC");
 
             for (int i = 0; i < commands.Count(); i++)
             {
-                Console.WriteLine($" {commands.ElementAt(i)} \t| {descriptions.ElementAt(i)} ('{Program.AppConfig.GetCommand(commands.ElementAt(i))[2]}')");
+                Console.WriteLine($" {commands.ElementAt(i)} \t| {descriptions.ElementAt(i)} ('{AppConfig.GetCommand(commands.ElementAt(i))[2]}')");
             }
         }
 

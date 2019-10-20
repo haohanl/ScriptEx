@@ -34,7 +34,7 @@ namespace ScriptEx
             Terminal.WriteLine("-", output);
 
             proc.WaitForExit();
-            Terminal.WriteLine("^", $"'{cmd.AttrVal}' | completed RoboCopy");
+            //Terminal.WriteLine("^", $"'{cmd.AttrVal}' | completed RoboCopy");
             proc.Close();
         }
 
