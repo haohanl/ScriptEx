@@ -12,48 +12,43 @@ namespace ScriptEx
     public static class Installer
     {
 
-        // path to the exe
+        // path to the scriptex exe
         public static string Root = System.AppDomain.CurrentDomain.BaseDirectory;
+        public static string DriveLetter = Path.GetPathRoot(Environment.CurrentDirectory);
+
 
         // execute an executable
-        public static void Run(string exec, string args = "")
+        public static void Run(string path, string args = "")
         {
-            Console.WriteLine($"[{CurrTime()}] {exec} {args} | thread initiated.");
             try
             {
-                var proc = System.Diagnostics.Process.Start(exec, args);
+                Terminal.WriteLine(">", $"{path} {args} | thread initiated.");
+                var proc = System.Diagnostics.Process.Start(path, args);
                 proc.WaitForExit();
+                Terminal.WriteLine(">", $"{path} {args} | thread terminated.");
             }
-            catch (FileNotFoundException)
+            catch (Exception)
             {
-                Console.WriteLine($"[{CurrTime()}] {exec} {args} | File not found.");
+                Terminal.WriteLine(">", $"{path} {args} | file not found.");
+                Terminal.WriteLine(">", $"{path} {args} | thread terminated.");
             }
             
 
-            Console.WriteLine($"[{CurrTime()}] {exec} {args} | thread terminated.");
         }
 
         // execute a new thread for executing
-        public static void RunThread(string exec, string args = "", bool isThreadSafe = true)
+        public static Thread RunThread(string path, string args = "")
         {
-            ThreadStart stThr = () => Run(exec, args);
+            ThreadStart stThr = () => Run(path, args);
             Thread thr = new Thread(stThr);
             thr.Start();
 
-            if (!isThreadSafe)
-            {
-                thr.Join();
-            }
+            return thr;
         }
 
         public static string LocalExec(string exec)
         {
             return Path.Combine(Root, exec);
-        }
-
-        public static string CurrTime()
-        {
-            return DateTime.Now.ToString("hh:mm:ss");
         }
     }
 }
