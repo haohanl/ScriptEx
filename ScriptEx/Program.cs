@@ -9,6 +9,15 @@ namespace ScriptEx
 {
     class Program
     {
+        /// <summary>
+        /// A program made to easily execute a bunch of scripts and shell commands
+        /// for the purpose of making my damn life easier at work.
+        /// 
+        /// Maybe one day, it'll become a worthwhile piece of software.
+        /// 
+        /// Written by Haohan Liu, in his own damn time!
+        /// </summary> 
+
         // App Config
         public static string ConfigFile = "AppConfig.xml";
         public static XMLHandler AppConfig = new XMLHandler(ConfigFile);
