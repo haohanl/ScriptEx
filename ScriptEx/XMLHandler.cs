@@ -64,23 +64,19 @@ namespace ScriptEx
             return returnArray;
         }
 
-        public IEnumerable<string> GetCommandList()
-        {
-            const string attr = "KEY";
-            const string elem = "ENTRY";
-
-            IEnumerable<string> val = from key in xml.Descendants(elem)
-                                      select (string)key.Attribute(attr);
-
-            return val;
-        }
-
         public string GetNode(string node)
         {
             IEnumerable<string> val = from key in xml.Descendants(node)
                                       select (string)key;
             
             return string.Join(" ", val).Trim();
+        }
+
+        public IEnumerable<string> GetKeys(string node, string key)
+        {
+            IEnumerable<string> val = from n in xml.Descendants(node)
+                                      select (string)n.Attribute(key);
+            return val;
         }
     }
 }

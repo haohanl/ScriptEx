@@ -151,9 +151,13 @@ namespace ScriptEx
         static void PrintCommands()
         {
             Console.WriteLine("CONFIG LOADED - COMMANDS:");
-            foreach (var item in Program.AppConfig.GetCommandList())
+
+            var commands = Program.AppConfig.GetKeys("ENTRY", "KEY");
+            var descriptions = Program.AppConfig.GetKeys("ENTRY", "DESC");
+
+            for (int i = 0; i < commands.Count(); i++)
             {
-                Console.WriteLine($" {item} \t| { Program.AppConfig.GetCommand(item)[2]}");
+                Console.WriteLine($" {commands.ElementAt(i)} \t| {descriptions.ElementAt(i)} ('{Program.AppConfig.GetCommand(commands.ElementAt(i))[2]}')");
             }
         }
 
