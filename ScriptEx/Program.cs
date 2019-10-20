@@ -15,8 +15,8 @@ namespace ScriptEx
 
         // ScriptEx Paths
         public static string Root = System.AppDomain.CurrentDomain.BaseDirectory;
-        //public static string DriveLetter = Path.GetPathRoot(Environment.CurrentDirectory);
-        public static string DriveLetter = @"E:\";
+        public static string DriveLetter = Path.GetPathRoot(Environment.CurrentDirectory);
+        //public static string DriveLetter = @"E:\";
         public static string InstallDir = Environment.ExpandEnvironmentVariables(DriveLetter + AppConfig.GetNode("SOURCEROOT"));
         public static string CopyDestDir = Environment.ExpandEnvironmentVariables(AppConfig.GetNode("DESTROOT"));
 
