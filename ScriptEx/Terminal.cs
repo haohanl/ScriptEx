@@ -10,17 +10,12 @@ namespace ScriptEx
 {
     static class Terminal
     {
-        private static string CommandFile = "AppConfig.xml";
-        private static XMLHandler TerminalCommands = new XMLHandler(CommandFile);
-
         private const string ThreadBlockKey = "|";
         private const string QuitKey = "q";
 
         public static void Start()
         {
             WriteTitle();
-
-            
 
             StartTerminalLoop();
         }
@@ -29,8 +24,8 @@ namespace ScriptEx
         {
             // Terminal loop vars
             string userInput;
-            string[] userCommands;
-            Command userCommand;
+            string[] rawCommands;
+            List<Command> userCommands;
             bool quitNotDeclared = true;
             List<Thread> threadBatch;
 
@@ -38,17 +33,45 @@ namespace ScriptEx
             do
             {
                 // Read in user commands
+                Console.Write("> ");
                 userInput = Console.ReadLine();
-                userCommands = userInput.Trim().Split(' ');
+                rawCommands = userInput.Trim().Split(' ');
+                userCommands = ConvertRawCommands(rawCommands);
 
                 // Process new line
                 threadBatch = new List<Thread>();
 
-                // Process each command
-                foreach (string command in userCommands)
+                // RoboCopy Data
+                Terminal.WriteLine("#", "Initialising Jobs.");
+                foreach (Command command in userCommands)
                 {
                     // check for special keys
-                    switch (command)
+                    switch (command.AttrVal)
+                    {
+                        // Thread blocking
+                        case ThreadBlockKey:
+                            break;
+                        // Quit Key
+                        case QuitKey:
+                            break;
+                        // Process command
+                        default:
+                            if (command.IsInvalidCommand())
+                            {
+                                Terminal.WriteLine("!", $"'{command.AttrVal}' is not a valid command. Ignoring.");
+                                break;
+                            }
+                            RoboCopy.Run(command);
+                            break;
+                    }
+                }
+
+                HRule();
+                // Install executables
+                foreach (Command command in userCommands)
+                {
+                    // check for special keys
+                    switch (command.AttrVal)
                     {
                         // Thread blocking
                         case ThreadBlockKey:
@@ -60,10 +83,7 @@ namespace ScriptEx
 
                             // Block thread batch
                             Terminal.WriteLine("-", $"Thread block initiated for '{threadBatch.Count}' commands.");
-                            foreach (Thread thread in threadBatch)
-                            {
-                                thread.Join();
-                            }
+                            Program.ThreadBatchBlock(threadBatch);
                             threadBatch = new List<Thread>();
                             break;
                         // Quit Key
@@ -73,18 +93,32 @@ namespace ScriptEx
                             break;
                         // Process command
                         default:
-                            userCommand = new Command(TerminalCommands.Get(command));
-                            if (userCommand.IsInvalidCommand())
+                            if (command.IsInvalidCommand())
                             {
-                                Terminal.WriteLine("!", $"'{command}' is not a valid command. Ignoring.");
                                 break;
                             }
-                            threadBatch.Add(Installer.RunThread(userCommand.ExecPath, userCommand.Args));
+                            threadBatch.Add(Installer.RunThread(command));
                             break;
                     }
                 }
 
+                // Wait for all running threads to terminate
+                Program.ThreadBatchBlock(threadBatch);
+                Terminal.WriteLine("#", "Command execution chain concluded.");
+                Console.WriteLine();
+
             } while (quitNotDeclared);
+        }
+
+        static List<Command> ConvertRawCommands(string[] rawCommands)
+        {
+            List<Command> userCommands = new List<Command>();
+            foreach (string command in rawCommands)
+            {
+                userCommands.Add(new Command(Program.AppConfig.GetCommand(command)));
+            }
+
+            return userCommands;
         }
 
         public static void WriteLine(string logChar, string log)
@@ -100,14 +134,12 @@ namespace ScriptEx
             HRule('=');
             Console.WriteLine($"{title} [Build {BuildNumber()}] | {subtitle}");
             HRule();
-            Console.WriteLine($"ROOT: {GetExecRoot()}");
+            Console.WriteLine($"CFG: \t'{Program.ConfigFile}'");
+            Console.WriteLine($"ROOT: \t'{Program.Root}'");
+            Console.WriteLine($"SRC: \t'{Program.InstallDir}'");
+            Console.WriteLine($"DEST: \t'{Program.CopyDestDir}'");
             HRule('=');
 
-        }
-
-        static string GetExecRoot()
-        {
-            return System.AppDomain.CurrentDomain.BaseDirectory;
         }
 
         static string BuildNumber()
@@ -128,12 +160,14 @@ namespace ScriptEx
 
     }
 
-    class Command
+    public class Command
     {
         public string Exec;
         public string Args;
-        public string Auto;
-        public string Path;
+        public string SourcePath;
+        public string DestPath;
+        public bool IsThreadSafe;
+        public string AttrVal;
 
         public string ExecPath;
 
@@ -141,10 +175,11 @@ namespace ScriptEx
         {
             Exec = commandData[0];
             Args = commandData[1];
-            Auto = commandData[2];
-            Path = commandData[3];
+            SourcePath = commandData[2];
+            DestPath = commandData[3];
+            AttrVal = commandData[5];
 
-            ExecPath = Path + Exec;
+            ExecPath = Program.CopyDestDir + DestPath + @"\" + Exec;
         }
 
         public bool IsInvalidCommand()

@@ -12,34 +12,28 @@ namespace ScriptEx
     public static class Installer
     {
 
-        // path to the scriptex exe
-        public static string Root = System.AppDomain.CurrentDomain.BaseDirectory;
-        public static string DriveLetter = Path.GetPathRoot(Environment.CurrentDirectory);
-
-
-        // execute an executable
-        public static void Run(string path, string args = "")
+        // install with executable
+        public static void Install(Command cmd)
         {
             try
             {
-                Terminal.WriteLine(">", $"{path} {args} | thread initiated.");
-                var proc = System.Diagnostics.Process.Start(path, args);
+                Terminal.WriteLine(">", $"'{cmd.AttrVal}' | {cmd.Exec} | install initiated.");
+                var proc = System.Diagnostics.Process.Start(cmd.ExecPath, cmd.Args);
                 proc.WaitForExit();
-                Terminal.WriteLine(">", $"{path} {args} | thread terminated.");
+                Terminal.WriteLine("<", $"'{cmd.AttrVal}' | {cmd.Exec} | install completed.");
+                proc.Close();
+                Terminal.WriteLine("x", $"'{cmd.AttrVal}' | {cmd.Exec} | thread terminated.");
             }
             catch (Exception)
             {
-                Terminal.WriteLine(">", $"{path} {args} | file not found.");
-                Terminal.WriteLine(">", $"{path} {args} | thread terminated.");
+                Terminal.WriteLine("!", $"'{cmd.AttrVal}' | {cmd.Exec} | file not found at '{cmd.ExecPath}'");
             }
-            
-
         }
 
         // execute a new thread for executing
-        public static Thread RunThread(string path, string args = "")
+        public static Thread RunThread(Command cmd)
         {
-            ThreadStart stThr = () => Run(path, args);
+            ThreadStart stThr = () => Install(cmd);
             Thread thr = new Thread(stThr);
             thr.Start();
 
@@ -48,7 +42,7 @@ namespace ScriptEx
 
         public static string LocalExec(string exec)
         {
-            return Path.Combine(Root, exec);
+            return Path.Combine(Program.Root, exec);
         }
     }
 }

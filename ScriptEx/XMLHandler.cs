@@ -17,10 +17,19 @@ namespace ScriptEx
 
         public XMLHandler(string file)
         {
-            xml = XDocument.Load(file);
+            try
+            {
+                xml = XDocument.Load(file);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine($"'{Program.ConfigFile}' not found. Program will terminate.");
+                Console.ReadKey();
+                Environment.Exit(1);
+            }
         }
 
-        public string[] Get(string attrVal)
+        public string[] GetCommand(string attrVal)
         {
             // constants because laziness
             const string attr = "KEY";
@@ -28,12 +37,12 @@ namespace ScriptEx
 
             const string exec = "EXEC";
             const string args = "ARGS";
-            const string path = "PATH";
-            const string auto = "AUTO";
+            const string spath = "SOURCEPATH";
+            const string dpath = "DESTPATH";
             const string thread = "THREADSAFE";
 
-            string[] searchArray = { exec, args, path, auto, thread };
-            string[] returnArray = new string[searchArray.Length];
+            string[] searchArray = { exec, args, spath, dpath, thread };
+            string[] returnArray = new string[searchArray.Length + 1];
 
             int i = 0;
             foreach (var item in searchArray)
@@ -47,7 +56,16 @@ namespace ScriptEx
                 i++;
             }
 
+            returnArray[i] = attrVal;
             return returnArray;
+        }
+
+        public string GetNode(string node)
+        {
+            IEnumerable<string> val = from key in xml.Descendants(node)
+                                      select (string)key;
+            
+            return string.Join(" ", val).Trim();
         }
     }
 }
