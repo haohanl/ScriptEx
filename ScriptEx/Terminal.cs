@@ -10,7 +10,7 @@ namespace ScriptEx
 {
     static class Terminal
     {
-        private static string CommandFile = "cmd.xml";
+        private static string CommandFile = "AppConfig.xml";
         private static XMLHandler TerminalCommands = new XMLHandler(CommandFile);
 
         private const string ThreadBlockKey = "|";
