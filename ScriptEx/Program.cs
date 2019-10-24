@@ -85,6 +85,7 @@ namespace ScriptEx
                     );
 
                 // Start terminal.
+                BlinkStickHandler.Start();
                 Terminal.Start();
             }
 
