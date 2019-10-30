@@ -299,7 +299,7 @@ namespace ScriptExDee
             Console.WriteLine($"CFG: \t'{Program.ConfigFile}'");
             Console.WriteLine($"ROOT: \t'{Path.Combine(Program.DriveLetter, Program.Config.RoboCopy.TestRoot)}'");
             //Console.WriteLine($"SRC: \t'{Program.SourcePath}'");
-            Console.WriteLine($"DEST: \t'{Program.DestPath}'");
+            Console.WriteLine($"DEST: \t'{Program.TestDestPath}'");
             hRule();
         }
 
