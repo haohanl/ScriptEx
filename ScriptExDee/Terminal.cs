@@ -18,26 +18,51 @@ namespace ScriptExDee
         // Class variables
         private static string[] commandLine;
         private static List<string> commands;
-        
+
         // Special characters
+        private static string currentMode = "!s";
         private const string ThreadBreakKey = "|";
+        private const string SoftwareModeKey = "!s";
+        private const string TestModeKey = "!b";
 
 
         // Entrypoint for terminal
         public static void Start()
         {
-            WriteTitle();
             StartTerminalLoop();
         }
 
         // The main loop for terminal interactions
         static void StartTerminalLoop()
         {
+            SoftwareModeTitle();
+            SoftwareModeCommands();
+            HelpText();
             do
             {
-                ReadInput();
-                PrimeCommands();
-                ExecuteScripts();
+                switch (currentMode)
+                {
+                    case SoftwareModeKey:
+                        ReadInput();
+                        if (ChangeModeState())
+                        {
+                            break;
+                        }
+                        PrimeSoftwareCommands();
+                        ExecuteSoftwareScripts();
+                        break;
+                    case TestModeKey:
+                        ReadInput();
+                        if (ChangeModeState())
+                        {
+                            break;
+                        }
+                        PrimeTestingCommands();
+                        ExecuteTests();
+                        break;
+                    default:
+                        break;
+                }
             } while (true);
         }
 
@@ -51,8 +76,36 @@ namespace ScriptExDee
             commands = new List<string>(commandLine);
         }
 
+        // Check for mode change
+        static bool ChangeModeState()
+        {
+            string cmd = commandLine[0];
+            switch (cmd)
+            {
+                case SoftwareModeKey:
+                    currentMode = SoftwareModeKey;
+                    Console.Clear();
+                    SoftwareModeTitle();
+                    SoftwareModeCommands();
+                    HelpText();
+                    return true;
+                case TestModeKey:
+                    currentMode = TestModeKey;
+                    Console.Clear();
+                    TestModeTitle();
+                    TestModeCommands();
+                    HelpText();
+                    TransferTestingFolder();
+                    return true;
+                default:
+                    break;
+            }
+            return false;
+        }
+
+        
         // Filter commandline arguments and execute RoboCopy
-        static void PrimeCommands()
+        static void PrimeSoftwareCommands()
         {
             // reset installCommands
             List<AppConfigScript> validCommands = new List<AppConfigScript>();
@@ -91,7 +144,7 @@ namespace ScriptExDee
         } 
 
         // execute script installers according to thread blocks
-        static void ExecuteScripts()
+        static void ExecuteSoftwareScripts()
         {
             List<Thread> threadBlock = new List<Thread>();
 
@@ -100,6 +153,9 @@ namespace ScriptExDee
                 // Check for thread block
                 if (command == ThreadBreakKey)
                 {
+                    // Terminal Output
+                    Terminal.WriteLine("Start thread batch.", "|");
+
                     // Trigger block
                     foreach (var thr in threadBlock)
                     {
@@ -107,6 +163,8 @@ namespace ScriptExDee
                     }
                     // Reset block
                     threadBlock = new List<Thread>();
+                    // Terminal Output
+                    Terminal.WriteLine("Ended thread batch.", "|");
                 }
                 else
                 {
@@ -123,11 +181,10 @@ namespace ScriptExDee
             }
         }
 
-
         // Print program information and help
-        static void WriteTitle()
+        static void SoftwareModeTitle()
         {
-            string titleText = $"{Program.Title} [Build {Program.Version}] - {Program.Quote}";
+            string titleText = $"{Program.Title} [Build {Program.Version}] - SOFTWARE INSTALLATION MODE";
             Console.Title = titleText;
 
             HRule();
@@ -135,18 +192,148 @@ namespace ScriptExDee
             hRule();
             Console.WriteLine($"CFG: \t'{Program.ConfigFile}'");
             Console.WriteLine($"ROOT: \t'{Program.RootPath}'");
-            Console.WriteLine($"SRC: \t'{Program.SourcePath}'");
+            //Console.WriteLine($"SRC: \t'{Program.SourcePath}'");
             Console.WriteLine($"DEST: \t'{Program.DestPath}'");
             hRule();
+        }
 
+        // Software mode commands
+        static void SoftwareModeCommands()
+        {
             // Print config commands
+            int i = 0;
             foreach (var script in Program.Config.Scripts)
             {
-                Console.WriteLine($" {script.Key} \t| {script.Desc} | '{script.FullSourcePath()}'");
+                Console.WriteLine($" {script.Key} \t| {script.Desc} --- ['{Path.Combine(Program.Config.RoboCopy.SourceRoot, script.SourcePath)}']");
+
+                i++;
+                if (i == 4)
+                {
+                    hRule();
+                }
             }
 
             HRule();
+        }
 
+
+        // Filter commandline arguments and execute RoboCopy
+        static void PrimeTestingCommands()
+        {
+            // filter all commands
+            foreach (string cmd in commandLine)
+            {
+                AppConfigTest tmp = Program.Config.GetTest(cmd);
+
+                // Check for special characters
+                switch (cmd)
+                {
+                    case ThreadBreakKey:
+                        break;
+
+                    // If none, check for commands
+                    default:
+                        switch (tmp)
+                        {
+                            // Remove invalid command from execution process
+                            case null:
+                                Terminal.WriteLine($"'{cmd}' is not a valid command. Ignoring.", "!");
+                                commands.Remove(cmd);
+                                break;
+                            // Add valid command to execution process
+                            default:
+                                break;
+                        }
+                        break;
+                }
+            }
+        }
+
+        // execute script installers according to thread blocks
+        static void ExecuteTests()
+        {
+            List<Thread> threadBlock = new List<Thread>();
+
+            foreach (var command in commands)
+            {
+                // Check for thread block
+                if (command == ThreadBreakKey)
+                {
+                    // Terminal Output
+                    Terminal.WriteLine("Start thread batch.", "|");
+
+                    // Trigger block
+                    foreach (var thr in threadBlock)
+                    {
+                        thr.Join();
+                    }
+                    // Reset block
+                    threadBlock = new List<Thread>();
+                    // Terminal Output
+                    Terminal.WriteLine("Ended thread batch.", "|");
+                }
+                else
+                {
+                    // Grab script and begin execution
+                    AppConfigTest test = Program.Config.GetTest(command);
+                    threadBlock.Add(Testing.StartTest(test));
+                }
+            }
+
+            // Trigger end of chain block
+            foreach (var thr in threadBlock)
+            {
+                thr.Join();
+            }
+        }
+
+        // Print program information and help
+        static void TestModeTitle()
+        {
+            string titleText = $"{Program.Title} [Build {Program.Version}] - TESTING MODE - ";
+            Console.Title = titleText;
+
+            HRule();
+            Console.WriteLine(titleText);
+            hRule();
+            Console.WriteLine($"CFG: \t'{Program.ConfigFile}'");
+            Console.WriteLine($"ROOT: \t'{Path.Combine(Program.DriveLetter, Program.Config.RoboCopy.TestRoot)}'");
+            //Console.WriteLine($"SRC: \t'{Program.SourcePath}'");
+            Console.WriteLine($"DEST: \t'{Program.DestPath}'");
+            hRule();
+        }
+
+        // Software mode commands
+        static void TestModeCommands()
+        {
+            // Print config commands
+            int i = 0;
+            foreach (var test in Program.Config.Tests)
+            {
+                Console.WriteLine($" {test.Key} \t| {test.Desc} --- ['{Path.Combine(Program.Config.RoboCopy.TestRoot, test.DirPath)}']");
+
+                i++;
+                if (i == 5)
+                {
+                    hRule();
+                }
+            }
+
+            HRule();
+        }
+
+        static void TransferTestingFolder()
+        {
+            RoboCopy.Copy();
+        }
+
+
+
+
+        // Write one-time help text
+        static void HelpText()
+        {
+            Console.WriteLine("'|' Threadblock, '!s' Software Mode, '!b' Benchmark Mode");
         }
 
         public static void WriteLine(string outStr, string outChar = "-")

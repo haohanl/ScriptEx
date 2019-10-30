@@ -49,6 +49,7 @@
     <Compile Include="RoboCopy.cs" />
     <Compile Include="Terminal.cs" />
     <Compile Include="TerminalTheme.cs" />
+    <Compile Include="Testing.cs" />
     <Compile Include="XMLHandler.cs" />
   </ItemGroup>
   <ItemGroup>

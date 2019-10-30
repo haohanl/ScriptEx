@@ -37,6 +37,8 @@ namespace ScriptExDee
 
         public static string SourcePath = Environment.ExpandEnvironmentVariables(DriveLetter + Config.RoboCopy.SourceRoot);
         public static string DestPath = Environment.ExpandEnvironmentVariables(Config.RoboCopy.DestRoot);
+        public static string TestPath = Environment.ExpandEnvironmentVariables(DriveLetter + Config.RoboCopy.TestRoot);
+        public static string TestDestPath = Environment.ExpandEnvironmentVariables(Config.RoboCopy.TestDestRoot);
 
 
         /// <summary>

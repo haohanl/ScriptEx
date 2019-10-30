@@ -76,6 +76,27 @@ namespace ScriptExDee
 
             return tmp;
         }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("Test", IsNullable = false)]
+        public AppConfigTest[] Tests { get; set; }
+
+        // Retireve script based on key.
+        public AppConfigTest GetTest(string key)
+        {
+            AppConfigTest tmp = null;
+
+            foreach (var test in Tests)
+            {
+                if (test.Key == key)
+                {
+                    tmp = test;
+                    break;
+                }
+            }
+
+            return tmp;
+        }
     }
 
     /// <summary>
@@ -91,6 +112,12 @@ namespace ScriptExDee
 
         /// <remarks/>
         public string DestRoot { get; set; }
+
+        /// <remarks/>
+        public string TestRoot { get; set; }
+
+        /// <remarks/>
+        public string TestDestRoot { get; set; }
     }
 
     /// <summary>
@@ -146,6 +173,45 @@ namespace ScriptExDee
         public string FullDestPath()
         {
             return Path.Combine(Program.DestPath, DestPath);
+        }
+    }
+
+    /// <summary>
+    /// Stores configuration of command and relevant installer.
+    /// </summary>
+    [SerializableAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [XmlTypeAttribute(AnonymousType = true)]
+    public partial class AppConfigTest
+    {
+        /// <remarks/>
+        public string Key { get; set; }
+
+        /// <remarks/>
+        public string Desc { get; set; }
+
+        /// <remarks/>
+        public string Exec { get; set; }
+
+        /// <remarks/>
+        public string Args { get; set; }
+
+        /// <remarks/>
+        public string DirPath { get; set; }
+
+        /// <remarks/>
+        public int Delay { get; set; }
+
+        public string FullSourcePath()
+        {
+            string root = Path.Combine(Program.SourcePath, DirPath);
+
+            return root;
+        }
+
+        public string FullDestPath()
+        {
+            return Path.Combine(Program.TestDestPath, DirPath);
         }
     }
 }

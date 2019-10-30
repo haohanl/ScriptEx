@@ -21,6 +21,46 @@ namespace ScriptExDee
         private static readonly string Params = @"/e /nc /ns /np /NJH /NDL /NFL /MT";
 
 
+
+        // Execute Testing RoboCopy
+        public static void Copy()
+        {
+            var proc = new Process();
+
+            // Setup RoboCopy parameters
+            proc.StartInfo.FileName = Shell;
+            proc.StartInfo.Arguments = $@"/C {Command} ""{Program.TestPath}"" ""{Program.Config.RoboCopy.TestDestRoot}"" {Params}";
+            proc.StartInfo.CreateNoWindow = true;
+            proc.StartInfo.UseShellExecute = false;
+            proc.StartInfo.RedirectStandardOutput = true;
+            proc.StartInfo.WorkingDirectory = Program.RootPath;
+
+            // Start RoboCopy
+            proc.Start();
+            Terminal.WriteLine($"Initiated RoboCopy | Testing Folder");
+
+            // Catch RoboCopy log
+            string log = proc.StandardOutput.ReadToEnd().Trim();
+
+            // Extract transfer data
+            var transfer = System.Text.RegularExpressions.Regex.Match(log, @"(\d+\.\d+ [mgk])").Groups;
+
+            // Check for errors. If found, output raw log
+            if (transfer[0].Value == "")
+            {
+                Terminal.WriteLine(log, "!");
+            }
+            // Otherwise, output size info
+            else
+            {
+                Terminal.WriteLine($"Completed Robocopy | Testing Folder | {transfer[0].Value.ToUpper() + "B"} / {transfer[1].Value.ToUpper() + "B"}");
+            }
+
+            // Terminate proc
+            proc.WaitForExit();
+            proc.Close();
+        }
+
         // Execute robocopy
         public static void Copy(AppConfigScript script)
         {
