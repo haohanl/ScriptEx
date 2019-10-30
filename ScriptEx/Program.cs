@@ -52,7 +52,7 @@ namespace ScriptEx
         [DllImport("user32.dll")]
         static extern bool SetLayeredWindowAttributes(IntPtr hwnd, uint crKey, byte bAlpha, uint dwFlags);
 
-        // Code from https://www.pinvoke.net/default.aspx/Structures.COLORREF
+        // Code snippet from https://www.pinvoke.net/default.aspx/Structures.COLORREF
         // For conversion from COLORREF to uint
         private static uint MakeCOLORREF(byte r, byte g, byte b)
         {
