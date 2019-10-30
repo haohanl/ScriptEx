@@ -20,14 +20,23 @@ namespace ScriptExDee
     /// </summary>
     class Program
     {
-        // Configuration file constants
-        public static string ConfigFilename = "AppConfig.xml";
+        // Program information
+        public static string Version = "1030";
+        public static string Title = "ScriptExDee";
+        public static string Quote = "RGB stands for Real Gnarly BBs";
+
+        // Configuration file
+        public static string ConfigFile = "AppConfig.xml";
+        public static AppConfig Config = XMLHandler.Initialise(ConfigFile);
 
         // Program PATHs
         public static string RootPath = AppDomain.CurrentDomain.BaseDirectory;
-        public static string DriverLetter = Path.GetPathRoot(Environment.CurrentDirectory);
-        public static string SourcePath = Environment.ExpandEnvironmentVariables(DriverLetter + "FILL IN LATER");
-        public static string DestinationPath = Environment.ExpandEnvironmentVariables(DriverLetter + "FILL IN LATER");
+        //public static string DriveLetter = Path.GetPathRoot(Environment.CurrentDirectory);
+
+        public static string DriveLetter = @"H:\";
+
+        public static string SourcePath = Environment.ExpandEnvironmentVariables(DriveLetter + Config.RoboCopy.SourceRoot);
+        public static string DestPath = Environment.ExpandEnvironmentVariables(Config.RoboCopy.DestRoot);
 
 
         /// <summary>
@@ -37,7 +46,7 @@ namespace ScriptExDee
         {
             TerminalTheme.ApplyTheme();
 
-            Console.ReadKey();
+            Terminal.Start();
         }
     }
 }
