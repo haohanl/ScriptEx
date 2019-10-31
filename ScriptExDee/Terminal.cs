@@ -29,12 +29,14 @@ namespace ScriptExDee
         // Entrypoint for terminal
         public static void Start()
         {
+            BlinkStickHandler.Start();
             StartTerminalLoop();
         }
 
         // The main loop for terminal interactions
         static void StartTerminalLoop()
         {
+            BlinkStickHandler.SetState("def");
             SoftwareModeTitle();
             SoftwareModeCommands();
             HelpText();
@@ -43,22 +45,29 @@ namespace ScriptExDee
                 switch (currentMode)
                 {
                     case SoftwareModeKey:
+                        BlinkStickHandler.SetState("idle");
                         ReadInput();
                         if (ChangeModeState())
                         {
                             break;
                         }
+                        BlinkStickHandler.SetState("installing");
                         PrimeSoftwareCommands();
+                        BlinkStickHandler.SetState("success");
                         ExecuteSoftwareScripts();
+                        BlinkStickHandler.SetState("def");
                         break;
                     case TestModeKey:
+                        BlinkStickHandler.SetState("idle");
                         ReadInput();
                         if (ChangeModeState())
                         {
                             break;
                         }
+                        BlinkStickHandler.SetState("testing");
                         PrimeTestingCommands();
                         ExecuteTests();
+                        BlinkStickHandler.SetState("def");
                         break;
                     default:
                         break;
@@ -95,7 +104,9 @@ namespace ScriptExDee
                     TestModeTitle();
                     TestModeCommands();
                     HelpText();
+                    BlinkStickHandler.SetState("installing");
                     TransferTestingFolder();
+                    BlinkStickHandler.SetState("idle");
                     return true;
                 default:
                     break;

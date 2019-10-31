@@ -31,9 +31,9 @@ namespace ScriptExDee
 
         // Program PATHs
         public static string RootPath = AppDomain.CurrentDomain.BaseDirectory;
-        public static string DriveLetter = Path.GetPathRoot(Environment.CurrentDirectory);
+        //public static string DriveLetter = Path.GetPathRoot(Environment.CurrentDirectory);
 
-        //public static string DriveLetter = @"H:\";
+        public static string DriveLetter = @"H:\";
 
         public static string SourcePath = Environment.ExpandEnvironmentVariables(DriveLetter + Config.RoboCopy.SourceRoot);
         public static string DestPath = Environment.ExpandEnvironmentVariables(Config.RoboCopy.DestRoot);
@@ -47,7 +47,6 @@ namespace ScriptExDee
         static void Main(string[] args)
         {
             TerminalTheme.ApplyTheme();
-
             Terminal.Start();
         }
     }
