@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AppConfig>
+	<RoboCopy>
+		<!--Relative to drive from which ScriptEx is Executed.-->
+		<SourceRoot>SOFTWARE</SourceRoot>
+		<DestRoot>%USERPROFILE%\Desktop\Setup</DestRoot>
+		<TestRoot>AAA Testing</TestRoot>
+		<TestDestRoot>%USERPROFILE%\Desktop\AAA Testing</TestDestRoot>
+	</RoboCopy>
+	
+	<!--SOFTWARE SECTION-->
+	<Scripts>
+		<Script>
+			<Key>nv</Key>
+			<Desc>*NVIDIA GPU Driver</Desc>
+			<Exec>setup.exe</Exec>
+			<Args>-noreboot -nosplash</Args>
+			<Auto></Auto>
+			<SourcePath>_NVIDIA GPU</SourcePath>
+			<DestPath>NVIDIA</DestPath>
+			<Threadsafe>false</Threadsafe>
+		</Script>
+		<Script>
+			<Key>na</Key>
+			<Desc>^NVidia Driver AUTO File</Desc>
+			<Exec>NV_INSTALL.exe</Exec>
+			<Args></Args>
+			<Auto></Auto>
+			<SourcePath>_NVIDIA AUTO</SourcePath>
+			<DestPath>NVIDIA AUTO</DestPath>
+			<Threadsafe>false</Threadsafe>
+		</Script>
+		<Script>
+			<Key>amd</Key>
+			<Desc>*AMD GPU Driver (manual)</Desc>
+			<Exec>Setup.exe</Exec>
+			<Args></Args>
+			<Auto></Auto>
+			<SourcePath>_AMD GPU</SourcePath>
+			<DestPath>AMD GPU</DestPath>
+			<Threadsafe>false</Threadsafe>
+		</Script>
+		<Script>
+			<Key>ig</Key>
+			<Desc>Intel iGPU</Desc>
+			<Exec>igxpin.exe</Exec>
+			<Args>-s -A -s</Args>
+			<Auto></Auto>
+			<SourcePath>_INTEL iGPU</SourcePath>
+			<DestPath>NVIDIA AUTO</DestPath>
+			<Threadsafe>false</Threadsafe>
+		</Script>
+		<Script>
+			<Key>aw</Key>
+			<Desc>AMD Wraith Prism (manual)</Desc>
+			<Exec>Setup.exe</Exec>
+			<Args></Args>
+			<Auto></Auto>
+			<SourcePath>AMD Wraith Prism</SourcePath>
+			<DestPath>AMD Wraith Prism</DestPath>
+			<Threadsafe>false</Threadsafe>
+		</Script>	
+		<Script>
+			<Key>au</Key>
+			<Desc>ASUS Aura</Desc>
+			<Exec>AsusSetup.exe</Exec>
+			<Args>/s /SMS</Args>
+			<Auto></Auto>
+			<SourcePath>ASUS Aura</SourcePath>
+			<DestPath>ASUS Aura</DestPath>
+			<Threadsafe>false</Threadsafe>
+		</Script>
+		<Script>
+			<Key>ag</Key>
+			<Desc>ASUS Aura GPU (req setup.iss)</Desc>
+			<Exec>AURAver0.0.6.3.exe</Exec>
+			<Args>/s /SMS</Args>
+			<Auto></Auto>
+			<SourcePath>ASUS Aura GPU</SourcePath>
+			<DestPath>ASUS Aura GPU</DestPath>
+			<Threadsafe>false</Threadsafe>
+		</Script>
+		<Script>
+			<Key>ld</Key>
+			<Desc>ASUS LiveDash</Desc>
+			<Exec>AsusSetup.exe</Exec>
+			<Args>/s /SMS</Args>
+			<Auto></Auto>
+			<SourcePath>ASUS LiveDash</SourcePath>
+			<DestPath>ASUS LiveDash</DestPath>
+			<Threadsafe>false</Threadsafe>
+		</Script>
+		<Script>
+			<Key>mp</Key>
+			<Desc>*CM MasterPlus</Desc>
+			<Exec>Installer_MasterPlus_v0.0.826.exe</Exec>
+			<Args>/SILENT /NORESTART /SP-</Args>
+			<Auto></Auto>
+			<SourcePath>CM MasterPlus</SourcePath>
+			<DestPath>CM MasterPlus</DestPath>
+			<Threadsafe>false</Threadsafe>
+		</Script>
+		<Script>
+			<Key>mpf</Key>
+			<Desc>^CM MasterPlus ML-R Firmware (manual)</Desc>
+			<Exec>ARGB2 LED Controller_004_190725-2025.exe</Exec>
+			<Args>/SILENT /NORESTART /SP-</Args>
+			<Auto></Auto>
+			<SourcePath>CM MLR Firmware</SourcePath>
+			<DestPath>CM MLR Firmware</DestPath>
+			<Threadsafe>false</Threadsafe>
+		</Script>
+		<Script>
+			<Key>bl</Key>
+			<Desc>TEAM Blitz</Desc>
+			<Exec>Setup.exe</Exec>
+			<Args>/s /SMS</Args>
+			<Auto></Auto>
+			<SourcePath>TEAM Blitz</SourcePath>
+			<DestPath>TEAM Blitz</DestPath>
+			<Threadsafe>false</Threadsafe>
+		</Script>
+		<Script>
+			<Key>ic</Key>
+			<Desc>CORSAIR iCUE</Desc>
+			<Exec>iCUESetup_3.20.80_release.msi</Exec>
+			<Args>/qb</Args>
+			<Auto></Auto>
+			<SourcePath>CORSAIR iCUE</SourcePath>
+			<DestPath>CORSAIR iCUE</DestPath>
+			<Threadsafe>false</Threadsafe>
+		</Script>
+		<Script>
+			<Key>ml</Key>
+			<Desc>MSI Mystic Light</Desc>
+			<Exec>MysticLight.exe</Exec>
+			<Args>/SILENT /NORESTART /SP-</Args>
+			<Auto></Auto>
+			<SourcePath>MSI Mystic Light</SourcePath>
+			<DestPath>Mystic Light</DestPath>
+			<Threadsafe>false</Threadsafe>
+		</Script>
+		<Script>
+			<Key>dc1</Key>
+			<Desc>MSI Dragon Center v1 </Desc>
+			<Exec>Dragon Center.exe</Exec>
+			<Args>/SILENT /NORESTART /SP-</Args>
+			<Auto></Auto>
+			<SourcePath>MSI Dragon Center 1</SourcePath>
+			<DestPath>Dragon Center v1</DestPath>
+			<Threadsafe>false</Threadsafe>
+		</Script>
+		<Script>
+			<Key>dc2</Key>
+			<Desc>*MSI Dragon Center v2 (run with 'dc2s')</Desc>
+			<Exec>Dragon Center.exe</Exec>
+			<Args>/SILENT /NORESTART /SP-</Args>
+			<Auto></Auto>
+			<SourcePath>MSI Dragon Center 2</SourcePath>
+			<DestPath>Dragon Center v2</DestPath>
+			<Threadsafe>false</Threadsafe>
+		</Script>
+		<Script>
+			<Key>dc2s</Key>
+			<Desc>^MSI Dragon Center OneDC_SDK</Desc>
+			<Exec>OneDC_SDK.exe</Exec>
+			<Args>/SILENT /NORESTART /SP-</Args>
+			<Auto></Auto>
+			<SourcePath>MSI OneDC_SDK</SourcePath>
+			<DestPath>Dragon Center OneDC_SDK</DestPath>
+			<Threadsafe>false</Threadsafe>
+		</Script>
+		<Script>
+			<Key>ca</Key>
+			<Desc>NZXT CAM</Desc>
+			<Exec>CAM_installer_V4.0.11.exe</Exec>
+			<Args></Args>
+			<Auto></Auto>
+			<SourcePath>NZXT CAM</SourcePath>
+			<DestPath>NZXT CAM</DestPath>
+			<Threadsafe>false</Threadsafe>
+		</Script>
+		<Script>
+			<Key>rg</Key>
+			<Desc>GIGABYTE RGBFusion</Desc>
+			<Exec>UpdPack.exe</Exec>
+			<Args></Args>
+			<Auto></Auto>
+			<SourcePath>GIGABYTE RGBFusion</SourcePath>
+			<DestPath>GIGABYTE RGBFusion</DestPath>
+			<Threadsafe>false</Threadsafe>
+		</Script>
+	</Scripts>
+	
+	<!--TESTING SECTION-->
+	<Tests>
+		<Test>
+			<Key>p</Key>
+			<Desc>Prime95 (Blend)</Desc>
+			<Exec>prime95.exe</Exec>
+			<Args>-t</Args>
+			<DirPath>Benchmark</DirPath>
+			<Delay>5000</Delay>
+		</Test>
+		<Test>
+			<Key>f</Key>
+			<Desc>FurMark (15m)</Desc>
+			<Exec>FurMark.exe</Exec>
+			<Args>/nogui /msaa=8 /width=1280 height=720 /max_time=900000 /xtreme_burning</Args>
+			<DirPath>Benchmark</DirPath>
+			<Delay>0</Delay>
+		</Test>
+		<Test>
+			<Key>hw</Key>
+			<Desc>HWMonitor</Desc>
+			<Exec>HWMonitor_x64.exe</Exec>
+			<Args></Args>
+			<DirPath>Benchmark</DirPath>
+			<Delay>0</Delay>
+		</Test>
+		<Test>
+			<Key>hv</Key>
+			<Desc>*Heaven (manual)</Desc>
+			<Exec>heaven_modified.bat</Exec>
+			<Args></Args>
+			<DirPath>Benchmark\Heaven</DirPath>
+			<Delay>0</Delay>
+		</Test>
+		<Test>
+			<Key>s</Key>
+			<Desc>*Singularity (manual)</Desc>
+			<Exec>launcher.exe</Exec>
+			<Args></Args>
+			<DirPath>Benchmark\Superposition\bin</DirPath>
+			<Delay>0</Delay>
+		</Test>
+		<Test>
+			<Key>a</Key>
+			<Desc>AIDA64 Stability Test (∞)</Desc>
+			<Exec>aida64.exe</Exec>
+			<Args>/SST CPU,FPU,Cache,RAM,GPU</Args>
+			<DirPath>AIDA64</DirPath>
+			<Delay>0</Delay>
+		</Test>
+		<Test>
+			<Key>a1</Key>
+			<Desc>AIDA64 Stability Test (15m)</Desc>
+			<Exec>aida64.exe</Exec>
+			<Args>/SST CPU,FPU,Cache,RAM,GPU /SSTDUR 15</Args>
+			<DirPath>AIDA64</DirPath>
+			<Delay>0</Delay>
+		</Test>
+		<Test>
+			<Key>i</Key>
+			<Desc>*IntelBurnTestV2 (manual)</Desc>
+			<Exec>IntelBurnTestV2.exe</Exec>
+			<Args>/SST CPU,FPU,Cache,RAM,GPU /SSTDUR 15</Args>
+			<DirPath>IBT\IntelBurnTest.New</DirPath>
+			<Delay>0</Delay>
+		</Test>
+	</Tests>
+</AppConfig>
