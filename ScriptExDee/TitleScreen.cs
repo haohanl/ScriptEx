@@ -44,10 +44,22 @@ namespace ScriptExDee
             PowerControl.SetToPerformance();
             Console.WriteLine(" done.");
 
-            Console.WriteLine("      \n      --------------------------------------------------------\n");
-            Console.Write("      Ready to roll...");
+            Thread.Sleep(100);
+            Console.Write("      Retrieving System Information...");
+            SysInfo.RetrieveSystemInfo();
+            Console.WriteLine(" done.");
 
-            Thread.Sleep(1000);
+            Console.WriteLine("      \n      --------------------------------------------------------\n");
+
+            Console.WriteLine($"      CPU: {SysInfo.CPU.Name}");
+            Console.WriteLine($"      RAM: {SysInfo.RAM.Size}GB ({SysInfo.RAM.Speed}MHz)");
+            Console.WriteLine($"      GPU: {SysInfo.GPU.Name} ({SysInfo.GPU.Driver})");
+
+
+            Console.WriteLine("      \n      --------------------------------------------------------\n");
+            Console.Write("      All good? (Press any key to continue)");
+
+            Console.ReadKey();
             Console.Clear();
         }
     }

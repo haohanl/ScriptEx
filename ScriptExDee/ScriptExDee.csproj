@@ -43,6 +43,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -51,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DeviceInfo.cs" />
     <Compile Include="Installer.cs" />
     <Compile Include="PowerControl.cs" />
     <Compile Include="Program.cs" />
@@ -63,6 +65,7 @@
     <Compile Include="Quotes.cs" />
     <Compile Include="RoboCopy.cs" />
     <Compile Include="SoftwareMode.cs" />
+    <Compile Include="SysInfo.cs" />
     <Compile Include="Terminal.cs" />
     <Compile Include="TerminalTheme.cs" />
     <Compile Include="Testing.cs" />

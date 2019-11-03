@@ -7,6 +7,10 @@ using System.Runtime.InteropServices;
 
 namespace ScriptExDee
 {
+    // Code adapted from Magnus Hjorth, Builder Companion
+    /// <summary>
+    /// Sets the power mode of the system.
+    /// </summary>
     static class PowerControl
     {
         [DllImport("PowrProf.dll", CharSet = CharSet.Unicode)]
