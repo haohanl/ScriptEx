@@ -17,7 +17,7 @@ namespace ScriptExDee
       /____/\___/_/  /_/ .___/\__/_____/_/|_/_____/\___/\___/ 
                       /_/  [Build {Program.Version}]                                   
 
-      Written by Haohan Liu            
+      Written by Haohan Liu (c) 2019          
 ";
         public static void ShowTitle()
         {
