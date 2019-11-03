@@ -35,6 +35,7 @@ namespace ScriptExDee
         // The main loop for terminal interactions
         static void StartTerminalLoop()
         {
+            TitleScreen.ShowTitle();
             SoftwareModeTitle();
             
             do
