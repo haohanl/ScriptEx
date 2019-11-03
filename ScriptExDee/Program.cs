@@ -23,7 +23,7 @@ namespace ScriptExDee
         // Program information
         public static string Version = "1104";
         public static string Title = "ScriptExDee";
-        public static string Quote = "RGB stands for Real Gnarly BBs";
+        public static string Quote = Quotes.GetQuote();
 
         // Configuration file
         public static string ConfigFile = "AppConfig.xml";

@@ -129,11 +129,11 @@ namespace ScriptExDee
         // Print program information and help
         static void TestModeTitle()
         {
-            string titleText = $"{Program.Title} [Build {Program.Version}] - TESTING MODE";
-            Console.Title = titleText;
+            string titleText = $"{Program.Title} [Build {Program.Version}]";
+            Console.Title = titleText + " - TESTING MODE";
 
             HRule();
-            Console.WriteLine(titleText);
+            Console.WriteLine(titleText + " - " + Program.Quote);
             hRule();
             Console.WriteLine($"CFG: \t'{Program.ConfigFile}'");
             Console.WriteLine($"SRC: \t'{Program.TestPath}'");

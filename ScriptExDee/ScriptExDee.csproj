@@ -59,6 +59,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Quotes.cs" />
     <Compile Include="RoboCopy.cs" />
     <Compile Include="SoftwareMode.cs" />
     <Compile Include="Terminal.cs" />
