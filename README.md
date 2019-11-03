@@ -1,2 +1,2 @@
 # ScriptEx
-Script execution and automation software with AutoIT support
+Script execution, automation, and testing software for the purpose of system quality control. 
