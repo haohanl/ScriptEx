@@ -28,13 +28,20 @@ namespace ScriptExDee
             Console.Write("      Importing 'AppConfig.xml'...");
             Thread.Sleep(200);
             Console.WriteLine(" done.");
+
             Thread.Sleep(100);
             Console.Write("      Initialising Software Suite...");
             Thread.Sleep(50);
             Console.WriteLine(" done.");
+
             Thread.Sleep(100);
             Console.Write("      Initialising Testing Suite...");
             Thread.Sleep(50);
+            Console.WriteLine(" done.");
+
+            Thread.Sleep(100);
+            Console.Write("      Set Win10 to Performance Mode...");
+            PowerControl.SetToPerformance();
             Console.WriteLine(" done.");
 
             Console.WriteLine("      \n      --------------------------------------------------------\n");
