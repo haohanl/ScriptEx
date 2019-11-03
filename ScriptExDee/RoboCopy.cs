@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Threading;
+using System.Text.RegularExpressions;
 
 namespace ScriptExDee
 {
@@ -23,52 +24,34 @@ namespace ScriptExDee
 
 
         // Execute Testing RoboCopy
-        public static void Copy()
+        public static void CopyTesting()
         {
-            var proc = new Process();
+            Terminal.hRule();
+            Terminal.WriteLine("Please wait for the testing folder to be transferred");
+            Copy(Program.TestPath, Program.TestDestPath, "Testing folder");
+            Terminal.WriteLine("Ready for user commands");
+        }
 
-            // Setup RoboCopy parameters
-            proc.StartInfo.FileName = Shell;
-            proc.StartInfo.Arguments = $@"/C {Command} ""{Program.TestPath}"" ""{Program.Config.RoboCopy.TestDestRoot}"" {Params}";
-            proc.StartInfo.CreateNoWindow = true;
-            proc.StartInfo.UseShellExecute = false;
-            proc.StartInfo.RedirectStandardOutput = true;
-            proc.StartInfo.WorkingDirectory = Program.RootPath;
+        public static void Copy(AppConfigScript script)
+        {
+            string descStr = $"'{script.Key}' | {script.Desc}";
 
-            // Start RoboCopy
-            proc.Start();
-            Terminal.WriteLine($"Initiated RoboCopy | Testing Folder");
-
-            // Catch RoboCopy log
-            string log = proc.StandardOutput.ReadToEnd().Trim();
-
-            // Extract transfer data
-            var transfer = System.Text.RegularExpressions.Regex.Match(log, @"(\d+\.\d+ [mgk])").Groups;
-
-            // Check for errors. If found, output raw log
-            if (transfer[0].Value == "")
+            if (script.FullSourcePath() == null)
             {
-                Terminal.WriteLine(log, "!");
-            }
-            // Otherwise, output size info
-            else
-            {
-                Terminal.WriteLine($"Completed Robocopy | Testing Folder | {transfer[0].Value.ToUpper() + "B"} / {transfer[1].Value.ToUpper() + "B"}");
+                return;
             }
 
-            // Terminate proc
-            proc.WaitForExit();
-            proc.Close();
+            Copy(script.FullSourcePath(), script.FullDestPath(), descStr);
         }
 
         // Execute robocopy
-        public static void Copy(AppConfigScript script)
+        public static void Copy(string srcPath, string destPath, string desc)
         {
             var proc = new Process();
 
             // Setup RoboCopy parameters
             proc.StartInfo.FileName = Shell;
-            proc.StartInfo.Arguments = $@"/C {Command} ""{script.FullSourcePath()}"" ""{script.FullDestPath()}"" {Params}";
+            proc.StartInfo.Arguments = $@"/C {Command} ""{srcPath}"" ""{destPath}"" {Params}";
             proc.StartInfo.CreateNoWindow = true;
             proc.StartInfo.UseShellExecute = false;
             proc.StartInfo.RedirectStandardOutput = true;
@@ -76,13 +59,13 @@ namespace ScriptExDee
 
             // Start RoboCopy
             proc.Start();
-            Terminal.WriteLine($"Initiated RoboCopy | '{script.Key}' | {script.Desc}");
+            Terminal.WriteLine($"Initiated RoboCopy | {desc}");
 
             // Catch RoboCopy log
             string log = proc.StandardOutput.ReadToEnd().Trim();
 
             // Extract transfer data
-            var transfer = System.Text.RegularExpressions.Regex.Match(log, @"(\d+\.\d+ [mgk])").Groups;
+            var transfer = Regex.Match(log, @"(\d+\.\d+ [mgkt])").Groups;
 
             // Check for errors. If found, output raw log
             if (transfer[0].Value == "")
@@ -92,7 +75,7 @@ namespace ScriptExDee
             // Otherwise, output size info
             else
             {
-                Terminal.WriteLine($"Completed Robocopy | '{script.Key}' | {script.Desc} |  {transfer[0].Value.ToUpper() + "B"} / {transfer[1].Value.ToUpper() + "B"}");
+                Terminal.WriteLine($"Completed Robocopy | {desc} | {transfer[0].Value.ToUpper() + "B"}");
             }
 
             // Terminate proc

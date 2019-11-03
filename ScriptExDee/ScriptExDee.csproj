@@ -64,9 +64,11 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="RoboCopy.cs" />
+    <Compile Include="SoftwareMode.cs" />
     <Compile Include="Terminal.cs" />
     <Compile Include="TerminalTheme.cs" />
     <Compile Include="Testing.cs" />
+    <Compile Include="TestingMode.cs" />
     <Compile Include="XMLHandler.cs" />
   </ItemGroup>
   <ItemGroup>

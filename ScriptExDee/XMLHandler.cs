@@ -108,10 +108,13 @@ namespace ScriptExDee
     public partial class AppConfigRoboCopy
     {
         /// <remarks/>
-        public string SourceRoot { get; set; }
+        public string SrcDriveLetter { get; set; }
 
         /// <remarks/>
-        public string DestRoot { get; set; }
+        public string SoftRoot { get; set; }
+
+        /// <remarks/>
+        public string SoftDestRoot { get; set; }
 
         /// <remarks/>
         public string TestRoot { get; set; }
@@ -155,7 +158,7 @@ namespace ScriptExDee
         public string FullSourcePath()
         {
             string path = null;
-            string root = Path.Combine(Program.SourcePath, SourcePath);
+            string root = Path.Combine(Program.SoftPath, SourcePath);
             
             // Ensure the path exists
             try
@@ -164,15 +167,14 @@ namespace ScriptExDee
             }
             catch (Exception)
             {
-                Terminal.WriteLine($"'{Key}' source path not valid in '{Program.ConfigFile}'. Continue at your own risk.", "!");
-                Console.ReadKey();
+                Terminal.WriteLine($"Remote source does not exist for '{Key}'. Attempting local execution.", "!");
             }
             return path;
         }
 
         public string FullDestPath()
         {
-            return Path.Combine(Program.DestPath, DestPath);
+            return Path.Combine(Program.SoftDestPath, DestPath);
         }
     }
 
@@ -204,7 +206,7 @@ namespace ScriptExDee
 
         public string FullSourcePath()
         {
-            string root = Path.Combine(Program.SourcePath, DirPath);
+            string root = Path.Combine(Program.SoftPath, DirPath);
 
             return root;
         }

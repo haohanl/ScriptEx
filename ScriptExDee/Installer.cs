@@ -30,7 +30,7 @@ namespace ScriptExDee
             }
             catch (Exception)
             {
-                Terminal.WriteLine($" File not found at '{execPath}' | '{script.Key}' | {script.Desc}", "!");
+                Terminal.WriteLine($"File not found at '{execPath}' | '{script.Key}' | {script.Desc}", "!");
             }
         }
 
