@@ -21,7 +21,7 @@ namespace ScriptExDee
     class Program
     {
         // Program information
-        public static string Version = "1103";
+        public static string Version = "1104";
         public static string Title = "ScriptExDee";
         public static string Quote = "RGB stands for Real Gnarly BBs";
 

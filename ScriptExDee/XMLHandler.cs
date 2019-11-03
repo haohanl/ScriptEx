@@ -97,6 +97,27 @@ namespace ScriptExDee
 
             return tmp;
         }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("Stage", IsNullable = false)]
+        public AppConfigStage[] TestStages { get; set; }
+
+        // Retireve script based on key.
+        public AppConfigStage GetStage(string key)
+        {
+            AppConfigStage tmp = null;
+
+            foreach (var test in TestStages)
+            {
+                if (test.Key == key)
+                {
+                    tmp = test;
+                    break;
+                }
+            }
+
+            return tmp;
+        }
     }
 
     /// <summary>
@@ -204,6 +225,9 @@ namespace ScriptExDee
         /// <remarks/>
         public int Delay { get; set; }
 
+        /// <remarks/>
+        public bool IgnoreThreadBlock { get; set; }
+
         public string FullSourcePath()
         {
             string root = Path.Combine(Program.SoftPath, DirPath);
@@ -215,5 +239,23 @@ namespace ScriptExDee
         {
             return Path.Combine(Program.TestDestPath, DirPath);
         }
+    }
+
+    /// <summary>
+    /// Stores configuration of test stages
+    /// </summary>
+    [SerializableAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [XmlTypeAttribute(AnonymousType = true)]
+    public partial class AppConfigStage
+    {
+        /// <remarks/>
+        public string Key { get; set; }
+
+        /// <remarks/>
+        public string Desc { get; set; }
+
+        /// <remarks/>
+        public string Commands { get; set; }
     }
 }

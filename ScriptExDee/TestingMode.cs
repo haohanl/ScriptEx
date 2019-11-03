@@ -11,8 +11,33 @@ namespace ScriptExDee
     {
         public static void RunCommands()
         {
+            ExpandStageCommands();
             PrimeCommands();
             ExecuteCommands();
+        }
+
+        // Expand stages into commands
+        static void ExpandStageCommands()
+        {
+            // Create an expanded command list.
+            List<string> expandedCommands = new List<string>();
+            foreach (string cmd in Terminal.userInput)
+            {
+                var tmp = Program.Config.GetStage(cmd);
+                if (tmp != null)
+                {
+                    List<string> stage = new List<string>(tmp.Commands.Trim().Split(' '));
+                    expandedCommands.AddRange(stage);
+                }
+                else
+                {
+                    expandedCommands.Add(cmd);
+                }
+            }
+
+            // Replace old commands
+            Terminal.userCommands = expandedCommands;
+            Terminal.userInput = expandedCommands;
         }
 
         // Filter commandline arguments and execute RoboCopy
@@ -74,7 +99,13 @@ namespace ScriptExDee
                 {
                     // Grab script and begin execution
                     AppConfigTest test = Program.Config.GetTest(command);
-                    threadBlock.Add(Testing.StartTest(test));
+                    Thread execThread = Testing.StartTest(test);
+
+                    // Add to threadblock if specified
+                    if (!test.IgnoreThreadBlock)
+                    {
+                        threadBlock.Add(execThread);
+                    }
                 }
             }
 

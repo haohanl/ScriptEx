@@ -16,7 +16,7 @@ namespace ScriptExDee
     static class Terminal
     {
         // Class variables
-        public static string[] userInput;
+        public static List<string> userInput;
         public static List<string> userCommands;
 
         // Special characters
@@ -60,8 +60,8 @@ namespace ScriptExDee
         {
             Console.Write("> ");
 
-            string userInput = Console.ReadLine();
-            Terminal.userInput = userInput.Trim().Split(' ');
+            string input = Console.ReadLine();
+            Terminal.userInput = new List<string>(input.Trim().Split(' '));
             userCommands = new List<string>(Terminal.userInput);
         }
 
@@ -142,6 +142,8 @@ namespace ScriptExDee
             hRule();
             TestModeCommands();
             HRule();
+            TestModeStages();
+            HRule();
             HelpText();
         }
 
@@ -162,6 +164,16 @@ namespace ScriptExDee
             }
         }
 
+        // Software mode stages
+        static void TestModeStages()
+        {
+            // Print config stages
+            foreach (var stage in Program.Config.TestStages)
+            {
+                Console.WriteLine($" {stage.Key} \t| {stage.Desc} --- ['{stage.Commands}']");
+            }
+        }
+
         static void TransferTestingFolder()
         {
             RoboCopy.CopyTesting();
@@ -173,7 +185,7 @@ namespace ScriptExDee
         // Write one-time help text
         static void HelpText()
         {
-            Console.WriteLine("'|' Threadblock, '!s' Software Mode, '!t' Testing Mode");
+            Terminal.WriteLine("'|' Threadblock, '!s' Software Mode, '!t' Testing Mode", "?");
         }
 
         public static void WriteLine(string outStr, string outChar = "-")

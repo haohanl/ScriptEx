@@ -2,7 +2,7 @@
 <AppConfig>
 	<!--FILE PATHS FOR ROBOCOPY OPS-->
 	<RoboCopy>
-		<SrcDriveLetter>H</SrcDriveLetter>
+		<SrcDriveLetter>D</SrcDriveLetter>
 		<SoftRoot>SOFTWARE</SoftRoot>
 		<SoftDestRoot>%USERPROFILE%\Desktop\Setup</SoftDestRoot>
 		<TestRoot>AAA Testing</TestRoot>
@@ -82,7 +82,7 @@
 			<Threadsafe>false</Threadsafe>
 		</Script>
 		<Script>
-			<Key>ld</Key>
+			<Key>al</Key>
 			<Desc>ASUS LiveDash</Desc>
 			<Exec>AsusSetup.exe</Exec>
 			<Args>/s /SMS</Args>
@@ -92,7 +92,7 @@
 			<Threadsafe>false</Threadsafe>
 		</Script>
 		<Script>
-			<Key>mp</Key>
+			<Key>cm</Key>
 			<Desc>*CM MasterPlus</Desc>
 			<Exec>Installer_MasterPlus_v0.0.826.exe</Exec>
 			<Args>/SILENT /NORESTART /SP-</Args>
@@ -102,7 +102,7 @@
 			<Threadsafe>false</Threadsafe>
 		</Script>
 		<Script>
-			<Key>mpf</Key>
+			<Key>cf</Key>
 			<Desc>^CM MasterPlus ML-R Firmware (manual)</Desc>
 			<Exec>ARGB2 LED Controller_004_190725-2025.exe</Exec>
 			<Args>/SILENT /NORESTART /SP-</Args>
@@ -112,7 +112,7 @@
 			<Threadsafe>false</Threadsafe>
 		</Script>
 		<Script>
-			<Key>bl</Key>
+			<Key>tb</Key>
 			<Desc>TEAM Blitz</Desc>
 			<Exec>Setup.exe</Exec>
 			<Args>/s /SMS</Args>
@@ -122,7 +122,7 @@
 			<Threadsafe>false</Threadsafe>
 		</Script>
 		<Script>
-			<Key>ic</Key>
+			<Key>ci</Key>
 			<Desc>CORSAIR iCUE</Desc>
 			<Exec>iCUESetup_3.20.80_release.msi</Exec>
 			<Args>/qb</Args>
@@ -132,7 +132,7 @@
 			<Threadsafe>false</Threadsafe>
 		</Script>
 		<Script>
-			<Key>ml</Key>
+			<Key>mm</Key>
 			<Desc>MSI Mystic Light</Desc>
 			<Exec>MysticLight.exe</Exec>
 			<Args>/SILENT /NORESTART /SP-</Args>
@@ -142,7 +142,7 @@
 			<Threadsafe>false</Threadsafe>
 		</Script>
 		<Script>
-			<Key>dc1</Key>
+			<Key>md1</Key>
 			<Desc>MSI Dragon Center v1 </Desc>
 			<Exec>Dragon Center.exe</Exec>
 			<Args>/SILENT /NORESTART /SP-</Args>
@@ -152,7 +152,7 @@
 			<Threadsafe>false</Threadsafe>
 		</Script>
 		<Script>
-			<Key>dc2</Key>
+			<Key>md2</Key>
 			<Desc>*MSI Dragon Center v2 (run with 'dc2s')</Desc>
 			<Exec>Dragon Center.exe</Exec>
 			<Args>/SILENT /NORESTART /SP-</Args>
@@ -162,7 +162,7 @@
 			<Threadsafe>false</Threadsafe>
 		</Script>
 		<Script>
-			<Key>dc2s</Key>
+			<Key>md2s</Key>
 			<Desc>^MSI Dragon Center OneDC_SDK</Desc>
 			<Exec>OneDC_SDK.exe</Exec>
 			<Args>/SILENT /NORESTART /SP-</Args>
@@ -172,7 +172,7 @@
 			<Threadsafe>false</Threadsafe>
 		</Script>
 		<Script>
-			<Key>ca</Key>
+			<Key>nc</Key>
 			<Desc>NZXT CAM</Desc>
 			<Exec>CAM_installer_V4.0.11.exe</Exec>
 			<Args></Args>
@@ -182,7 +182,7 @@
 			<Threadsafe>false</Threadsafe>
 		</Script>
 		<Script>
-			<Key>rg</Key>
+			<Key>gr</Key>
 			<Desc>GIGABYTE RGBFusion</Desc>
 			<Exec>UpdPack.exe</Exec>
 			<Args></Args>
@@ -202,6 +202,7 @@
 			<Args>-t</Args>
 			<DirPath>Benchmark</DirPath>
 			<Delay>5000</Delay>
+      <IgnoreThreadBlock>false</IgnoreThreadBlock>
 		</Test>
 		<Test>
 			<Key>f</Key>
@@ -210,22 +211,25 @@
 			<Args>/nogui /msaa=8 /width=1280 height=720 /max_time=900000 /xtreme_burning</Args>
 			<DirPath>Benchmark</DirPath>
 			<Delay>0</Delay>
+      <IgnoreThreadBlock>false</IgnoreThreadBlock>
 		</Test>
 		<Test>
-			<Key>hw</Key>
+			<Key>m</Key>
 			<Desc>HWMonitor</Desc>
 			<Exec>HWMonitor_x64.exe</Exec>
 			<Args></Args>
 			<DirPath>Benchmark</DirPath>
 			<Delay>0</Delay>
+      <IgnoreThreadBlock>true</IgnoreThreadBlock>
 		</Test>
 		<Test>
-			<Key>hv</Key>
+			<Key>h</Key>
 			<Desc>*Heaven (manual)</Desc>
 			<Exec>heaven_modified.bat</Exec>
 			<Args></Args>
 			<DirPath>Benchmark\Heaven</DirPath>
 			<Delay>0</Delay>
+      <IgnoreThreadBlock>false</IgnoreThreadBlock>
 		</Test>
 		<Test>
 			<Key>s</Key>
@@ -234,14 +238,16 @@
 			<Args></Args>
 			<DirPath>Benchmark\Superposition\bin</DirPath>
 			<Delay>0</Delay>
+      <IgnoreThreadBlock>false</IgnoreThreadBlock>
 		</Test>
 		<Test>
-			<Key>A</Key>
+			<Key>aa</Key>
 			<Desc>AIDA64 Stability Test (∞)</Desc>
 			<Exec>aida64.exe</Exec>
 			<Args>/SST CPU,FPU,Cache,RAM,GPU</Args>
 			<DirPath>AIDA64</DirPath>
 			<Delay>0</Delay>
+      <IgnoreThreadBlock>false</IgnoreThreadBlock>
 		</Test>
 		<Test>
 			<Key>a</Key>
@@ -250,6 +256,7 @@
 			<Args>/SST CPU,FPU,Cache,RAM,GPU /SSTDUR 15</Args>
 			<DirPath>AIDA64</DirPath>
 			<Delay>0</Delay>
+      <IgnoreThreadBlock>false</IgnoreThreadBlock>
 		</Test>
 		<Test>
 			<Key>i</Key>
@@ -258,6 +265,21 @@
 			<Args>/SST CPU,FPU,Cache,RAM,GPU /SSTDUR 15</Args>
 			<DirPath>IBT\IntelBurnTest.New</DirPath>
 			<Delay>0</Delay>
+      <IgnoreThreadBlock>false</IgnoreThreadBlock>
 		</Test>
 	</Tests>
+  
+  <!--TEST STAGES/MACROS-->
+  <TestStages>
+    <Stage>
+      <Key>1</Key>
+      <Desc>Prime + Furmark</Desc>
+      <Commands>p f m</Commands>
+    </Stage>
+    <Stage>
+      <Key>F</Key>
+      <Desc>Full Testing Suite</Desc>
+      <Commands>p f m | h | s | a</Commands>
+    </Stage>
+  </TestStages>
 </AppConfig>
