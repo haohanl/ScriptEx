@@ -24,27 +24,27 @@ namespace ScriptExDee
             Console.Write(Title);
             Console.Title = $"{Program.Title} [Build {Program.Version}]";
             Console.WriteLine("      \n      --------------------------------------------------------\n");
-            Thread.Sleep(100);
+            Thread.Sleep(50);
             Console.Write("      Importing 'AppConfig.xml'...");
-            Thread.Sleep(200);
+            Thread.Sleep(100);
             Console.WriteLine(" done.");
 
-            Thread.Sleep(100);
+            Thread.Sleep(50);
             Console.Write("      Initialising Software Suite...");
-            Thread.Sleep(50);
+            Thread.Sleep(20);
             Console.WriteLine(" done.");
 
-            Thread.Sleep(100);
+            Thread.Sleep(50);
             Console.Write("      Initialising Testing Suite...");
-            Thread.Sleep(50);
+            Thread.Sleep(20);
             Console.WriteLine(" done.");
 
-            Thread.Sleep(100);
+            Thread.Sleep(50);
             Console.Write("      Set Win10 to Performance Mode...");
             PowerControl.SetToPerformance();
             Console.WriteLine(" done.");
 
-            Thread.Sleep(100);
+            Thread.Sleep(50);
             Console.Write("      Retrieving System Information...");
             SysInfo.RetrieveSystemInfo();
             Console.WriteLine(" done.");
