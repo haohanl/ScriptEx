@@ -21,30 +21,23 @@ namespace ScriptExDee
     class Program
     {
         // Program information
-        public static string Version = "1104";
+        public static string Version = "1105";
         public static string Title = "ScriptExDee";
         public static string Quote = Quotes.GetQuote();
 
         // Configuration file
         public static string ConfigFile = "AppConfig.xml";
-        public static AppConfig Config = XMLHandler.Initialise(ConfigFile);
-
-        // Program PATHs
-        public static string RootPath = AppDomain.CurrentDomain.BaseDirectory;
-
-        public static string DriveLetter = $@"{Config.RoboCopy.SrcDriveLetter}:\";
-
-        public static string SoftPath = Environment.ExpandEnvironmentVariables(DriveLetter + Config.RoboCopy.SoftRoot);
-        public static string SoftDestPath = Environment.ExpandEnvironmentVariables(Config.RoboCopy.SoftDestRoot);
-        public static string TestPath = Environment.ExpandEnvironmentVariables(DriveLetter + Config.RoboCopy.TestRoot);
-        public static string TestDestPath = Environment.ExpandEnvironmentVariables(Config.RoboCopy.TestDestRoot);
-
+        public static AppConfig Config = null;
+        public static Thread configThread = new Thread(
+            () => { Config = XMLHandler.Initialise(ConfigFile); }
+            );        
 
         /// <summary>
         /// Main entrypoint of the program.
         /// </summary>
         static void Main(string[] args)
         {
+            configThread.Start();
             TerminalTheme.ApplyTheme();
             Terminal.Start();
         }

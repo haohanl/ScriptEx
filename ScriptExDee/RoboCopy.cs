@@ -28,7 +28,7 @@ namespace ScriptExDee
         {
             Terminal.hRule();
             Terminal.WriteLine("Please wait for the testing folder to be transferred");
-            Copy(Program.TestPath, Program.TestDestPath, "Testing folder");
+            Copy(AppConfig.TestPath, AppConfig.TestDestPath, "Testing folder");
             Terminal.WriteLine("Ready for user commands");
         }
 
@@ -55,7 +55,7 @@ namespace ScriptExDee
             proc.StartInfo.CreateNoWindow = true;
             proc.StartInfo.UseShellExecute = false;
             proc.StartInfo.RedirectStandardOutput = true;
-            proc.StartInfo.WorkingDirectory = Program.RootPath;
+            //proc.StartInfo.WorkingDirectory = Program.RootPath;
 
             // Start RoboCopy
             proc.Start();

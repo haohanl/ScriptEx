@@ -118,6 +118,47 @@ namespace ScriptExDee
 
             return tmp;
         }
+
+
+        // RoboCopy PATHs
+        public static string SrcDriveLetter = null;
+        public static string SoftPath = null;
+        public static string SoftDestPath = null;
+        public static string TestPath = null;
+        public static string TestDestPath = null;
+
+        // Find the source drive, as specified by the xml file
+        public void InitialiseSrcDrive()
+        {
+            // Check to see if drive letter is forced
+            if (RoboCopy.ForceSrcDrive != "")
+            {
+                SrcDriveLetter = RoboCopy.ForceSrcDrive + @":\";
+                return;
+            }
+
+            // Search for matching volume
+            foreach (LogicalDisk disk in SysInfo.LogicalDisks.List)
+            {
+                if (disk.Name == RoboCopy.SrcDrive)
+                {
+                    SrcDriveLetter = disk.DriveLetter + @"\";
+                    return;
+                }
+            }
+
+            // If nothing is found, assign default drive D:\
+            SrcDriveLetter = @"D:\";
+        }
+
+        // Initialise the paths
+        public void InitialisePaths()
+        {
+            SoftPath = Environment.ExpandEnvironmentVariables(SrcDriveLetter + RoboCopy.SoftRoot);
+            SoftDestPath = Environment.ExpandEnvironmentVariables(RoboCopy.SoftDestRoot);
+            TestPath = Environment.ExpandEnvironmentVariables(SrcDriveLetter + RoboCopy.TestRoot);
+            TestDestPath = Environment.ExpandEnvironmentVariables(RoboCopy.TestDestRoot);
+        }
     }
 
     /// <summary>
@@ -129,7 +170,10 @@ namespace ScriptExDee
     public partial class AppConfigRoboCopy
     {
         /// <remarks/>
-        public string SrcDriveLetter { get; set; }
+        public string SrcDrive { get; set; }
+
+        /// <remarks/>
+        public string ForceSrcDrive { get; set; }
 
         /// <remarks/>
         public string SoftRoot { get; set; }
@@ -179,7 +223,7 @@ namespace ScriptExDee
         public string FullSourcePath()
         {
             string path = null;
-            string root = Path.Combine(Program.SoftPath, SourcePath);
+            string root = Path.Combine(AppConfig.SoftPath, SourcePath);
             
             // Ensure the path exists
             try
@@ -195,7 +239,7 @@ namespace ScriptExDee
 
         public string FullDestPath()
         {
-            return Path.Combine(Program.SoftDestPath, DestPath);
+            return Path.Combine(AppConfig.SoftDestPath, DestPath);
         }
     }
 
@@ -230,14 +274,14 @@ namespace ScriptExDee
 
         public string FullSourcePath()
         {
-            string root = Path.Combine(Program.SoftPath, DirPath);
+            string root = Path.Combine(AppConfig.SoftPath, DirPath);
 
             return root;
         }
 
         public string FullDestPath()
         {
-            return Path.Combine(Program.TestDestPath, DirPath);
+            return Path.Combine(AppConfig.TestDestPath, DirPath);
         }
     }
 

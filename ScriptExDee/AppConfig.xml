@@ -2,7 +2,8 @@
 <AppConfig>
 	<!--FILE PATHS FOR ROBOCOPY OPS-->
 	<RoboCopy>
-		<SrcDriveLetter>D</SrcDriveLetter>
+		<SrcDrive>SAMSUNG USB</SrcDrive>
+    <ForceSrcDrive></ForceSrcDrive>
 		<SoftRoot>SOFTWARE</SoftRoot>
 		<SoftDestRoot>%USERPROFILE%\Desktop\Setup</SoftDestRoot>
 		<TestRoot>AAA Testing</TestRoot>
@@ -213,6 +214,15 @@
 			<Delay>0</Delay>
       <IgnoreThreadBlock>false</IgnoreThreadBlock>
 		</Test>
+    <Test>
+      <Key>ff</Key>
+      <Desc>FurMark (45m)</Desc>
+      <Exec>FurMark.exe</Exec>
+      <Args>/nogui /msaa=8 /width=1280 height=720 /max_time=2700000 /xtreme_burning</Args>
+      <DirPath>Benchmark</DirPath>
+      <Delay>0</Delay>
+      <IgnoreThreadBlock>false</IgnoreThreadBlock>
+    </Test>
 		<Test>
 			<Key>m</Key>
 			<Desc>HWMonitor</Desc>
@@ -233,7 +243,7 @@
 		</Test>
 		<Test>
 			<Key>s</Key>
-			<Desc>*Singularity (manual)</Desc>
+			<Desc>*Superposition (manual)</Desc>
 			<Exec>launcher.exe</Exec>
 			<Args></Args>
 			<DirPath>Benchmark\Superposition\bin</DirPath>
@@ -251,13 +261,31 @@
 		</Test>
 		<Test>
 			<Key>a</Key>
-			<Desc>AIDA64 Stability Test (15m)</Desc>
+			<Desc>AIDA64 Stability Test (30m)</Desc>
 			<Exec>aida64.exe</Exec>
-			<Args>/SST CPU,FPU,Cache,RAM,GPU /SSTDUR 15</Args>
+			<Args>/SST CPU,FPU,Cache,RAM,GPU /SSTDUR 30</Args>
 			<DirPath>AIDA64</DirPath>
 			<Delay>0</Delay>
       <IgnoreThreadBlock>false</IgnoreThreadBlock>
 		</Test>
+    <Test>
+      <Key>A</Key>
+      <Desc>AIDA64 Stability Test noGPU (30m)</Desc>
+      <Exec>aida64.exe</Exec>
+      <Args>/SST CPU,FPU,Cache,RAM /SSTDUR 30</Args>
+      <DirPath>AIDA64</DirPath>
+      <Delay>0</Delay>
+      <IgnoreThreadBlock>false</IgnoreThreadBlock>
+    </Test>
+    <Test>
+      <Key>AA</Key>
+      <Desc>AIDA64 Stability Test noGPU (∞)</Desc>
+      <Exec>aida64.exe</Exec>
+      <Args>/SST CPU,FPU,Cache,RAM</Args>
+      <DirPath>AIDA64</DirPath>
+      <Delay>0</Delay>
+      <IgnoreThreadBlock>false</IgnoreThreadBlock>
+    </Test>
 		<Test>
 			<Key>i</Key>
 			<Desc>*IntelBurnTestV2 (manual)</Desc>
@@ -278,8 +306,13 @@
     </Stage>
     <Stage>
       <Key>F</Key>
-      <Desc>Full Testing Suite</Desc>
-      <Commands>p f m | h | s | a</Commands>
+      <Desc>Testing Suite</Desc>
+      <Commands>p f m | s | aa</Commands>
+    </Stage>
+    <Stage>
+      <Key>G</Key>
+      <Desc>Trial Testing Suite</Desc>
+      <Commands>f aa m | s </Commands>
     </Stage>
   </TestStages>
 </AppConfig>

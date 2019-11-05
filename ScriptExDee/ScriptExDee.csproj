@@ -52,7 +52,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DeviceInfo.cs" />
     <Compile Include="Installer.cs" />
     <Compile Include="PowerControl.cs" />
     <Compile Include="Program.cs" />

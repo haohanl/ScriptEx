@@ -81,7 +81,6 @@ namespace ScriptExDee
                     currentMode = TestModeKey;
                     Console.Clear();
                     TestModeTitle();
-                    TransferTestingFolder();
                     return true;
                 default:
                     break;
@@ -99,8 +98,8 @@ namespace ScriptExDee
             Console.WriteLine(titleText + " - " + Program.Quote);
             hRule();
             Console.WriteLine($"CFG: \t'{Program.ConfigFile}'");
-            Console.WriteLine($"SRC: \t'{Program.SoftPath}'");
-            Console.WriteLine($"DEST: \t'{Program.SoftDestPath}'");
+            Console.WriteLine($"SRC: \t'{AppConfig.SoftPath}'");
+            Console.WriteLine($"DEST: \t'{AppConfig.SoftDestPath}'");
             hRule();
             SoftwareModeCommands();
             HRule();
@@ -137,9 +136,9 @@ namespace ScriptExDee
             Console.WriteLine(titleText + " - " + Program.Quote);
             hRule();
             Console.WriteLine($"CFG: \t'{Program.ConfigFile}'");
-            Console.WriteLine($"SRC: \t'{Program.TestPath}'");
+            Console.WriteLine($"SRC: \t'{AppConfig.TestPath}'");
             //Console.WriteLine($"SRC: \t'{Program.SourcePath}'");
-            Console.WriteLine($"DEST: \t'{Program.TestDestPath}'");
+            Console.WriteLine($"DEST: \t'{AppConfig.TestDestPath}'");
             hRule();
             TestModeCommands();
             HRule();
@@ -173,11 +172,6 @@ namespace ScriptExDee
             {
                 Console.WriteLine($" {stage.Key} \t| {stage.Desc} --- ['{stage.Commands}']");
             }
-        }
-
-        static void TransferTestingFolder()
-        {
-            RoboCopy.CopyTesting();
         }
 
 
