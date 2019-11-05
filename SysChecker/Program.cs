@@ -26,7 +26,8 @@ namespace SysChecker
                 "Win32_PhysicalMemory",
                 "Win32_PhysicalMedia",
                 "Win32_DiskDrive",
-                "Win32_LogicalDisk"
+                "Win32_LogicalDisk",
+                "Win32_Volume"
             };
 
             using (StreamWriter writer = new StreamWriter(name + ".txt"))
