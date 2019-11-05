@@ -24,6 +24,7 @@ namespace ScriptExDee
         public const string ThreadBreakKey = "|";
         public const string SoftwareModeKey = "!s";
         public const string TestModeKey = "!t";
+        public const string QCModeKey = "!q";
 
 
         // Entrypoint for terminal
@@ -49,6 +50,8 @@ namespace ScriptExDee
                         break;
                     case TestModeKey:
                         TestingMode.RunCommands();
+                        break;
+                    case QCModeKey:
                         break;
                     default:
                         break;
@@ -81,6 +84,11 @@ namespace ScriptExDee
                     currentMode = TestModeKey;
                     Console.Clear();
                     TestModeTitle();
+                    return true;
+                case QCModeKey:
+                    currentMode = QCModeKey;
+                    Console.Clear();
+                    QCModeRun();
                     return true;
                 default:
                     break;
@@ -146,7 +154,7 @@ namespace ScriptExDee
             HelpText();
         }
 
-        // Software mode commands
+        // Test mode commands
         static void TestModeCommands()
         {
             // Print config commands
@@ -163,7 +171,7 @@ namespace ScriptExDee
             }
         }
 
-        // Software mode stages
+        // Test mode stages
         static void TestModeStages()
         {
             // Print config stages
@@ -174,12 +182,48 @@ namespace ScriptExDee
         }
 
 
-        
+
+
+        // Run QCMode Sequence
+        static void QCModeRun()
+        {
+            string titleText = $"{Program.Title} [Build {Program.Version}]";
+            Console.Title = titleText + " - QC MODE";
+
+            HRule();
+            Console.WriteLine(titleText + " - " + Program.Quote);
+            hRule();
+            //Console.WriteLine($"CFG: \t'{Program.ConfigFile}'");
+            Console.WriteLine($"SRC: \t'{AppConfig.TestPath}'");
+            Console.WriteLine($"DEST: \t'{AppConfig.TestDestPath}'");
+            hRule();
+            
+            Console.WriteLine($"QC Mode Sequence:");
+
+            Terminal.WriteLine("Run Windows Activation Dialog", "1");
+            Thread QCWinAct = new Thread(QCMode.WinActivation);
+            QCWinAct.Start();
+
+            Terminal.WriteLine("Partitioning Disk Drives", "2");
+            Thread QCDrives = new Thread(QCMode.FormatDrives);
+            QCDrives.Start();
+
+            hRule();
+
+            QCDrives.Join();
+            Terminal.WriteLine("Drives Partitioning Complete", "2");
+            QCWinAct.Join();
+
+            HRule();
+            HelpText();
+        }
+
+
 
         // Write one-time help text
         static void HelpText()
         {
-            Terminal.WriteLine("'|' Threadblock, '!s' Software Mode, '!t' Testing Mode", "?");
+            Terminal.WriteLine("'|' Threadblock, '!s' Software Mode, '!t' Testing Mode, '!q' QC Mode", "?");
         }
 
         public static void WriteLine(string outStr, string outChar = "-")
