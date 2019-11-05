@@ -25,12 +25,7 @@ namespace ScriptExDee
             // Set Program window title
             Console.Title = $"{Program.Title} [Build {Program.Version}]";
 
-            // Start Initialisation threads
-            Thread sysInfoWorker = new Thread(SysInfo.GatherSysInfo);
-            sysInfoWorker.Start();
-
-            Thread powerWorker = new Thread(PowerControl.SetToPerformance);
-            powerWorker.Start();
+            
 
             // Animate starting text (for fanciness and to give threads time to work)
             AnimateWrite(Title, 70);
@@ -45,12 +40,12 @@ namespace ScriptExDee
             Thread.Sleep(100);
             Console.Write(TAB + "Enable Performance Mode...");
             Thread.Sleep(100);
-            powerWorker.Join();
+            Program.powerWorker.Join();
             Console.Write(" done.\n");
 
             Thread.Sleep(100);
-            Console.Write(TAB + "Collecting SysInfo...");
-            sysInfoWorker.Join();
+            Console.Write(TAB + "Collecting WMI SysInfo...");
+            Program.sysInfoWorker.Join();
             Console.Write(" done.\n");
 
             // Initialise PATHS

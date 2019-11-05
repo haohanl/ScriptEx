@@ -28,16 +28,28 @@ namespace ScriptExDee
         // Configuration file
         public static string ConfigFile = "AppConfig.xml";
         public static AppConfig Config = null;
+
+        // Config serialization thread
         public static Thread configThread = new Thread(
             () => { Config = XMLHandler.Initialise(ConfigFile); }
-            );        
+            );
+
+        // Initialisation threads
+        public static Thread sysInfoWorker = new Thread(SysInfo.GatherSysInfo);
+        public static Thread powerWorker = new Thread(PowerControl.SetToPerformance);
+        
 
         /// <summary>
         /// Main entrypoint of the program.
         /// </summary>
         static void Main(string[] args)
         {
+            // Start program initialization threads
             configThread.Start();
+            sysInfoWorker.Start();
+            powerWorker.Start();
+
+            // Launch terminal
             TerminalTheme.ApplyTheme();
             Terminal.Start();
         }
