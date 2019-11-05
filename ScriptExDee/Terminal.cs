@@ -193,7 +193,6 @@ namespace ScriptExDee
             HRule();
             Console.WriteLine(titleText + " - " + Program.Quote);
             hRule();
-            //Console.WriteLine($"CFG: \t'{Program.ConfigFile}'");
             Console.WriteLine($"SRC: \t'{AppConfig.TestPath}'");
             Console.WriteLine($"DEST: \t'{AppConfig.TestDestPath}'");
             hRule();
@@ -213,6 +212,10 @@ namespace ScriptExDee
             QCDrives.Join();
             Terminal.WriteLine("Drives Partitioning Complete", "2");
             QCWinAct.Join();
+
+            QCMode.ClearHeaven();
+            QCMode.ClearSuperposition();
+            Terminal.WriteLine("Superposition + Heaven folders cleared");
 
             HRule();
             HelpText();

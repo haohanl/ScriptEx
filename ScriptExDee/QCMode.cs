@@ -89,5 +89,47 @@ namespace ScriptExDee
             p.Start();
         }
 
+        public static void ClearSuperposition()
+        {
+            string superPath = Path.Combine(Environment.ExpandEnvironmentVariables("%USERPROFILE%"), "Superposition");
+
+            if (Directory.Exists(superPath))
+            {
+                DirectoryInfo di = new DirectoryInfo(superPath);
+
+                foreach (FileInfo file in di.EnumerateFiles())
+                {
+                    file.Delete();
+
+                }
+                foreach (DirectoryInfo dir in di.EnumerateDirectories())
+                {
+                    dir.Delete(true);
+                }
+                di.Delete();
+            }
+        }
+
+        public static void ClearHeaven()
+        {
+            string superPath = Path.Combine(Environment.ExpandEnvironmentVariables("%USERPROFILE%"), "HEAVEN");
+
+            if (Directory.Exists(superPath))
+            {
+                DirectoryInfo di = new DirectoryInfo(superPath);
+
+                foreach (FileInfo file in di.EnumerateFiles())
+                {
+                    file.Delete();
+
+                }
+                foreach (DirectoryInfo dir in di.EnumerateDirectories())
+                {
+                    dir.Delete(true);
+                }
+                di.Delete();
+            }
+        }
+
     }
 }
