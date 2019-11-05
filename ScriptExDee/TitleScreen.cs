@@ -64,8 +64,8 @@ namespace ScriptExDee
            
             Write();
 
-            Write($"MOBO: {SysInfo.MOBO.Manufacturer} {SysInfo.MOBO.Name}");
-            Write($"BIOS: {SysInfo.MOBO.BIOS} ({SysInfo.MOBO.BIOSDate})");
+            Write($"MOBO: {SysInfo.MOBO.Name} ({SysInfo.MOBO.Manufacturer})");
+            Write($"BIOS: {SysInfo.MOBO.BIOS} [{SysInfo.MOBO.BIOSDate}]");
 
             Write();
            
