@@ -312,7 +312,7 @@
     <Stage>
       <Key>G</Key>
       <Desc>Trial Testing Suite</Desc>
-      <Commands>f aa m | s </Commands>
+      <Commands>f AA m | s </Commands>
     </Stage>
   </TestStages>
 </AppConfig>

@@ -25,25 +25,23 @@ namespace ScriptExDee
             // Set Program window title
             Console.Title = $"{Program.Title} [Build {Program.Version}]";
 
-            
-
             // Animate starting text (for fanciness and to give threads time to work)
-            AnimateWrite(Title, 70);
+            AnimateWrite(Title, 40);
             hRule();
 
             // Output program status. Sleep for emphasis on program "complexity"
             Console.Write(TAB + $"Loading '{Program.ConfigFile}'...");
             Program.configThread.Join();
-            Thread.Sleep(100);
+            Thread.Sleep(20);
             Console.Write(" done.\n");
 
-            Thread.Sleep(100);
+            Thread.Sleep(20);
             Console.Write(TAB + "Enable Performance Mode...");
-            Thread.Sleep(100);
+            Thread.Sleep(20);
             Program.powerWorker.Join();
             Console.Write(" done.\n");
 
-            Thread.Sleep(100);
+            Thread.Sleep(20);
             Console.Write(TAB + "Collecting WMI SysInfo...");
             Program.sysInfoWorker.Join();
             Console.Write(" done.\n");
