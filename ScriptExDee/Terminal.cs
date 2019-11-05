@@ -97,7 +97,7 @@ namespace ScriptExDee
             HRule();
             Console.WriteLine(titleText + " - " + Program.Quote);
             hRule();
-            Console.WriteLine($"CFG: \t'{Program.ConfigFile}'");
+            //Console.WriteLine($"CFG: \t'{Program.ConfigFile}'");
             Console.WriteLine($"SRC: \t'{AppConfig.SoftPath}'");
             Console.WriteLine($"DEST: \t'{AppConfig.SoftDestPath}'");
             hRule();
@@ -135,9 +135,8 @@ namespace ScriptExDee
             HRule();
             Console.WriteLine(titleText + " - " + Program.Quote);
             hRule();
-            Console.WriteLine($"CFG: \t'{Program.ConfigFile}'");
+            //Console.WriteLine($"CFG: \t'{Program.ConfigFile}'");
             Console.WriteLine($"SRC: \t'{AppConfig.TestPath}'");
-            //Console.WriteLine($"SRC: \t'{Program.SourcePath}'");
             Console.WriteLine($"DEST: \t'{AppConfig.TestDestPath}'");
             hRule();
             TestModeCommands();

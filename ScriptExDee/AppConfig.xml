@@ -42,11 +42,21 @@
 			<DestPath>AMD GPU</DestPath>
 			<Threadsafe>false</Threadsafe>
 		</Script>
+    <Script>
+			<Key>amc</Key>
+			<Desc>*AMD Chipset Driver (manual)</Desc>
+			<Exec>AMD_Chipset_Drivers_v1.9.27.1033.exe</Exec>
+			<Args></Args>
+			<Auto></Auto>
+			<SourcePath>_AMD Chipset</SourcePath>
+			<DestPath>AMD Chipset</DestPath>
+			<Threadsafe>false</Threadsafe>
+		</Script>
 		<Script>
 			<Key>ig</Key>
 			<Desc>Intel iGPU</Desc>
 			<Exec>igxpin.exe</Exec>
-			<Args>-s -A -s</Args>
+			<Args>-s -overwrite</Args>
 			<Auto></Auto>
 			<SourcePath>_INTEL iGPU</SourcePath>
 			<DestPath>NVIDIA AUTO</DestPath>
@@ -290,7 +300,7 @@
 			<Key>i</Key>
 			<Desc>*IntelBurnTestV2 (manual)</Desc>
 			<Exec>IntelBurnTestV2.exe</Exec>
-			<Args>/SST CPU,FPU,Cache,RAM,GPU /SSTDUR 15</Args>
+			<Args></Args>
 			<DirPath>IBT\IntelBurnTest.New</DirPath>
 			<Delay>0</Delay>
       <IgnoreThreadBlock>false</IgnoreThreadBlock>
@@ -312,7 +322,7 @@
     <Stage>
       <Key>G</Key>
       <Desc>Trial Testing Suite</Desc>
-      <Commands>f AA m | s </Commands>
+      <Commands>f AA m | s</Commands>
     </Stage>
   </TestStages>
 </AppConfig>

@@ -9,16 +9,22 @@ namespace ScriptExDee
     static class Quotes
     {
         public static string[] Entries = new string[] { 
-            "It's not a virus, I swear!",
-            "RGB stands for Real Gnarly BBs",
-            "Guaranteed to be 100% fat-free",
+            "Now 100% vegan-friendly",
             "Gah! Don't look at me that way",
-            "Magware? Who's that?",
-            "H gon' give it to ya",
+            "Magware? Never heard of it",
             "Now accepting zip|money",
-            "You didn't bend any pins. Bravo!",
+            "You didn't bend any pins. Bravo",
             "Now *supports* Jacob64",
-            "Time for a 15-minute break"
+            "Time for a 15-minute break -Noone",
+            "She'll be right mate -Systems",
+            "Forecast is 25 with a chance of BBs",
+            "You should get more sleep you know",
+            "Stop breakin' my balls -Robin",
+            "You're done? But done is over there",
+            "I'm going upstairs -Nathan",
+            "RIP Fish'n'chip Fridays (2019-2019)",
+            "Join the HiKoki appreciation club",
+            
         };
 
         /// <summary>
