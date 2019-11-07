@@ -115,7 +115,7 @@ namespace ScriptExDee
             {
                 if (drive.MediaType != "Removable Media")
                 {
-                    Console.WriteLine($" {drive.Name} ({drive.Size}) [{drive.Partitions} Partitions]");
+                    Console.WriteLine($" {drive.Name} ({drive.Size.ToString("N0")} GB) [{drive.Partitions} Partitions]");
                     Console.Write(TAB + "     ");
                 }
             }

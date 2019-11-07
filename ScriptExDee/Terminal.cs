@@ -219,7 +219,6 @@ namespace ScriptExDee
 
             hRule();
             TitleScreen.WriteSysSummary();
-
             Console.WriteLine();
 
             HRule();

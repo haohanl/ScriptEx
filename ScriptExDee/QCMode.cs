@@ -7,6 +7,7 @@ using System.IO;
 using System.Diagnostics;
 using System.Management;
 using System.Threading;
+using System.Runtime.InteropServices;
 
 namespace ScriptExDee
 {
@@ -129,6 +130,61 @@ namespace ScriptExDee
                 }
                 di.Delete();
             }
+        }
+
+        public static void LaunchManualChecks()
+        {
+            //const int SWP_SHOWWINDOW = 0x0040;
+
+            // Launch the four main windows
+            ProcessStartInfo devmInfo = new ProcessStartInfo("devmgmt.msc");
+            Process devm = new Process();
+            devm.StartInfo = devmInfo;
+            devm.Start();
+
+            ProcessStartInfo diskmInfo = new ProcessStartInfo("diskmgmt.msc");
+            Process diskm = new Process();
+            diskm.StartInfo = diskmInfo;
+            diskm.Start();
+
+            Thread.Sleep(1000);   // Need to wait for mainwindowtitles to correctly 'guess' the gui window
+                                  // Unfortunately, WaitForInputIdle is not sufficient!
+
+            // Reposition mmc class processes
+
+            //Process[] mmcProcs = Process.GetProcessesByName("mmc");
+            //foreach (var proc in mmcProcs)
+            //{
+            //    if (proc.MainWindowTitle.Equals("Disk Management"))
+            //    {
+            //        var handle = proc.MainWindowHandle;
+            //        SetWindowPos(handle, 0, 0, 540, 960, 540, SWP_SHOWWINDOW);
+            //    }
+            //    if (proc.MainWindowTitle.Equals("Device Manager"))
+            //    {
+            //        var handle = proc.MainWindowHandle;
+            //        SetWindowPos(handle, 0, 960, 540, 960, 540, SWP_SHOWWINDOW);
+            //    }
+            //}
+
+            // Launch windows update
+            string systemFolder = Environment.GetFolderPath(Environment.SpecialFolder.System);
+            ProcessStartInfo wupInfo = new ProcessStartInfo(Path.Combine(systemFolder, "control.exe"), "/name Microsoft.WindowsUpdate");
+            Process wup = new Process();
+            wup.StartInfo = wupInfo;
+            wup.Start();
+            wup.WaitForInputIdle();
+
+            //// System info, explorer is handled by standalone script
+            //string sysInfoScript = Path.Combine(Paths.Desktop(), Paths.TEST, Paths.FILES, Paths.QCWINDOWS_SCRIPT);
+            //if (File.Exists(sysInfoScript))
+            //{
+            //    ProcessStartInfo sysInfo = new ProcessStartInfo(sysInfoScript);
+            //    Process sys = new Process();
+            //    sys.StartInfo = sysInfo;
+            //    sys.Start();
+            //    sys.WaitForExit();
+            //}
         }
 
     }

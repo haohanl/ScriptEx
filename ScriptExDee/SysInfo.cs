@@ -111,7 +111,7 @@ namespace ScriptExDee
 
             return string.Format("{0:n2}{1}", adjustedSize, SizeSuffixes[mag]);
         }
-        // END SNIPPET
+        // END SNIPPET (UNUSED)
 
     }
 
@@ -237,14 +237,14 @@ namespace ScriptExDee
     {
         public int Index;
         public string Name;
-        public string Size;
+        public long Size;
         public string Partitions;
         public string MediaType;
         public Drive(ManagementObject drive)
         {
             Index = Convert.ToInt32(drive["index"]);
             Name = drive["Model"].ToString();
-            Size = SysChecker.SizeSuffix(Convert.ToInt64(drive["Size"]));
+            Size = Convert.ToInt64(drive["Size"]) / (1024 * 1024 * 1024);
             Partitions = drive["Partitions"].ToString();
             MediaType = drive["MediaType"].ToString();
 
