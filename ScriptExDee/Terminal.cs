@@ -217,6 +217,11 @@ namespace ScriptExDee
             QCMode.ClearSuperposition();
             Terminal.WriteLine("Superposition + Heaven folders cleared");
 
+            hRule();
+            TitleScreen.WriteSysSummary();
+
+            Console.WriteLine();
+
             HRule();
             HelpText();
         }

@@ -3,7 +3,7 @@
 	<!--FILE PATHS FOR ROBOCOPY OPS-->
 	<RoboCopy>
 		<SrcDrive>SAMSUNG USB</SrcDrive>
-    <ForceSrcDrive></ForceSrcDrive>
+		<ForceSrcDrive></ForceSrcDrive>
 		<SoftRoot>SOFTWARE</SoftRoot>
 		<SoftDestRoot>%USERPROFILE%\Desktop\Setup</SoftDestRoot>
 		<TestRoot>AAA Testing</TestRoot>
@@ -30,6 +30,16 @@
 			<Auto></Auto>
 			<SourcePath>_NVIDIA AUTO</SourcePath>
 			<DestPath>NVIDIA AUTO</DestPath>
+			<Threadsafe>false</Threadsafe>
+		</Script>
+		<Script>
+			<Key>nvd</Key>
+			<Desc>*NVIDIA GPU Driver</Desc>
+			<Exec>setup.exe</Exec>
+			<Args>-noreboot -nosplash</Args>
+			<Auto></Auto>
+			<SourcePath>_NVIDIA DCH</SourcePath>
+			<DestPath>NVIDIA DCH</DestPath>
 			<Threadsafe>false</Threadsafe>
 		</Script>
 		<Script>
@@ -213,7 +223,7 @@
 			<Args>-t</Args>
 			<DirPath>Benchmark</DirPath>
 			<Delay>5000</Delay>
-      <IgnoreThreadBlock>false</IgnoreThreadBlock>
+			<IgnoreThreadBlock>false</IgnoreThreadBlock>
 		</Test>
 		<Test>
 			<Key>f</Key>
@@ -222,17 +232,26 @@
 			<Args>/nogui /msaa=8 /width=1280 height=720 /max_time=900000 /xtreme_burning</Args>
 			<DirPath>Benchmark</DirPath>
 			<Delay>0</Delay>
-      <IgnoreThreadBlock>false</IgnoreThreadBlock>
+			<IgnoreThreadBlock>false</IgnoreThreadBlock>
 		</Test>
-    <Test>
-      <Key>ff</Key>
-      <Desc>FurMark (45m)</Desc>
-      <Exec>FurMark.exe</Exec>
-      <Args>/nogui /msaa=8 /width=1280 height=720 /max_time=2700000 /xtreme_burning</Args>
-      <DirPath>Benchmark</DirPath>
-      <Delay>0</Delay>
-      <IgnoreThreadBlock>false</IgnoreThreadBlock>
-    </Test>
+		<Test>
+		  <Key>ff</Key>
+		  <Desc>FurMark (25m)</Desc>
+		  <Exec>FurMark.exe</Exec>
+		  <Args>/nogui /msaa=8 /width=1280 height=720 /max_time=1500000 /xtreme_burning</Args>
+		  <DirPath>Benchmark</DirPath>
+		  <Delay>0</Delay>
+		  <IgnoreThreadBlock>false</IgnoreThreadBlock>
+		</Test>
+		<Test>
+		  <Key>fff</Key>
+		  <Desc>FurMark (45m)</Desc>
+		  <Exec>FurMark.exe</Exec>
+		  <Args>/nogui /msaa=8 /width=1280 height=720 /max_time=2700000 /xtreme_burning</Args>
+		  <DirPath>Benchmark</DirPath>
+		  <Delay>0</Delay>
+		  <IgnoreThreadBlock>false</IgnoreThreadBlock>
+		</Test>
 		<Test>
 			<Key>m</Key>
 			<Desc>HWMonitor</Desc>
@@ -240,7 +259,7 @@
 			<Args></Args>
 			<DirPath>Benchmark</DirPath>
 			<Delay>0</Delay>
-      <IgnoreThreadBlock>true</IgnoreThreadBlock>
+			<IgnoreThreadBlock>true</IgnoreThreadBlock>
 		</Test>
 		<Test>
 			<Key>h</Key>
@@ -249,7 +268,7 @@
 			<Args></Args>
 			<DirPath>Benchmark\Heaven</DirPath>
 			<Delay>0</Delay>
-      <IgnoreThreadBlock>false</IgnoreThreadBlock>
+			<IgnoreThreadBlock>false</IgnoreThreadBlock>
 		</Test>
 		<Test>
 			<Key>s</Key>
@@ -258,7 +277,7 @@
 			<Args></Args>
 			<DirPath>Benchmark\Superposition\bin</DirPath>
 			<Delay>0</Delay>
-      <IgnoreThreadBlock>false</IgnoreThreadBlock>
+			<IgnoreThreadBlock>false</IgnoreThreadBlock>
 		</Test>
 		<Test>
 			<Key>aa</Key>
@@ -267,7 +286,7 @@
 			<Args>/SST CPU,FPU,Cache,RAM,GPU</Args>
 			<DirPath>AIDA64</DirPath>
 			<Delay>0</Delay>
-      <IgnoreThreadBlock>false</IgnoreThreadBlock>
+			<IgnoreThreadBlock>false</IgnoreThreadBlock>
 		</Test>
 		<Test>
 			<Key>a</Key>
@@ -276,26 +295,26 @@
 			<Args>/SST CPU,FPU,Cache,RAM,GPU /SSTDUR 30</Args>
 			<DirPath>AIDA64</DirPath>
 			<Delay>0</Delay>
-      <IgnoreThreadBlock>false</IgnoreThreadBlock>
+			<IgnoreThreadBlock>false</IgnoreThreadBlock>
 		</Test>
-    <Test>
-      <Key>A</Key>
-      <Desc>AIDA64 Stability Test noGPU (30m)</Desc>
-      <Exec>aida64.exe</Exec>
-      <Args>/SST CPU,FPU,Cache,RAM /SSTDUR 30</Args>
-      <DirPath>AIDA64</DirPath>
-      <Delay>0</Delay>
-      <IgnoreThreadBlock>false</IgnoreThreadBlock>
-    </Test>
-    <Test>
-      <Key>AA</Key>
-      <Desc>AIDA64 Stability Test noGPU (∞)</Desc>
-      <Exec>aida64.exe</Exec>
-      <Args>/SST CPU,FPU,Cache,RAM</Args>
-      <DirPath>AIDA64</DirPath>
-      <Delay>0</Delay>
-      <IgnoreThreadBlock>false</IgnoreThreadBlock>
-    </Test>
+		<Test>
+		  <Key>A</Key>
+		  <Desc>AIDA64 Stability Test noGPU (30m)</Desc>
+		  <Exec>aida64.exe</Exec>
+		  <Args>/SST CPU,FPU,Cache,RAM /SSTDUR 30</Args>
+		  <DirPath>AIDA64</DirPath>
+		  <Delay>0</Delay>
+		  <IgnoreThreadBlock>false</IgnoreThreadBlock>
+		</Test>
+		<Test>
+		  <Key>AA</Key>
+		  <Desc>AIDA64 Stability Test noGPU (∞)</Desc>
+		  <Exec>aida64.exe</Exec>
+		  <Args>/SST CPU,FPU,Cache,RAM</Args>
+		  <DirPath>AIDA64</DirPath>
+		  <Delay>0</Delay>
+		  <IgnoreThreadBlock>false</IgnoreThreadBlock>
+		</Test>
 		<Test>
 			<Key>i</Key>
 			<Desc>*IntelBurnTestV2 (manual)</Desc>
@@ -303,7 +322,7 @@
 			<Args></Args>
 			<DirPath>IBT\IntelBurnTest.New</DirPath>
 			<Delay>0</Delay>
-      <IgnoreThreadBlock>false</IgnoreThreadBlock>
+			<IgnoreThreadBlock>false</IgnoreThreadBlock>
 		</Test>
 	</Tests>
   
@@ -322,7 +341,7 @@
     <Stage>
       <Key>G</Key>
       <Desc>Trial Testing Suite</Desc>
-      <Commands>f AA m | s</Commands>
+      <Commands>ff AA m | s</Commands>
     </Stage>
   </TestStages>
 </AppConfig>

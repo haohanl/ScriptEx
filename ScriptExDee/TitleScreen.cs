@@ -15,7 +15,7 @@ namespace ScriptExDee
         \__ \/ ___/ ___/ / __ \/ __/ __/ | |/_/ / / / _ \/ _ \
        ___/ / /__/ /  / / /_/ / /_/ /____>  </ /_/ /  __/  __/
       /____/\___/_/  /_/ .___/\__/_____/_/|_/_____/\___/\___/ 
-                      /_/ {Quotes.GetQuote()}
+                      /_/ {Program.Quote}
       Haohan Liu (c) 2019";
 
         private static string TAB = "      ";
@@ -52,32 +52,7 @@ namespace ScriptExDee
 
             // Show Sys summary
             Write("");
-            Write("=================== SYSTEM SUMMARY =====================");
-                                   
-            Write($"CPU : {SysInfo.CPU.Name}");
-            Write($"GPU : {SysInfo.GPU.Name} ({SysInfo.GPU.DriverVersion})");
-           
-            Write();
-
-            Write($"RAM : {SysInfo.RAM.TotalCapacity.ToString("F")}GB ({SysInfo.RAM.NumSticks}×{SysInfo.RAM.SingleCapacity}GB) [{SysInfo.RAM.Speed}MHz]");
-            Write($"      {SysInfo.RAM.Name} ({SysInfo.RAM.Manufacturer})");
-           
-            Write();
-
-            Write($"MOBO: {SysInfo.MOBO.Name} ({SysInfo.MOBO.Manufacturer})");
-            Write($"BIOS: {SysInfo.MOBO.BIOS} [{SysInfo.MOBO.BIOSDate}]");
-
-            Write();
-           
-            Console.Write(TAB + "DISK:");
-            foreach (Drive drive in SysInfo.Drives.List)
-            {
-                if (drive.MediaType != "Removable Media")
-                {
-                    Console.WriteLine($" {drive.Name} ({drive.Size}) [{drive.Partitions} Partitions]");
-                    Console.Write(TAB + "     ");
-                }
-            }
+            WriteSysSummary();
 
 
             // Wait for user input
@@ -113,6 +88,36 @@ namespace ScriptExDee
             {
                 Console.WriteLine(line);
                 Thread.Sleep(delay);
+            }
+        }
+
+        public static void WriteSysSummary()
+        {
+            Write("=================== SYSTEM SUMMARY =====================");
+
+            Write($"CPU : {SysInfo.CPU.Name}");
+            Write($"GPU : {SysInfo.GPU.Name} ({SysInfo.GPU.DriverVersion})");
+
+            Write();
+
+            Write($"RAM : {SysInfo.RAM.TotalCapacity.ToString("F")}GB ({SysInfo.RAM.NumSticks}×{SysInfo.RAM.SingleCapacity}GB) [{SysInfo.RAM.Speed}MHz]");
+            Write($"      {SysInfo.RAM.Name} ({SysInfo.RAM.Manufacturer})");
+
+            Write();
+
+            Write($"MOBO: {SysInfo.MOBO.Name} ({SysInfo.MOBO.Manufacturer})");
+            Write($"BIOS: {SysInfo.MOBO.BIOS} [{SysInfo.MOBO.BIOSDate}]");
+
+            Write();
+
+            Console.Write(TAB + "DISK:");
+            foreach (Drive drive in SysInfo.Drives.List)
+            {
+                if (drive.MediaType != "Removable Media")
+                {
+                    Console.WriteLine($" {drive.Name} ({drive.Size}) [{drive.Partitions} Partitions]");
+                    Console.Write(TAB + "     ");
+                }
             }
         }
     }

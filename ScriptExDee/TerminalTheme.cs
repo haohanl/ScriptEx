@@ -41,13 +41,13 @@ namespace ScriptExDee
 
         public static void ApplyTheme()
         {
-            // Keep window on top
             IntPtr hWnd = Process.GetCurrentProcess().MainWindowHandle;
 
-            SetWindowPos(hWnd,
-                new IntPtr(HWND_TOPMOST),
-                0, 0, 0, 0,
-                SWP_NOMOVE | SWP_NOSIZE);
+            // Keep window on top
+            //SetWindowPos(hWnd,
+            //    new IntPtr(HWND_TOPMOST),
+            //    0, 0, 0, 0,
+            //    SWP_NOMOVE | SWP_NOSIZE);
 
             // Set opacity
             SetLayeredWindowAttributes(hWnd,

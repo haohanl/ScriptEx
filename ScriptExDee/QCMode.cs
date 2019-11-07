@@ -44,7 +44,7 @@ namespace ScriptExDee
             }
             Terminal.WriteLine("ALL DRIVES INITIALISED");
             Terminal.hRule();
-            Thread.Sleep(2000);  // Formatting is unstable if drive letters are not given time to be created
+            //Thread.Sleep(2000);  // Formatting is unstable if drive letters are not given time to be created
 
             // Format 
             searcher = new ManagementObjectSearcher("select * from Win32_Volume");
