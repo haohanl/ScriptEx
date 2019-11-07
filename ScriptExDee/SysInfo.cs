@@ -61,7 +61,7 @@ namespace ScriptExDee
 
             foreach (ManagementObject obj in Collection)
             {
-                Vals.Add(obj[attr].ToString());
+                Vals.Add(obj[attr].ToString().Trim());
             }
 
             return Vals;
@@ -76,7 +76,7 @@ namespace ScriptExDee
         {
             foreach (ManagementObject obj in Collection)
             {
-                return obj[attr].ToString();
+                return obj[attr].ToString().Trim();
             }
             return null;
         }
@@ -238,14 +238,14 @@ namespace ScriptExDee
         public int Index;
         public string Name;
         public long Size;
-        public string Partitions;
+        public int Partitions;
         public string MediaType;
         public Drive(ManagementObject drive)
         {
             Index = Convert.ToInt32(drive["index"]);
             Name = drive["Model"].ToString();
             Size = Convert.ToInt64(drive["Size"]) / (1024 * 1024 * 1024);
-            Partitions = drive["Partitions"].ToString();
+            Partitions = Convert.ToInt32(drive["Partitions"]);
             MediaType = drive["MediaType"].ToString();
 
         }
