@@ -18,7 +18,7 @@ namespace ScriptExDee
                       /_/ {Program.Quote}
       Haohan Liu (c) 2019";
 
-        private static string TAB = "      ";
+        private const string TAB = "      ";
 
         public static void ShowTitle()
         {
@@ -67,7 +67,7 @@ namespace ScriptExDee
             Console.Clear();
         }
 
-        static void Write(string line="", string tab="      ")
+        static void Write(string line="", string tab=TAB)
         {
             Console.Write($"{tab}{line}\n");
         }
@@ -96,7 +96,11 @@ namespace ScriptExDee
             Write("=================== SYSTEM SUMMARY =====================");
 
             Write($"CPU : {SysInfo.CPU.Name}");
-            Write($"GPU : {SysInfo.GPU.Name} ({SysInfo.GPU.DriverVersion})");
+            Write($"      {SysInfo.CPU.Description}");
+
+            Write();
+
+            Write($"GPU : {SysInfo.GPU.Name} ({SysInfo.GPU.DriverVersion}) [{SysInfo.GPU.DriverDate}]");
 
             Write();
 
@@ -106,6 +110,7 @@ namespace ScriptExDee
             Write();
 
             Write($"MOBO: {SysInfo.MOBO.Name} ({SysInfo.MOBO.Manufacturer})");
+            Write($"S/N : {SysInfo.MOBO.SerialNumber}");
             Write($"BIOS: {SysInfo.MOBO.BIOS} [{SysInfo.MOBO.BIOSDate}]");
 
             Write();

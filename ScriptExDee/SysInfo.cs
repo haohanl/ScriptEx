@@ -122,6 +122,7 @@ namespace ScriptExDee
     {
         public string Name;
         public string Manufacturer;
+        public string Description;
 
         public CPUInfo()
         {
@@ -130,6 +131,7 @@ namespace ScriptExDee
 
             Name = searcher.GetFirst("Name");
             Manufacturer = searcher.GetFirst("Manufacturer");
+            Description = searcher.GetFirst("Description");
 
         }
     }
@@ -141,6 +143,7 @@ namespace ScriptExDee
     {
         public string Name;
         public string DriverVersion;
+        public string DriverDate;
 
         public GPUInfo()
         {
@@ -149,6 +152,7 @@ namespace ScriptExDee
 
             Name = searcher.GetFirst("Name");
             DriverVersion = searcher.GetFirst("DriverVersion");
+            DriverDate = searcher.GetDate("DriverDate");
         }
     }
 
@@ -161,6 +165,7 @@ namespace ScriptExDee
         public string Manufacturer;
         public string BIOS;
         public string BIOSDate;
+        public string SerialNumber;
 
         public MOBOInfo()
         {
@@ -169,6 +174,7 @@ namespace ScriptExDee
 
             Name = searcher.GetFirst("Product");
             Manufacturer = searcher.GetFirst("Manufacturer");
+            SerialNumber = searcher.GetFirst("SerialNumber");
 
             wmiObject = "Win32_BIOS";
             searcher = new SysChecker(wmiObject);
