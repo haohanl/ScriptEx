@@ -43,6 +43,7 @@ namespace ScriptExDee
                     Console.WriteLine(" | IGNORED");
                 }
             }
+            searcher.Dispose();
             Terminal.WriteLine("ALL DRIVES INITIALISED", "*");
             Terminal.hRule();
 
@@ -59,7 +60,7 @@ namespace ScriptExDee
                 }
 
             }
-
+            searcher.Dispose();
             Terminal.WriteLine("ALL DRIVES FORMATTED", "*");
 
             // In case any drives are offline...
@@ -83,9 +84,13 @@ namespace ScriptExDee
             // If program is not x64, system32 path gets redirected and this fails to launch
             string slui = Environment.GetFolderPath(Environment.SpecialFolder.System);
             ProcessStartInfo sInfo = new ProcessStartInfo(Path.Combine(slui, "slui.exe"));
-            Process p = new Process();
-            p.StartInfo = sInfo;
+            Process p = new Process
+            {
+                StartInfo = sInfo
+            };
             p.Start();
+            p.WaitForExit();
+            p.Dispose();
         }
 
         /// <summary>

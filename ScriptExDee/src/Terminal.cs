@@ -104,12 +104,6 @@ namespace ScriptExDee
                 ReadUserInput();
                 ValidateUserInput();
 
-                //Console.Write("C ");
-                //State.PrintList(State.PendingCommands);
-
-                //Console.Write("T ");
-                //State.PrintList(State.PendingSoftwareTransfers);
-
                 // transfer prerequisite software
                 ExecuteSoftwareTransfers();
 

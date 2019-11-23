@@ -21,7 +21,7 @@ namespace ScriptExDee
     class Program
     {
         // Program information
-        public static string Version = "1122";
+        public static string Version = "1124";
         public static string Title = "ScriptExDee";
         public static string Quote = Quotes.GetQuote();
 
@@ -48,14 +48,6 @@ namespace ScriptExDee
             configThread.Start();
             sysInfoWorker.Start();
             powerWorker.Start();
-            //configThread.Join();
-            //sysInfoWorker.Join();
-
-            
-
-            //// Initialise PATHS
-            //Program.Config.InitialiseSrcDrive();
-            //Program.Config.InitialisePaths();
 
             // Launch terminal
             TerminalTheme.ApplyTheme();
