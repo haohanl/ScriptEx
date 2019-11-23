@@ -195,7 +195,7 @@
 		<Script>
 			<Key>nc</Key>
 			<Desc>NZXT CAM</Desc>
-			<Exec>CAM_installer_V4.0.11.exe</Exec>
+			<Exec>CAM_installer_V4.0.12.exe</Exec>
 			<Args></Args>
 			<Auto></Auto>
 			<SourcePath>NZXT CAM</SourcePath>
@@ -210,6 +210,16 @@
 			<Auto></Auto>
 			<SourcePath>GIGABYTE RGBFusion</SourcePath>
 			<DestPath>GIGABYTE RGBFusion</DestPath>
+			<Threadsafe>false</Threadsafe>
+		</Script>
+		<Script>
+			<Key>ga</Key>
+			<Desc>GIGABYTE Aorus Engine</Desc>
+			<Exec>vga_utility_aorus_setup_v1.7.4.exe</Exec>
+			<Args>/SILENT /NORESTART /SP-</Args>
+			<Auto></Auto>
+			<SourcePath>GIGABYTE Aorus Engine</SourcePath>
+			<DestPath>Aorus Engine</DestPath>
 			<Threadsafe>false</Threadsafe>
 		</Script>
 	</Scripts>

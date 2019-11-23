@@ -13,7 +13,7 @@ namespace ScriptExDee
     /// 
     /// Written by Haohan Liu
     /// </summary>
-    static class Terminal
+    static class TerminalOld
     {
         // Class variables
         public static List<string> userInput;
@@ -65,8 +65,8 @@ namespace ScriptExDee
             Console.Write("> ");
 
             string input = Console.ReadLine();
-            Terminal.userInput = new List<string>(input.Trim().Split(' '));
-            userCommands = new List<string>(Terminal.userInput);
+            TerminalOld.userInput = new List<string>(input.Trim().Split(' '));
+            userCommands = new List<string>(TerminalOld.userInput);
         }
 
         // Check for mode change
@@ -199,23 +199,23 @@ namespace ScriptExDee
             
             Console.WriteLine($"QC Mode Sequence:");
 
-            Terminal.WriteLine("Run Windows Activation Dialog", "1");
+            TerminalOld.WriteLine("Run Windows Activation Dialog", "1");
             Thread QCWinAct = new Thread(QCMode.WinActivation);
             QCWinAct.Start();
 
-            Terminal.WriteLine("Partitioning Disk Drives", "2");
+            TerminalOld.WriteLine("Partitioning Disk Drives", "2");
             Thread QCDrives = new Thread(QCMode.FormatDrives);
             QCDrives.Start();
 
             hRule();
 
             QCDrives.Join();
-            Terminal.WriteLine("Drives Partitioning Complete", "2");
+            TerminalOld.WriteLine("Drives Partitioning Complete", "2");
             QCWinAct.Join();
 
             QCMode.ClearHeaven();
             QCMode.ClearSuperposition();
-            Terminal.WriteLine("Superposition + Heaven folders cleared");
+            TerminalOld.WriteLine("Superposition + Heaven folders cleared");
 
             hRule();
             TitleScreen.WriteSysSummary();
@@ -230,7 +230,7 @@ namespace ScriptExDee
         // Write one-time help text
         static void HelpText()
         {
-            Terminal.WriteLine("'|' Threadblock, '!s' Software Mode, '!t' Testing Mode, '!q' QC Mode", "?");
+            TerminalOld.WriteLine("'|' Threadblock, '!s' Software Mode, '!t' Testing Mode, '!q' QC Mode", "?");
         }
 
         public static void WriteLine(string outStr, string outChar = "-")

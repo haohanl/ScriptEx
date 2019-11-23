@@ -21,14 +21,14 @@ namespace ScriptExDee
                 Thread.Sleep(test.Delay);
                 // Start installation
                 var proc = Process.Start(execPath, test.Args);
-                Terminal.WriteLine($"Initiated Testing | '{test.Key}' | {test.Desc}");
+                TerminalOld.WriteLine($"Initiated Testing | '{test.Key}' | {test.Desc}");
                 proc.WaitForExit();
                 proc.Close();
-                Terminal.WriteLine($"Completed Testing | '{test.Key}' | {test.Desc}");
+                TerminalOld.WriteLine($"Completed Testing | '{test.Key}' | {test.Desc}");
             }
             catch (Exception)
             {
-                Terminal.WriteLine($" File not found at '{execPath}' | '{test.Key}' | {test.Desc}", "!");
+                TerminalOld.WriteLine($" File not found at '{execPath}' | '{test.Key}' | {test.Desc}", "!");
             }
         }
 

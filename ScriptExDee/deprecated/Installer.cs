@@ -23,14 +23,14 @@ namespace ScriptExDee
             {
                 // Start installation
                 var proc = Process.Start(execPath, script.Args);
-                Terminal.WriteLine($"Initiated Install | '{script.Key}' | {script.Desc}");
+                TerminalOld.WriteLine($"Initiated Install | '{script.Key}' | {script.Desc}");
                 proc.WaitForExit();
                 proc.Close();
-                Terminal.WriteLine($"Completed Install | '{script.Key}' | {script.Desc}");
+                TerminalOld.WriteLine($"Completed Install | '{script.Key}' | {script.Desc}");
             }
             catch (Exception)
             {
-                Terminal.WriteLine($"File not found at '{execPath}' | '{script.Key}' | {script.Desc}", "!");
+                TerminalOld.WriteLine($"File not found at '{execPath}' | '{script.Key}' | {script.Desc}", "!");
             }
         }
 

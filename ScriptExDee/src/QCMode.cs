@@ -11,10 +11,10 @@ using System.Runtime.InteropServices;
 
 namespace ScriptExDee
 {
-    class QCMode
+    static class QCMode
     {
         /// <summary>
-        /// Code from Magnus Hjorth
+        /// Format and initialise all drives. Code adapted from Magnus Hjorth
         /// </summary>
         public static void FormatDrives()
         {
@@ -28,7 +28,7 @@ namespace ScriptExDee
                 // Initialize disk first
                 var res = m.InvokeMethod("Initialize", new object[] { GPT });   // Will have no effect on intialized disks
 
-                Console.Write("[*] " + m["Model"].ToString().Trim());
+                Console.Write("[-] " + m["Model"].ToString().Trim());
 
                 if (m["NumberOfPartitions"].ToString().Equals("0"))
                 {
@@ -43,9 +43,8 @@ namespace ScriptExDee
                     Console.WriteLine(" | IGNORED");
                 }
             }
-            Terminal.WriteLine("ALL DRIVES INITIALISED");
+            Terminal.WriteLine("ALL DRIVES INITIALISED", "*");
             Terminal.hRule();
-            //Thread.Sleep(2000);  // Formatting is unstable if drive letters are not given time to be created
 
             // Format 
             searcher = new ManagementObjectSearcher("select * from Win32_Volume");
@@ -56,13 +55,12 @@ namespace ScriptExDee
                 {
                     // https://docs.microsoft.com/en-au/previous-versions/windows/desktop/stormgmt/format-msft-volume
                     var res = m.InvokeMethod("Format", new object[] { "NTFS", true, 8192, "New Volume", false });
-                    Console.WriteLine($"[#] {m["DriveLetter"].ToString()} CREATED");
+                    Console.WriteLine($"[-] {m["DriveLetter"].ToString()} CREATED");
                 }
 
             }
 
-            Terminal.WriteLine("ALL DRIVES FORMATTED");
-            Terminal.hRule();
+            Terminal.WriteLine("ALL DRIVES FORMATTED", "*");
 
             // In case any drives are offline...
             /*
@@ -90,102 +88,52 @@ namespace ScriptExDee
             p.Start();
         }
 
+        /// <summary>
+        /// Delete the Superposition folder
+        /// </summary>
         public static void ClearSuperposition()
         {
             string superPath = Path.Combine(Environment.ExpandEnvironmentVariables("%USERPROFILE%"), "Superposition");
 
             if (Directory.Exists(superPath))
             {
-                DirectoryInfo di = new DirectoryInfo(superPath);
+                DirectoryInfo _di = new DirectoryInfo(superPath);
 
-                foreach (FileInfo file in di.EnumerateFiles())
+                foreach (FileInfo file in _di.EnumerateFiles())
                 {
                     file.Delete();
 
                 }
-                foreach (DirectoryInfo dir in di.EnumerateDirectories())
+                foreach (DirectoryInfo _dir in _di.EnumerateDirectories())
                 {
-                    dir.Delete(true);
+                    _dir.Delete(true);
                 }
-                di.Delete();
+                _di.Delete();
             }
         }
 
+        /// <summary>
+        /// Delete the HEAVEN folder
+        /// </summary>
         public static void ClearHeaven()
         {
             string superPath = Path.Combine(Environment.ExpandEnvironmentVariables("%USERPROFILE%"), "HEAVEN");
 
             if (Directory.Exists(superPath))
             {
-                DirectoryInfo di = new DirectoryInfo(superPath);
+                DirectoryInfo _di = new DirectoryInfo(superPath);
 
-                foreach (FileInfo file in di.EnumerateFiles())
+                foreach (FileInfo file in _di.EnumerateFiles())
                 {
                     file.Delete();
 
                 }
-                foreach (DirectoryInfo dir in di.EnumerateDirectories())
+                foreach (DirectoryInfo _dir in _di.EnumerateDirectories())
                 {
-                    dir.Delete(true);
+                    _dir.Delete(true);
                 }
-                di.Delete();
+                _di.Delete();
             }
         }
-
-        public static void LaunchManualChecks()
-        {
-            //const int SWP_SHOWWINDOW = 0x0040;
-
-            // Launch the four main windows
-            ProcessStartInfo devmInfo = new ProcessStartInfo("devmgmt.msc");
-            Process devm = new Process();
-            devm.StartInfo = devmInfo;
-            devm.Start();
-
-            ProcessStartInfo diskmInfo = new ProcessStartInfo("diskmgmt.msc");
-            Process diskm = new Process();
-            diskm.StartInfo = diskmInfo;
-            diskm.Start();
-
-            Thread.Sleep(1000);   // Need to wait for mainwindowtitles to correctly 'guess' the gui window
-                                  // Unfortunately, WaitForInputIdle is not sufficient!
-
-            // Reposition mmc class processes
-
-            //Process[] mmcProcs = Process.GetProcessesByName("mmc");
-            //foreach (var proc in mmcProcs)
-            //{
-            //    if (proc.MainWindowTitle.Equals("Disk Management"))
-            //    {
-            //        var handle = proc.MainWindowHandle;
-            //        SetWindowPos(handle, 0, 0, 540, 960, 540, SWP_SHOWWINDOW);
-            //    }
-            //    if (proc.MainWindowTitle.Equals("Device Manager"))
-            //    {
-            //        var handle = proc.MainWindowHandle;
-            //        SetWindowPos(handle, 0, 960, 540, 960, 540, SWP_SHOWWINDOW);
-            //    }
-            //}
-
-            // Launch windows update
-            string systemFolder = Environment.GetFolderPath(Environment.SpecialFolder.System);
-            ProcessStartInfo wupInfo = new ProcessStartInfo(Path.Combine(systemFolder, "control.exe"), "/name Microsoft.WindowsUpdate");
-            Process wup = new Process();
-            wup.StartInfo = wupInfo;
-            wup.Start();
-            wup.WaitForInputIdle();
-
-            //// System info, explorer is handled by standalone script
-            //string sysInfoScript = Path.Combine(Paths.Desktop(), Paths.TEST, Paths.FILES, Paths.QCWINDOWS_SCRIPT);
-            //if (File.Exists(sysInfoScript))
-            //{
-            //    ProcessStartInfo sysInfo = new ProcessStartInfo(sysInfoScript);
-            //    Process sys = new Process();
-            //    sys.StartInfo = sysInfo;
-            //    sys.Start();
-            //    sys.WaitForExit();
-            //}
-        }
-
     }
 }

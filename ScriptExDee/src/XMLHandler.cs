@@ -26,11 +26,11 @@ namespace ScriptExDee
         public static AppConfig Initialise(string xmlPath)
         {
             // create return var
-            AppConfig config = null;
+            AppConfig config;
 
             // create serializer and file reader
             XmlSerializer serializer = new XmlSerializer(typeof(AppConfig));
-            StreamReader reader = new StreamReader(Program.ConfigFile);
+            StreamReader reader = new StreamReader(xmlPath);
 
             // deserialize (read xml into class) xml file
             config = (AppConfig)serializer.Deserialize(reader);

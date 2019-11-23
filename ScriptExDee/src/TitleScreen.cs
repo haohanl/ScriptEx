@@ -10,15 +10,15 @@ namespace ScriptExDee
     static class TitleScreen
     {
         
-        public static string Title = $@"         _____           _       __  ______     ____          
-        / ___/__________(_)___  / /_/ ____/  __/ __ \___  ___ 
-        \__ \/ ___/ ___/ / __ \/ __/ __/ | |/_/ / / / _ \/ _ \
-       ___/ / /__/ /  / / /_/ / /_/ /____>  </ /_/ /  __/  __/
-      /____/\___/_/  /_/ .___/\__/_____/_/|_/_____/\___/\___/ 
-                      /_/ {Program.Quote}
-      Haohan Liu (c) 2019";
+        public static string Title = $@"      _____           _       __  ______     ____          
+     / ___/__________(_)___  / /_/ ____/  __/ __ \___  ___ 
+     \__ \/ ___/ ___/ / __ \/ __/ __/ | |/_/ / / / _ \/ _ \
+    ___/ / /__/ /  / / /_/ / /_/ /____>  </ /_/ /  __/  __/
+   /____/\___/_/  /_/ .___/\__/_____/_/|_/_____/\___/\___/ 
+                   /_/ {Program.Quote}
+   Haohan Liu (c) 2019";
 
-        private const string TAB = "      ";
+        private const string TAB = "   ";
 
         public static void ShowTitle()
         {
