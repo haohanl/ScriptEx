@@ -66,7 +66,7 @@ namespace ScriptExDee
             Write();
             Terminal.Title.SetMode("READY");
             Write($"All good? (Press any key to continue. Don't forget to move '{Program.Config.RoboCopy.TestRoot}'!)");
-            Console.ReadKey();
+            ReadModeKey();
             // ENABLE FOR 
             //if (Console.ReadKey().Key == ConsoleKey.Enter)
             //{
@@ -130,6 +130,24 @@ namespace ScriptExDee
                 {
                     Console.WriteLine($" {drive.Name} ({drive.Size.ToString("N0")} GB) [{drive.Partitions} Partitions]");
                     Console.Write(TAB + "     ");
+                }
+            }
+        }
+
+
+        public static void ReadModeKey()
+        {
+            var _input = Console.ReadKey();
+
+            string _modekey = "!" + _input.KeyChar;
+
+            // check for mode
+            if (Terminal.SpecialKeys.All.Contains(_modekey))
+            {
+                // don't set mode to threadblock
+                if (_modekey != Terminal.SpecialKeys.ThreadBlock)
+                {
+                    Terminal.State.Mode = _modekey;
                 }
             }
         }

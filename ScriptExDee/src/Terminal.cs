@@ -108,7 +108,13 @@ namespace ScriptExDee
         /// </summary>
         public static void Start()
         {
-            State.Mode = SpecialKeys.Software;
+            // default to software mode if no mode is active
+            if (State.Mode == null)
+            {
+                State.Mode = SpecialKeys.Software;
+            }
+
+            // begin
             StartLoop();
         }
 
