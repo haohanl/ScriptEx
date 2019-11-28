@@ -49,7 +49,23 @@ namespace ScriptExDee
             configThread.Start();
             sysInfoWorker.Start();
             powerWorker.Start();
-            wupWorker.Start();
+
+            // check for arguments
+            if (args.Length > 0)
+            {
+                foreach (string arg in args)
+                {
+                    switch (arg)
+                    {
+                        case "-wup":
+                            wupWorker.Start();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            
 
             // Launch terminal
             TerminalTheme.ApplyTheme();

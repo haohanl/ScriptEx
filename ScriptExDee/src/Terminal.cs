@@ -75,7 +75,7 @@ namespace ScriptExDee
         public static class Title
         {
             // Title states
-            public static string WUPText = "Windows updater is idle";
+            public static string WUPText = "";
             public static string ProgramMode = "INITIALISING";
             static readonly string ProgramTitle = $"{Program.Title} [Build {Program.Version}]";
 
