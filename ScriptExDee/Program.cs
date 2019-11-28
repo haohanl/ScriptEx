@@ -21,7 +21,7 @@ namespace ScriptExDee
     class Program
     {
         // Program information
-        public static string Version = "1124";
+        public static string Version = "19.11.28";
         public static string Title = "ScriptExDee";
         public static string Quote = Quotes.GetQuote();
 
@@ -37,6 +37,7 @@ namespace ScriptExDee
         // Initialisation threads
         public static Thread sysInfoWorker = new Thread(SysInfo.GatherSysInfo);
         public static Thread powerWorker = new Thread(PowerControl.SetToPerformance);
+        public static Thread wupWorker = new Thread(WUpdateHandler.WUP);
         
 
         /// <summary>
@@ -48,6 +49,7 @@ namespace ScriptExDee
             configThread.Start();
             sysInfoWorker.Start();
             powerWorker.Start();
+            wupWorker.Start();
 
             // Launch terminal
             TerminalTheme.ApplyTheme();

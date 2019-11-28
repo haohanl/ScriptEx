@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-using System.Xml.Linq;
+using System.Threading;
 using System.Xml.Serialization;
 
 namespace ScriptExDee
@@ -27,17 +27,30 @@ namespace ScriptExDee
         {
             // create return var
             AppConfig config;
+            
 
             // create serializer and file reader
             XmlSerializer serializer = new XmlSerializer(typeof(AppConfig));
-            StreamReader reader = new StreamReader(xmlPath);
+            try
+            {
+                StreamReader reader = new StreamReader(xmlPath);
 
-            // deserialize (read xml into class) xml file
-            config = (AppConfig)serializer.Deserialize(reader);
-            reader.Close();
+                // deserialize (read xml into class) xml file
+                config = (AppConfig)serializer.Deserialize(reader);
+                reader.Close();
 
-            // return AppConfig
-            return config;
+                // return AppConfig
+                return config;
+            }
+            catch (Exception)
+            {
+                Thread.Sleep(1000);
+                Console.WriteLine("No configuration file found.\n Program will exit...");
+                Console.ReadKey();
+                Environment.Exit(-1);
+            }
+
+            return null;
         }
     }
 

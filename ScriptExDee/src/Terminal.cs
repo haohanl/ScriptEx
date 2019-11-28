@@ -69,6 +69,38 @@ namespace ScriptExDee
             public static readonly string[] All = { QC, Test, Software, ThreadBlock };
         }
 
+        /// <summary>
+        /// Controls the terminal window title
+        /// </summary>
+        public static class Title
+        {
+            // Title states
+            public static string WUPText = "Windows updater is idle";
+            public static string ProgramMode = "INITIALISING";
+            static readonly string ProgramTitle = $"{Program.Title} [Build {Program.Version}]";
+
+            // Set the terminal title
+            public static void Update()
+            {
+                Console.Title = $"{ProgramTitle} - {ProgramMode} - {WUPText}";
+            }
+
+            // Set the terminal mode
+            public static void SetMode(string mode)
+            {
+                ProgramMode = mode;
+                Update();
+            }
+
+            // Set the WUP status
+            public static void SetWUP(string wup)
+            {
+                WUPText = wup;
+                Update();
+            }
+
+        }
+
 
 
         /// <summary>
@@ -127,6 +159,7 @@ namespace ScriptExDee
         /// </summary>
         static void ReadUserInput()
         {
+            Console.Write("> ");
             string _in = Console.ReadLine();
             State.UserInput = new List<string>(_in.Trim().Split(' '));
         }
@@ -567,7 +600,7 @@ namespace ScriptExDee
         // Set window title
         public static void SetTitle(string mode)
         {
-            Console.Title = $"{Program.Title} [Build {Program.Version}] - {mode}";
+            Title.SetMode(mode);
             Console.WriteLine($"{Program.Title} [Build {Program.Version}] - {mode}");
         }
 

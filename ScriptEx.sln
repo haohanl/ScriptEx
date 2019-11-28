@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptExDee", "ScriptExDee\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SysChecker", "SysChecker\SysChecker.csproj", "{6EB3517E-6CF2-42F5-B4E2-2F41A87F69C4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wupper", "Wupper\Wupper.csproj", "{DA90286A-972D-4618-83AC-9439BA83DF17}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,14 @@ Global
 		{6EB3517E-6CF2-42F5-B4E2-2F41A87F69C4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6EB3517E-6CF2-42F5-B4E2-2F41A87F69C4}.Release|x64.ActiveCfg = Release|Any CPU
 		{6EB3517E-6CF2-42F5-B4E2-2F41A87F69C4}.Release|x64.Build.0 = Release|Any CPU
+		{DA90286A-972D-4618-83AC-9439BA83DF17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA90286A-972D-4618-83AC-9439BA83DF17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA90286A-972D-4618-83AC-9439BA83DF17}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DA90286A-972D-4618-83AC-9439BA83DF17}.Debug|x64.Build.0 = Debug|Any CPU
+		{DA90286A-972D-4618-83AC-9439BA83DF17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA90286A-972D-4618-83AC-9439BA83DF17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA90286A-972D-4618-83AC-9439BA83DF17}.Release|x64.ActiveCfg = Release|Any CPU
+		{DA90286A-972D-4618-83AC-9439BA83DF17}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

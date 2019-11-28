@@ -163,6 +163,16 @@
 			<Threadsafe>false</Threadsafe>
 		</Script>
 		<Script>
+			<Key>mc</Key>
+			<Desc>MSI Creator Center</Desc>
+			<Exec>Creator Center.exe</Exec>
+			<Args>/SILENT /NORESTART /SP-</Args>
+			<Auto></Auto>
+			<SourcePath>MSI Creator Center</SourcePath>
+			<DestPath>Creator Center</DestPath>
+			<Threadsafe>false</Threadsafe>
+		</Script>
+		<Script>
 			<Key>md1</Key>
 			<Desc>MSI Dragon Center v1 </Desc>
 			<Exec>Dragon Center.exe</Exec>

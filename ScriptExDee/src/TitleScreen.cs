@@ -23,7 +23,7 @@ namespace ScriptExDee
         public static void ShowTitle()
         {
             // Set Program window title
-            Console.Title = $"{Program.Title} [Build {Program.Version}]";
+            Terminal.Title.Update();
 
             // Animate starting text (for fanciness and to give threads time to work)
             AnimateWrite(Title, 40);
@@ -42,9 +42,16 @@ namespace ScriptExDee
             Console.Write(" done.\n");
 
             Thread.Sleep(20);
-            Console.Write(TAB + "Collecting WMI SysInfo...");
+            Console.Write(TAB + "Starting WUpdateHandler...");
+            Thread.Sleep(20);
+            Console.Write(" done.\n");
+
+            Thread.Sleep(20);
+            Console.Write(TAB + "Collecting WMI SysInfo....");
             Program.sysInfoWorker.Join();
             Console.Write(" done.\n");
+
+            
 
             // Initialise PATHS
             Program.Config.InitialiseSrcDrive();
@@ -57,6 +64,7 @@ namespace ScriptExDee
 
             // Wait for user input
             Write();
+            Terminal.Title.SetMode("READY");
             Write($"All good? (Press any key to continue. Don't forget to move '{Program.Config.RoboCopy.TestRoot}'!)");
             Console.ReadKey();
             // ENABLE FOR 

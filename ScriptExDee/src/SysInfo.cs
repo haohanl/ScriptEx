@@ -74,10 +74,18 @@ namespace ScriptExDee
         /// <returns></returns>
         public string GetFirst(string attr)
         {
-            foreach (ManagementObject obj in Collection)
+            try
             {
-                return obj[attr].ToString().Trim();
+                foreach (ManagementObject obj in Collection)
+                {
+                    return obj[attr].ToString().Trim();
+                }
             }
+            catch (Exception)
+            {
+                return null;
+            }
+            
             return null;
         }
 
