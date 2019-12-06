@@ -110,7 +110,7 @@ namespace ScriptExDee
 
             try
             {
-                uResult = uSearcher.Search("IsInstalled=0 AND IsPresent=0");
+                uResult = uSearcher.Search("IsInstalled=0 AND IsHidden=0");
             }
             catch (Exception)
             {

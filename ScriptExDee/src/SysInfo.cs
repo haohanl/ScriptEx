@@ -280,7 +280,16 @@ namespace ScriptExDee
 
             foreach (ManagementObject drive in searcher.Collection)
             {
-                List.Add(new LogicalDisk(drive));
+                try
+                {
+                    List.Add(new LogicalDisk(drive));
+                }
+                catch (Exception)
+                {
+                    Console.Write("*");
+                    continue;
+                }
+                
             }
 
             List = List.OrderBy(o => o.DriveLetter).ToList();

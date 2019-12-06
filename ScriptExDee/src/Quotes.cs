@@ -9,22 +9,20 @@ namespace ScriptExDee
     static class Quotes
     {
         public static string[] Entries = new string[] { 
-            "Now 100% vegan-friendly",
+            "Now 100% vegan-free",
             "Gah! Don't look at me that way",
             "Magware? Never heard of it",
             "Now accepting zip|money",
             "You didn't bend any pins. Bravo",
             "Now *supports* Jacob64",
-            "Time for a 15-minute break -Noone",
-            "She'll be right mate -Systems",
+            "Time for a 15-minute break",
+            "She'll be right mate",
             "Forecast is 25 with a chance of BBs",
             "You should get more sleep you know",
-            "Stop breakin' my balls -Robin",
+            "Stop breakin' my balls",
             "You're done? But done is over there",
-            "I'm going upstairs -Nathan",
-            "RIP Fish'n'chip Fridays (2019-2019)",
-            "Join the HiKoki appreciation club",
-            
+            "Dropping another *bomb*shell",
+            "Pop goes the power supply",
         };
 
         /// <summary>
