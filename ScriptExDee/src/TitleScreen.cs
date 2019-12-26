@@ -103,35 +103,77 @@ namespace ScriptExDee
         {
             Write("=================== SYSTEM SUMMARY =====================");
 
-            Write($"CPU : {SysInfo.CPU.Name}");
-            Write($"      {SysInfo.CPU.Description}");
-
-            Write();
-
-            Write($"GPU : {SysInfo.GPU.Name} ({SysInfo.GPU.DriverVersion}) [{SysInfo.GPU.DriverDate}]");
-
-            Write();
-
-            Write($"RAM : {SysInfo.RAM.TotalCapacity.ToString("F")}GB ({SysInfo.RAM.NumSticks}×{SysInfo.RAM.SingleCapacity}GB) [{SysInfo.RAM.Speed}MHz]");
-            Write($"      {SysInfo.RAM.Name} ({SysInfo.RAM.Manufacturer})");
-
-            Write();
-
-            Write($"MOBO: {SysInfo.MOBO.Name} ({SysInfo.MOBO.Manufacturer})");
-            Write($"S/N : {SysInfo.MOBO.SerialNumber}");
-            Write($"BIOS: {SysInfo.MOBO.BIOS} [{SysInfo.MOBO.BIOSDate}]");
-
-            Write();
-
-            Console.Write(TAB + "DISK:");
-            foreach (Drive drive in SysInfo.Drives.List)
+            if (SysInfo.CPU != null)
             {
-                if (drive.MediaType != "Removable Media")
+                Write($"CPU : {SysInfo.CPU.Name}");
+                Write($"      {SysInfo.CPU.Description}");
+
+                Write();
+            }
+            else
+            {
+                Write("CPU : UNKNOWN");
+                Write();
+            }
+
+            if (SysInfo.GPU != null)
+            {
+                Write($"GPU : {SysInfo.GPU.Name} ({SysInfo.GPU.DriverVersion}) [{SysInfo.GPU.DriverDate}]");
+
+                Write();
+            }
+            else
+            {
+                Write("GPU : UNKNOWN");
+                Write();
+            }
+
+
+            if (SysInfo.RAM != null)
+            {
+                Write($"RAM : {SysInfo.RAM.TotalCapacity.ToString("F")}GB ({SysInfo.RAM.NumSticks}×{SysInfo.RAM.SingleCapacity}GB) [{SysInfo.RAM.Speed}MHz]");
+                Write($"      {SysInfo.RAM.Name} ({SysInfo.RAM.Manufacturer})");
+
+                Write();
+            }
+            else
+            {
+                Write("RAM : UNKNOWN");
+                Write();
+            }
+
+            if (SysInfo.MOBO != null)
+            {
+                Write($"MOBO: {SysInfo.MOBO.Name} ({SysInfo.MOBO.Manufacturer})");
+                Write($"S/N : {SysInfo.MOBO.SerialNumber}");
+                Write($"BIOS: {SysInfo.MOBO.BIOS} [{SysInfo.MOBO.BIOSDate}]");
+
+                Write();
+            }
+            else
+            {
+                Write("MOBO: UNKNOWN");
+                Write();
+            }
+
+            if (SysInfo.Drives != null)
+            {
+                Console.Write(TAB + "DISK:");
+                foreach (Drive drive in SysInfo.Drives.List)
                 {
-                    Console.WriteLine($" {drive.Name} ({drive.Size.ToString("N0")} GB) [{drive.Partitions} Partitions]");
-                    Console.Write(TAB + "     ");
+                    if (drive.MediaType != "Removable Media")
+                    {
+                        Console.WriteLine($" {drive.Name} ({drive.Size.ToString("N0")} GB) [{drive.Partitions} Partitions]");
+                        Console.Write(TAB + "     ");
+                    }
                 }
             }
+            else
+            {
+                Write("DISK: UNKNOWN");
+                Write();
+            }
+
         }
 
 

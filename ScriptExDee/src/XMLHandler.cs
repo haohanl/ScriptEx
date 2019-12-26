@@ -151,14 +151,24 @@ namespace ScriptExDee
             }
 
             // Search for matching volume
-            foreach (LogicalDisk disk in SysInfo.LogicalDisks.List)
+            try
             {
-                if (disk.Name == RoboCopy.SrcDrive)
+                foreach (LogicalDisk disk in SysInfo.LogicalDisks.List)
                 {
-                    SrcDriveLetter = disk.DriveLetter + @"\";
-                    return;
+                    if (disk.Name == RoboCopy.SrcDrive)
+                    {
+                        SrcDriveLetter = disk.DriveLetter + @"\";
+                        return;
+                    }
                 }
             }
+            catch (Exception)
+            {
+                // On error, set drive letter to D:\
+                SrcDriveLetter = @"D:\";
+                return;
+            }
+            
 
             // If nothing is found, assign default drive D:\
             SrcDriveLetter = @"D:\";

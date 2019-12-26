@@ -12,21 +12,81 @@ namespace ScriptExDee
     /// </summary>
     static class SysInfo
     {
-        static public CPUInfo CPU;
-        static public GPUInfo GPU;
-        static public MOBOInfo MOBO;
-        static public RAMInfo RAM;
-        static public DriveInfo Drives;
-        static public LogicalDiskInfo LogicalDisks;
+        static public CPUInfo CPU = null;
+        static public GPUInfo GPU = null;
+        static public MOBOInfo MOBO = null;
+        static public RAMInfo RAM = null;
+        static public DriveInfo Drives = null;
+        static public LogicalDiskInfo LogicalDisks = null;
+        static public bool Initialised = false;
 
         public static void GatherSysInfo()
         {
-            CPU = new CPUInfo();
-            GPU = new GPUInfo();
-            MOBO = new MOBOInfo();
-            RAM = new RAMInfo();
-            Drives = new DriveInfo();
-            LogicalDisks = new LogicalDiskInfo();
+            // Attempt to gather info
+
+            try
+            {
+                CPU = new CPUInfo();
+            }
+            catch (Exception)
+            {
+                CPU = null;
+                return;
+            }
+
+            try
+            {
+                GPU = new GPUInfo();
+            }
+            catch (Exception)
+            {
+                GPU = null;
+                return;
+            }
+
+            try
+            {
+                MOBO = new MOBOInfo();
+            }
+            catch (Exception)
+            {
+                MOBO = null;
+                return;
+            }
+
+            try
+            {
+                RAM = new RAMInfo();
+            }
+            catch (Exception)
+            {
+                RAM = null;
+                return;
+            }
+
+            try
+            {
+                Drives = new DriveInfo();
+            }
+            catch (Exception)
+            {
+                Drives = null;
+                return;
+            }
+
+            try
+            {
+                LogicalDisks = new LogicalDiskInfo();
+            }
+            catch (Exception)
+            {
+                LogicalDisks = null;
+                return;
+            }
+
+
+            // Set to initialised
+            Initialised = true;
         }
     }
 
