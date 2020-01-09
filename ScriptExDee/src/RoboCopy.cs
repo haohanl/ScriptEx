@@ -24,6 +24,7 @@ namespace ScriptExDee
 
 
         // Execute Testing RoboCopy
+        // Currently unused. Testing folder transferred via Batch File
         public static void CopyTesting()
         {
             Terminal.hRule();

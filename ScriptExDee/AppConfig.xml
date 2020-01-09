@@ -55,7 +55,7 @@
     <Script>
 			<Key>amc</Key>
 			<Desc>*AMD Chipset Driver (manual)</Desc>
-			<Exec>AMD_Chipset_Drivers_v1.9.27.1033.exe</Exec>
+			<Exec>*.exe</Exec>
 			<Args></Args>
 			<Auto></Auto>
 			<SourcePath>_AMD Chipset</SourcePath>
@@ -93,9 +93,19 @@
 			<Threadsafe>false</Threadsafe>
 		</Script>
 		<Script>
+			<Key>ac</Key>
+			<Desc>ASUS Armory Crate</Desc>
+			<Exec>SetupROGLSLService.exe</Exec>
+			<Args></Args>
+			<Auto></Auto>
+			<SourcePath>ASUS Armory Crate</SourcePath>
+			<DestPath>ASUS Armory Crate</DestPath>
+			<Threadsafe>false</Threadsafe>
+		</Script>
+		<Script>
 			<Key>ag</Key>
 			<Desc>ASUS Aura GPU (req setup.iss)</Desc>
-			<Exec>AURAver0.0.6.3.exe</Exec>
+			<Exec>*.exe</Exec>
 			<Args>/s /SMS</Args>
 			<Auto></Auto>
 			<SourcePath>ASUS Aura GPU</SourcePath>
@@ -115,7 +125,7 @@
 		<Script>
 			<Key>cm</Key>
 			<Desc>*CM MasterPlus</Desc>
-			<Exec>Installer_MasterPlus_v0.0.826.exe</Exec>
+			<Exec>*.exe</Exec>
 			<Args>/SILENT /NORESTART /SP-</Args>
 			<Auto></Auto>
 			<SourcePath>CM MasterPlus</SourcePath>
@@ -125,7 +135,7 @@
 		<Script>
 			<Key>cf</Key>
 			<Desc>^CM MasterPlus ML-R Firmware (manual)</Desc>
-			<Exec>ARGB2 LED Controller_004_190725-2025.exe</Exec>
+			<Exec>*.exe</Exec>
 			<Args>/SILENT /NORESTART /SP-</Args>
 			<Auto></Auto>
 			<SourcePath>CM MLR Firmware</SourcePath>
@@ -145,7 +155,7 @@
 		<Script>
 			<Key>ci</Key>
 			<Desc>CORSAIR iCUE</Desc>
-			<Exec>iCUESetup_3.20.80_release.msi</Exec>
+			<Exec>*.msi</Exec>
 			<Args>/qb</Args>
 			<Auto></Auto>
 			<SourcePath>CORSAIR iCUE</SourcePath>
@@ -155,7 +165,7 @@
 		<Script>
 			<Key>mm</Key>
 			<Desc>MSI Mystic Light</Desc>
-			<Exec>MysticLight.exe</Exec>
+			<Exec>*.exe</Exec>
 			<Args>/SILENT /NORESTART /SP-</Args>
 			<Auto></Auto>
 			<SourcePath>MSI Mystic Light</SourcePath>
@@ -165,7 +175,7 @@
 		<Script>
 			<Key>mc</Key>
 			<Desc>MSI Creator Center</Desc>
-			<Exec>Creator Center.exe</Exec>
+			<Exec>*.exe</Exec>
 			<Args>/SILENT /NORESTART /SP-</Args>
 			<Auto></Auto>
 			<SourcePath>MSI Creator Center</SourcePath>
@@ -175,7 +185,7 @@
 		<Script>
 			<Key>md1</Key>
 			<Desc>MSI Dragon Center v1 </Desc>
-			<Exec>Dragon Center.exe</Exec>
+			<Exec>*.exe</Exec>
 			<Args>/SILENT /NORESTART /SP-</Args>
 			<Auto></Auto>
 			<SourcePath>MSI Dragon Center 1</SourcePath>
@@ -185,7 +195,7 @@
 		<Script>
 			<Key>md2</Key>
 			<Desc>*MSI Dragon Center v2 (run with 'dc2s')</Desc>
-			<Exec>Dragon Center.exe</Exec>
+			<Exec>*.exe</Exec>
 			<Args>/SILENT /NORESTART /SP-</Args>
 			<Auto></Auto>
 			<SourcePath>MSI Dragon Center 2</SourcePath>
@@ -205,7 +215,7 @@
 		<Script>
 			<Key>nc</Key>
 			<Desc>NZXT CAM</Desc>
-			<Exec>CAM_installer_V4.0.12.exe</Exec>
+			<Exec>*.exe</Exec>
 			<Args></Args>
 			<Auto></Auto>
 			<SourcePath>NZXT CAM</SourcePath>
@@ -225,7 +235,7 @@
 		<Script>
 			<Key>ga</Key>
 			<Desc>GIGABYTE Aorus Engine</Desc>
-			<Exec>vga_utility_aorus_setup_v1.7.4.exe</Exec>
+			<Exec>*.exe</Exec>
 			<Args>/SILENT /NORESTART /SP-</Args>
 			<Auto></Auto>
 			<SourcePath>GIGABYTE Aorus Engine</SourcePath>

@@ -436,18 +436,35 @@ namespace ScriptExDee
 
         static void RunCommand(AppConfigScript script)
         {
-            // path of local executable
-            string _path = Path.Combine(script.FullDestPath(), script.Exec);
-            Process _proc;
+            // search for matching executable
+            string[] _files = Directory.GetFiles(script.FullDestPath(), script.Exec);
+            Array.Sort(_files);
+
+            // check for matching files
+            if (_files.Length < 1)
+            {
+                // terminate if no files found
+                WriteLine($"'{script.Exec}' not found at '{script.FullDestPath()}' | '{script.Key}' | {script.Desc}", "!");
+                return;
+            }
+            if (_files.Length > 1)
+            {
+                // inform that the first file in array is being used
+                WriteLine($"Multiple matching files found. Using '{_files[0]}'", "!");
+            }
+
+            // set local exec path
+            string _path = Path.Combine(script.FullDestPath(), _files[0]);
 
             // attempt to start process
+            Process _proc;
             try
             {
                 _proc = Process.Start(_path, script.Args);
             }
             catch (Exception)
             {
-                WriteLine($"File not found at '{_path}' | '{script.Key}' | {script.Desc}", "!");
+                WriteLine($"Cannot start installer '{_path}' | '{script.Key}' | {script.Desc}", "!");
                 return;
             }
 

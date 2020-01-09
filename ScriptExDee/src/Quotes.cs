@@ -17,12 +17,12 @@ namespace ScriptExDee
             "Now *supports* Jacob64",
             "Time for a 15-minute break",
             "She'll be right mate",
-            "Forecast is 25 with a chance of BBs",
             "You should get more sleep you know",
             "Stop breakin' my balls",
             "You're done? But done is over there",
             "Dropping another *bomb*shell",
             "Pop goes the power supply",
+            "Hey, you feelin' rich?",
         };
 
         /// <summary>
