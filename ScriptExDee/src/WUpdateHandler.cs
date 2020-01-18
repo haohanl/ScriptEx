@@ -24,6 +24,10 @@ namespace ScriptExDee
     /// </summary>
     static class WUpdateHandler
     {
+        // Thread pausing
+        public static bool InstallPaused = false;
+
+
         // Update Searching
         static IAutomaticUpdates iAutomaticUpdates;
         static UpdateSessionClass uSession;
@@ -74,6 +78,13 @@ namespace ScriptExDee
             if (uCount == 0)
             {
                 return;
+            }
+
+            // Check to ensure not in Software Mode
+            while (Terminal.State.Mode == Terminal.SpecialKeys.Software)
+            {
+                SetStatus("(PAUSED) Updates will install outside of Software Mode.");
+                Thread.Sleep(1000);
             }
 
             // Attempt to install updates
@@ -210,5 +221,14 @@ namespace ScriptExDee
         }
 
         #endregion
+    }
+
+
+    /// <summary>
+    /// Class to manage the progress of the WUpdater
+    /// </summary>
+    public static class WUpdateStatus
+    {
+        public static bool InSoftwareMode;
     }
 }

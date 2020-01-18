@@ -332,6 +332,11 @@ namespace ScriptExDee
                     // set new operation mode
                     if (!(key.Equals(State.Mode)))
                     {
+                        // wait for current mode threads to exit before continuing
+                        // NOTE: Change this if simultaneous threads between modes is desired
+                        // as manual additions of threadblocks can be added.
+                        ThreadBlock(_threadList);
+
                         State.Mode = key;
                         WriteLine($"Mode changed to '{key}'", "*");
                     }
@@ -339,13 +344,6 @@ namespace ScriptExDee
                     {
                         WriteLine($"Already in mode '{key}'");
                     }
-
-                    // wait for current mode threads to exit before continuing
-                    // NOTE: Change this if simultaneous threads between modes is desired
-                    // as manual additions of threadblocks can be added.
-                    ThreadBlock(_threadList);
-
-                    
 
                     continue;
                 }
