@@ -437,8 +437,18 @@ namespace ScriptExDee
         static void RunCommand(AppConfigScript script)
         {
             // search for matching executable
-            string[] _files = Directory.GetFiles(script.FullDestPath(), script.Exec);
-            Array.Sort(_files);
+            string[] _files;
+            try
+            {
+                _files = Directory.GetFiles(script.FullDestPath(), script.Exec);
+                Array.Sort(_files);
+            }
+            catch (Exception)
+            {
+                WriteLine($"Local files do not exist for '{script.Key}'.", "!");
+                return;
+            }
+            
 
             // check for matching files
             if (_files.Length < 1)
