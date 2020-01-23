@@ -47,14 +47,18 @@ namespace ScriptExDee
         public static void WUP()
         {
             // Attempt to find updates
-            try
+            while (true)
             {
-                FindUpdates();
-            }
-            catch (Exception)
-            {
-                SetStatus("WUH cannot continue (ERR:FU)");
-                return;
+                try
+                {
+                    FindUpdates();
+                    break;
+                }
+                catch (Exception)
+                {
+                    SetStatus("WUH cannot continue (ERR:FU), retrying...");
+                    Thread.Sleep(3000);
+                }
             }
 
             // Exit early if no updates found
@@ -70,7 +74,7 @@ namespace ScriptExDee
             }
             catch (Exception)
             {
-                SetStatus("WUH cannot continue (ERR:DU)");
+                SetStatus("WUH cannot continue (ERR:DU), download failed.");
                 return;
             }
 
@@ -94,7 +98,7 @@ namespace ScriptExDee
             }
             catch (Exception)
             {
-                SetStatus("WUH cannot continue (ERR:IU)");
+                SetStatus("WUH cannot continue (ERR:IU), installer failed.");
                 return;
             }
         }
@@ -119,16 +123,24 @@ namespace ScriptExDee
             uSession = new UpdateSessionClass();
             uSearcher = uSession.CreateUpdateSearcher();
 
-            try
-            {
-                uResult = uSearcher.Search("IsInstalled=0 AND IsHidden=0");
-            }
-            catch (Exception)
-            {
-                SetStatus("Unable to fetch updates.");
-                return;
-            }
 
+            // Continue checking until successful connection, retry every 3 seconds
+            int failCount = 0;
+            while (true)
+            {
+                try
+                {
+                    uResult = uSearcher.Search("IsInstalled=0 AND IsHidden=0");
+                    break;
+                }
+                catch (Exception)
+                {
+                    failCount++;
+                    SetStatus($"Unable to fetch updates. Retrying... (Attempt {failCount})");
+                    Thread.Sleep(3000);
+                }
+            }
+            
             uCount = uResult.Updates.Count;
 
             if (uCount == 0)
