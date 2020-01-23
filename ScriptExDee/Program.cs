@@ -21,7 +21,7 @@ namespace ScriptExDee
     class Program
     {
         // Program information
-        public static string Version = "20.01.19";
+        public static string Version = "20.01.23";
         public static string Title = "ScriptExDee";
         public static string Quote = Quotes.GetQuote();
 

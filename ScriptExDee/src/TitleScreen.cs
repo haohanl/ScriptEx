@@ -16,7 +16,7 @@ namespace ScriptExDee
     ___/ / /__/ /  / / /_/ / /_/ /____>  </ /_/ /  __/  __/
    /____/\___/_/  /_/ .___/\__/_____/_/|_/_____/\___/\___/ 
                    /_/ {Program.Quote}
-   Haohan Liu (c) 2019";
+   Haohan Liu (c) 2020";
 
         private const string TAB = "   ";
 
