@@ -51,6 +51,15 @@ namespace ScriptExDee_II
             return Program.SpecialKeys.ContainsKey(key);
         }
 
+        public bool IsThreadBlock(string key)
+        {
+            if (GetSpecialKey(key) == "Threadblock")
+            {
+                return true;
+            }
+            return false;
+        }
+
         public bool IsMacroKey(string key)
         {
             return Macros.ContainsKey(key);
@@ -75,6 +84,15 @@ namespace ScriptExDee_II
             if (IsModeKey(mode))
             {
                 return Program.ModeKeys[mode];
+            }
+            return null;
+        }
+
+        public string GetSpecialKey(string key)
+        {
+            if (IsSpecialKey(key))
+            {
+                return Program.SpecialKeys[key];
             }
             return null;
         }
@@ -166,6 +184,9 @@ namespace ScriptExDee_II
             return $"Name: {Name}\nCategory: {Category}\nExec: {Exec}\nArgs: {Args}\nPath: {Path}\nDelay: {Delay}\nIgnoreBlockThread: {IgnoreThreadBlock}";
         }
 
+        /// <summary>
+        /// Return the path of the newest folder in the command root
+        /// </summary>
         public string GetNewestSrcPath(string modeRoot)
         {
             // Path variables           
@@ -183,6 +204,16 @@ namespace ScriptExDee_II
                 return null;
             }
             return _srcPath;
+        }
+
+        /// <summary>
+        /// Return the path of the destination command root
+        /// </summary>
+        public string GetDstPath(string modeRoot)
+        {
+            string _dstRoot = Environment.ExpandEnvironmentVariables(modeRoot);
+            string _dstPath = System.IO.Path.Combine(_dstRoot, Path);
+            return _dstPath;
         }
     }
 

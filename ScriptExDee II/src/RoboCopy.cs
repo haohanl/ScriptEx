@@ -61,7 +61,13 @@ namespace ScriptExDee_II
             string _srcPath = _command.GetNewestSrcPath(_modeRoot);
 
             string _dstRoot = Environment.ExpandEnvironmentVariables(_mode.DstModeRoot);
-            string _dstPath = Path.Combine(_dstRoot, _command.Path);
+            string _dstPath = _command.GetDstPath(_dstRoot);
+
+            // Validate paths
+            if (_srcPath == null || _dstPath == null)
+            {
+                return;
+            }
 
             // Execute copy
             Copy(_srcPath, _dstPath, _desc);
@@ -124,7 +130,7 @@ namespace ScriptExDee_II
             // If no exact drive is found, fallback to a drive of the same type
             if (_srcDrive == null)
             {
-                Console.Write($"Matching remote drive not found. ");
+                Console.Write($"Specified source not found. ");
                 _srcDrive = GetDrive(_driveType);
             }
             // otherwise return the drive

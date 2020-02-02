@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Diagnostics;
+using System.IO;
 
 namespace ScriptExDee_II
 {
@@ -19,19 +21,28 @@ namespace ScriptExDee_II
         {
             while (true)
             {
-                // Reset lists
+                // Read user input and validate
                 CommandList = ProcessUserInput();
-                TransferSoftware(CommandList, CurrentMode);
 
-                Console.Write("Commands: ");
+                Console.Write("Running: ");
                 foreach (string command in CommandList)
                 {
                     Console.Write(command + " ");
                 }
                 Console.WriteLine();
+
+                // Transfer relevant software from remote source
+                TransferSoftware(CommandList, CurrentMode);
+
+                // Run all user commands
+                RunUserCommands(CommandList);
+
+                
             }
         }
 
+
+        #region # Input validation
 
         /// <summary>
         /// Intake user input for validation and conversion into CommandItems
@@ -132,17 +143,25 @@ namespace ScriptExDee_II
             // Return validated list
             return _validCommands;
         }
-        
-        
-        
+
+        #endregion
+
+        #region # Software transfer
+
         /// <summary>
         /// Transfer all required software from remote source
         /// </summary>
         static void TransferSoftware(List<string> commands, string currentMode)
         {
-            string _currentMode;
+            // Check for remote drive availability
+            RoboCopy.Initialise();
+            if (RoboCopy.SrcDrive == null)
+            {
+                return;
+            }
 
             // Prepare new check
+            string _currentMode;
             List<Thread> threadBatch = new List<Thread>();
             _currentMode = currentMode;
 
@@ -181,6 +200,129 @@ namespace ScriptExDee_II
             }
         }
 
+        #endregion
+
+        #region Command execution
+
+
+        static void RunUserCommands(List<string> commands)
+        {
+            // declare threadblock
+            List<Thread> _threadList = new List<Thread>();
+
+            // Loop through all commands
+            foreach (var key in commands)
+            {
+                // Check for mode keys
+                if (Program.Config.IsModeKey(key))
+                {
+                    ThreadBlock(_threadList);
+                    WriteLine($"Mode changed to '{Program.Config.GetMode(key)}'", "*");
+                    CurrentMode = Program.Config.GetMode(key);
+                    continue;
+                }
+
+                // Check for special keys
+                if (Program.Config.IsThreadBlock(key))
+                {
+                    WriteLine("Start thread batch.", "|");
+                    ThreadBlock(_threadList);
+                    WriteLine("Ended thread batch.", "|");
+                    continue;
+                }
+
+                // Check for key validity
+                if (Program.Config.ContainsKey(CurrentMode, key))
+                {
+                    Thread _cmdThr = new Thread(() => RunCommand(CurrentMode, key));
+                    _cmdThr.Start();
+                    _threadList.Add(_cmdThr);
+                    continue;
+                }
+            }
+        }
+
+
+        static void RunCommand(string mode, string key)
+        {
+            // Get relevant config data
+            CommandItem _command = Program.Config.GetCommandItem(mode, key);
+            ModeConfig _mode = Program.Config.Modes[mode];
+
+            // Get destination path
+            string _dstRoot = Environment.ExpandEnvironmentVariables(_mode.DstModeRoot);
+            string _dstPath = _command.GetDstPath(_dstRoot);
+
+            // search for matching executable
+            string[] _files;
+            try
+            {
+                _files = Directory.GetFiles(_dstPath, _command.Exec);
+                Array.Sort(_files);
+            }
+            catch (Exception)
+            {
+                WriteLine($"Local files do not exist for '{_command.Name}'.", "!");
+                return;
+            }
+
+            // check for matching files
+            if (_files.Length == 0)
+            {
+                // terminate if no files found
+                WriteLine($"'{_command.Exec}' not found at '{_dstPath}' | '{key}' | {_command.Name}", "!");
+                return;
+            }
+            if (_files.Length > 1)
+            {
+                // inform that the first file in array is being used
+                WriteLine($"Multiple matching files found. Using '{_files[0]}'", "!");
+            }
+
+            // set local exec path
+            string _path = Path.Combine(_dstPath, _files[0]);
+
+            // delay command execution, if specified
+            if (_command.Delay > 0)
+            {
+                WriteLine($"Starting in {_command.Delay} ms | '{key}' | {_command.Name}");
+                Thread.Sleep(_command.Delay);
+            }
+
+            // attempt to start process
+            Process _proc;
+            try
+            {
+                _proc = Process.Start(_path, _command.Args);
+            }
+            catch (Exception)
+            {
+                WriteLine($"File not found at '{_path}' | '{key}' | {_command.Name}", "!");
+                return;
+            }
+
+            // wait for process completion
+            WriteLine($"Initiated {CurrentMode} Command | '{key}' | {_command.Name}");
+            _proc.WaitForExit();
+            _proc.Close();
+            WriteLine($"Completed {CurrentMode} Command | '{key}' | {_command.Name}");
+        }
+
+        /// <summary>
+        /// Join all threads in a list of threads then clear the list
+        /// </summary>
+        /// <param name="_thrList"></param>
+        static void ThreadBlock(List<Thread> _thrList)
+        {
+            foreach (Thread _thr in _thrList)
+            {
+                _thr.Join();
+            }
+
+            _thrList.Clear();
+        }
+
+        #endregion
 
 
 

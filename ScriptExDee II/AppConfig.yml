@@ -16,7 +16,7 @@ Program:
         "!u": Utility
         "!q": QC
     SpecialKeys:
-        ThreadBlock: "|"
+        "|": Threadblock
         
 # RoboCopy operating parameters
 RoboCopy:
