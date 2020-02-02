@@ -60,6 +60,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\Quotes.cs" />
+    <Compile Include="src\RoboCopy.cs" />
     <Compile Include="src\Terminal.cs" />
     <Compile Include="src\YAMLHandler.cs" />
   </ItemGroup>

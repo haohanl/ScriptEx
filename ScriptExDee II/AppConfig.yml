@@ -21,10 +21,12 @@ Program:
 # RoboCopy operating parameters
 RoboCopy:
     SrcDriveName: SAMSUNG USB
-    SrcDriveType: Removeable Drive
+    SrcDriveRoot: ~
+    SrcDriveType: Removable 
+    # Replace with 'Network' for network drive
 
     ForceSrcDriveLetter: false
-    SrcDriveLetter: E
+    SrcDriveLetter: D
 
 # Modes of operation
 Modes:

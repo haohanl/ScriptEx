@@ -29,7 +29,10 @@ namespace ScriptExDee_II
                 Console.WriteLine(ex);
             }
             Console.WriteLine("Config Loaded...");
+            RoboCopy.Initialise();
+            Console.WriteLine(RoboCopy.SrcDrive);
 
+            Terminal.WriteLineBreak();
             Terminal.Start();
 
 

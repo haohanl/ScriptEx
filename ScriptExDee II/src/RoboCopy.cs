@@ -1,0 +1,191 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
+using System.Diagnostics;
+using System.Threading;
+using System.Text.RegularExpressions;
+
+namespace ScriptExDee_II
+{
+    public static class RoboCopy
+    {
+        // Remote drive source
+        public static string SrcDrive;
+
+        // Commandline constants
+        private static readonly string Shell = "cmd.exe";
+        private static readonly string Command = "ROBOCOPY";
+        private static readonly string Params = @"/e /nc /ns /np /NJH /NDL /NFL /MT";
+
+        /// <summary>
+        /// Search for remote source
+        /// </summary>
+        public static void Initialise()
+        {
+            // Initialise the remote drive root
+            if (Program.Config.RoboCopy.ForceSrcDriveLetter)
+            {
+                SrcDrive = $"{Program.Config.RoboCopy.SrcDriveLetter}:\\" + Program.Config.RoboCopy.SrcDriveRoot;
+            }
+            else
+            {
+                SrcDrive = GetDrive();
+            }
+        }
+
+        /// <summary>
+        /// Copy required files for a given command
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="key"></param>
+        public static void Copy(string mode, string key)
+        {
+            // Get relevant config data
+            CommandItem _command = Program.Config.GetCommandItem(mode, key);
+            ModeConfig _mode = Program.Config.Modes[mode];
+
+            // Check for Copy permission
+            if (!_mode.SrcCopy)
+            {
+                return;
+            }
+
+            // Set transfer name
+            string _desc = _command.Name;
+
+            // Create paths for robocopy
+            string _modeRoot = Path.Combine(SrcDrive, _mode.SrcModeRoot);
+            string _srcPath = _command.GetNewestSrcPath(_modeRoot);
+
+            string _dstRoot = Environment.ExpandEnvironmentVariables(_mode.DstModeRoot);
+            string _dstPath = Path.Combine(_dstRoot, _command.Path);
+
+            // Execute copy
+            Copy(_srcPath, _dstPath, _desc);
+
+        }
+
+        /// <summary>
+        /// Initiate RoboCopy between two paths
+        /// </summary>
+        public static void Copy(string srcPath, string dstPath, string desc)
+        {
+            var proc = new Process();
+
+            // Setup RoboCopy parameters
+            proc.StartInfo.FileName = Shell;
+            proc.StartInfo.Arguments = $@"/C {Command} ""{srcPath}"" ""{dstPath}"" {Params}";
+            proc.StartInfo.CreateNoWindow = true;
+            proc.StartInfo.UseShellExecute = false;
+            proc.StartInfo.RedirectStandardOutput = true;
+            //proc.StartInfo.WorkingDirectory = Program.RootPath;
+
+            // Start RoboCopy
+            proc.Start();
+            Terminal.WriteLine($"Initiated RoboCopy | {desc}");
+
+            // Catch RoboCopy log
+            string log = proc.StandardOutput.ReadToEnd().Trim();
+
+            // Extract transfer data
+            var transfer = Regex.Match(log, @"(\d+\.\d+ [mgkt])").Groups;
+
+            // Check for errors. If found, output raw log
+            if (transfer[0].Value == "")
+            {
+                Terminal.WriteLine(log, "!");
+            }
+            // Otherwise, output size info
+            else
+            {
+                Terminal.WriteLine($"Completed Robocopy | {desc} | {transfer[0].Value.ToUpper() + "B"}");
+            }
+
+            // Terminate proc
+            proc.WaitForExit();
+            proc.Close();
+        }
+
+        /// <summary>
+        /// Return the remote drive root directory as specified in the config file
+        /// </summary>
+        static string GetDrive()
+        {
+            string _srcDrive;
+            string _driveName = Program.Config.RoboCopy.SrcDriveName;
+            DriveType _driveType = Program.Config.RoboCopy.SrcDriveType;
+
+            // Search for exact drive
+            _srcDrive = GetDrive(_driveName, _driveType);
+            
+            // If no exact drive is found, fallback to a drive of the same type
+            if (_srcDrive == null)
+            {
+                Console.Write($"Matching remote drive not found. ");
+                _srcDrive = GetDrive(_driveType);
+            }
+            // otherwise return the drive
+            else
+            {
+                return _srcDrive;
+            }
+
+            // Return drive root directory if valid drive is found
+            if (_srcDrive != null)
+            {
+                Console.WriteLine($"Defaulting to '{_srcDrive}'.");
+                return _srcDrive;
+            }
+
+            // If no matching devices are present, default to forced drive letter
+            Console.WriteLine($"Program will only run local sources.");
+            return null;
+        }
+
+        /// <summary>
+        /// Search the system for a matching drive given a drive type.
+        /// </summary>
+        static string GetDrive(DriveType srcDriveType)
+        {
+            // Root path
+            string _root = Program.Config.RoboCopy.SrcDriveRoot;
+
+            // Filter drives to those that match the drive type
+            var _drives = from drive in DriveInfo.GetDrives()
+                          where drive.DriveType == srcDriveType
+                          select drive;
+
+            if (_drives.Count() > 0)
+            {
+                return _drives.First().RootDirectory.ToString() + _root;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Search the system for a matching drive given drive name and drive type.
+        /// </summary>
+        static string GetDrive(string srcDriveName, DriveType srcDriveType)
+        {
+            // Root path
+            string _root = Program.Config.RoboCopy.SrcDriveRoot;
+
+            // Filter drives to those that match the drive type
+            var _drives = from drive in DriveInfo.GetDrives()
+                          where drive.DriveType == srcDriveType && drive.VolumeLabel == srcDriveName
+                          select drive;
+
+            // Return drive if found
+            if (_drives.Count() > 0)
+            {
+                return _drives.First().RootDirectory.ToString() + _root;
+            }
+
+            return null;
+        }
+    }
+}

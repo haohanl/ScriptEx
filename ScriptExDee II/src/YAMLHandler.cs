@@ -87,6 +87,16 @@ namespace ScriptExDee_II
             }
             return null;
         }
+
+        public CommandItem GetCommandItem(string mode, string key)
+        {
+            if (ContainsKey(mode, key))
+            {
+                return Modes[mode].Commands[key];
+            }
+
+            return null;
+        }
     }
 
     public class ProgramConfig
@@ -102,7 +112,8 @@ namespace ScriptExDee_II
     public class RoboCopyConfig
     {
         public string SrcDriveName { get; set; }
-        public string SrcDriveType { get; set; }
+        public string SrcDriveRoot { get; set; }
+        public DriveType SrcDriveType { get; set; }
         public bool ForceSrcDriveLetter { get; set; }
         public string SrcDriveLetter { get; set; }
     }
@@ -153,6 +164,25 @@ namespace ScriptExDee_II
         public override string ToString()
         {
             return $"Name: {Name}\nCategory: {Category}\nExec: {Exec}\nArgs: {Args}\nPath: {Path}\nDelay: {Delay}\nIgnoreBlockThread: {IgnoreThreadBlock}";
+        }
+
+        public string GetNewestSrcPath(string modeRoot)
+        {
+            // Path variables           
+            string _srcRoot = System.IO.Path.Combine(modeRoot, Path);
+            string _srcPath = null;
+
+            // Ensure the path exists
+            try
+            {
+                _srcPath = new DirectoryInfo(_srcRoot).GetDirectories().OrderBy(fi => fi.CreationTime).Last().FullName;
+            }
+            catch (Exception)
+            {
+                Terminal.WriteLine($"Remote source does not exist for '{Name}'. Attempting local execution.", "!");
+                return null;
+            }
+            return _srcPath;
         }
     }
 

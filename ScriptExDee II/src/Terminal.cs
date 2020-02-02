@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace ScriptExDee_II
 {
@@ -18,7 +19,9 @@ namespace ScriptExDee_II
         {
             while (true)
             {
+                // Reset lists
                 CommandList = ProcessUserInput();
+                TransferSoftware(CommandList, CurrentMode);
 
                 Console.Write("Commands: ");
                 foreach (string command in CommandList)
@@ -131,12 +134,53 @@ namespace ScriptExDee_II
         }
         
         
-
-
-        public static void Execute(string commandLine)
+        
+        /// <summary>
+        /// Transfer all required software from remote source
+        /// </summary>
+        static void TransferSoftware(List<string> commands, string currentMode)
         {
-            Console.WriteLine(commandLine);
+            string _currentMode;
+
+            // Prepare new check
+            List<Thread> threadBatch = new List<Thread>();
+            _currentMode = currentMode;
+
+
+            // Validate user input, continue once input is clean or ignoring invalid inputs
+            foreach (var key in commands)
+            {
+
+                // Check for mode keys
+                if (Program.Config.IsModeKey(key))
+                {
+                    _currentMode = Program.Config.GetMode(key);
+                    continue;
+                }
+
+                // Skip if mode does not require srcCopy
+                if (!Program.Config.Modes[_currentMode].SrcCopy)
+                {
+                    continue;
+                }
+
+                // Check for key validity
+                if (Program.Config.ContainsKey(_currentMode, key))
+                {
+                    Thread thr = new Thread(() => RoboCopy.Copy(_currentMode, key));
+                    thr.Start();
+                    threadBatch.Add(thr);
+                    continue;
+                }
+            }
+
+            // Wait for RoboCopy to complete
+            foreach (var thread in threadBatch)
+            {
+                thread.Join();
+            }
         }
+
 
 
 
