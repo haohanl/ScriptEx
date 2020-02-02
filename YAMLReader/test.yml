@@ -1,0 +1,276 @@
+﻿# Configuration file for ScriptEx
+#
+# Written by Haohan Liu (c) 2020
+
+
+---
+# Program operating parameters
+Program:
+    LogOutput: false
+    DisableSystemCheck: false
+    AutoWinUpdate: true
+        
+# RoboCopy operating parameters
+RoboCopy:
+    SrcDriveName: SAMSUNG USB
+    SrcDriveType: Removeable Drive
+    SrcDriveRoot: SOFTWARE
+    DstDriveRoot: "%USERPROFILE%\\Desktop\\Setup"
+
+# Software installation command configuration
+Software:
+    ModeKey: "!s"
+
+    Categories:
+        - driver
+        - rgb
+        - other
+
+    Commands:
+        # Hardware Drivers
+        - Name: NVIDIA GPU Driver
+          Category: driver
+          Key: nv
+          Exec: setup.exe
+          Args: -noreboot -nosplash
+          Path: _NVIDIA GPU
+          Delay: 0
+          IgnoreThreadBlock: false
+
+        - Name: NVIDIA GPU Auto Installer
+          Category: other
+          Key: na
+          Exec: NV_INSTALL.exe
+          Args: ~
+          Path: _NVIDIA AUTO
+          Delay: 0
+          IgnoreThreadBlock: false
+          
+        - Name: AMD GPU Driver
+          Category: driver
+          Key: amd
+          Exec: Setup.exe
+          Args: ~
+          Path: _AMD GPU
+          Delay: 0
+          IgnoreThreadBlock: false
+          
+        - Name: AMD GPU Driver (silent)
+          Category: driver
+          Key: amds
+          Exec: Setup.exe
+          Args: -INSTALL
+          Path: _AMD GPU
+          Delay: 0
+          IgnoreThreadBlock: false
+          
+        - Name: AMD Chipset Driver
+          Category: driver
+          Key: amc
+          Exec: "*.exe"
+          Args: ~
+          Path: _AMD Chipset
+          Delay: 0
+          IgnoreThreadBlock: false
+          
+        - Name: Intel iGPU Driver
+          Category: driver
+          Key: ig
+          Exec: igxpin.exe
+          Args: -s -overwrite
+          Path: _INTEL iGPU
+          Delay: 0
+          IgnoreThreadBlock: false
+
+        # Lighting Software
+        - Name: AMD Wraith Prism (manual)
+          Category: lighting
+          Key: aw
+          Exec: Setup.exe
+          Args: ~
+          Path: AMD Wraith Prism
+          Delay: 0
+          IgnoreThreadBlock: false
+          
+        - Name: ASUS Aura
+          Category: lighting
+          Key: au
+          Exec: AsusSetup.exe
+          Args: /s /SMS
+          Path: ASUS Aura
+          Delay: 0
+          IgnoreThreadBlock: false
+          
+        - Name: ASUS Aura (GPU Only)
+          Category: lighting
+          Key: ag
+          Exec: AsusSetup.exe
+          Args: /s /SMS
+          Path: ASUS Aura GPU
+          Delay: 0
+          IgnoreThreadBlock: false
+          
+        - Name: ASUS Armory Crate
+          Category: lighting
+          Key: ac
+          Exec: "*.exe"
+          Args: ~
+          Path: ASUS Armory Crate
+          Delay: 0
+          IgnoreThreadBlock: false
+          
+        - Name: ASUS LiveDash
+          Category: lighting
+          Key: al
+          Exec: AsusSetup.exe
+          Args: /s /SMS
+          Path: ASUS LiveDash
+          Delay: 0
+          IgnoreThreadBlock: false
+          
+        - Name: CM MasterPlus
+          Category: lighting
+          Key: cm
+          Exec: "*.exe"
+          Args: /SILENT /NORESTART /SP-
+          Path: CM MasterPlus
+          Delay: 0
+          IgnoreThreadBlock: false
+          
+        - Name: TEAM Blitz
+          Category: lighting
+          Key: tb
+          Exec: Setup.exe
+          Args: /s /SMS
+          Path: TEAM Blitz
+          Delay: 0
+          IgnoreThreadBlock: false
+        
+        - Name: CORSAIR iCUE
+          Category: lighting
+          Key: ci
+          Exec: "*.msi"
+          Args: /qb
+          Path: CORSAIR iCUE
+          Delay: 0
+          IgnoreThreadBlock: false
+        
+        - Name: MSI Mystic Light
+          Category: lighting
+          Key: mm
+          Exec: "*.exe"
+          Args: /SILENT /NORESTART /SP- 
+          Path: MSI Mystic Light
+          Delay: 0
+          IgnoreThreadBlock: false
+          
+        - Name: MSI Dragon Center v2
+          Category: lighting
+          Key: md2
+          Exec: "*.exe"
+          Args: /SILENT /NORESTART /SP- 
+          Path: MSI Dragon Center 2
+          Delay: 0
+          IgnoreThreadBlock: false
+          
+        - Name: MSI Dragon Center OneDC_SDK
+          Category: lighting
+          Key: md2s
+          Exec: "*.exe"
+          Args: /SILENT /NORESTART /SP- 
+          Path: MSI OneDC_SDK
+          Delay: 0
+          IgnoreThreadBlock: false
+          
+        - Name: NZXT CAM
+          Category: lighting
+          Key: nc
+          Exec: "*.exe"
+          Args: ~ 
+          Path: NZXT CAM
+          Delay: 0
+          IgnoreThreadBlock: false
+         
+        - Name: GIGABYTE RGBFusion
+          Category: lighting
+          Key: gr
+          Exec: UpdPack.exe
+          Args: ~
+          Path: GIGABYTE RGBFusion
+          Delay: 0
+          IgnoreThreadBlock: false
+          
+        - Name: GIGABYTE Aorus Engine
+          Category: lighting
+          Key: ga
+          Exec: "*.exe"
+          Args: /SILENT /NORESTART /SP-
+          Path: GIGABYTE Aorus Engine
+          Delay: 0
+          IgnoreThreadBlock: false
+
+# Testing suite command configuration
+Testing:
+    ModeKey: "!t"
+
+    Categories:
+        - cpu
+        - gpu
+        - ram
+        - other
+
+    Commands:
+        - Name: Prime95 (Blend)
+          Category: cpu
+          Key: p
+          Exec: prime95.exe
+          Args: -t
+          Path: Benchmark
+          Delay: 5000
+          IgnoreThreadBlock: false
+
+        - Name: Furmark (15 min)
+          Category: gpu
+          Key: f
+          Exec: FurMark.exe
+          Args: /nogui /msaa=8 /width=1280 height=720 /max_time=900000 /xtreme_burning
+          Path: Benchmark
+          Delay: 0
+          IgnoreThreadBlock: false
+
+        - Name: HWMonitor
+          Category: other
+          Key: m
+          Exec: HWMonitor_x64.exe
+          Args: ~
+          Path: Benchmark
+          Delay: 0
+          IgnoreThreadBlock: true
+          
+        - Name: AIDA64 Stability Test noGPU (inf)
+          Category: cpu
+          Key: AA
+          Exec: aida64.exe
+          Args: /SST CPU,FPU,Cache,RAM
+          Path: AIDA64
+          Delay: 0
+          IgnoreThreadBlock: true
+          
+        - Name: Intel Burn Test V2
+          Category: ram
+          Key: i
+          Exec: IntelBurnTestV2.exe
+          Args: ~
+          Path: "IBT\\IntelBurnTestV2.New"
+          Delay: 0
+          IgnoreThreadBlock: true
+
+
+# Program macros for sequential execution
+Macros:
+    - Name: Prime + Furmark
+      Key: PF
+      SetMode: "!t"
+      Command: p f m
+
+...

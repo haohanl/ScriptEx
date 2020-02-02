@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SysChecker", "SysChecker\Sy
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wupper", "Wupper\Wupper.csproj", "{DA90286A-972D-4618-83AC-9439BA83DF17}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YAMLReader", "YAMLReader\YAMLReader.csproj", "{3A23B209-6139-41D5-97D4-1CD681455867}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,14 @@ Global
 		{DA90286A-972D-4618-83AC-9439BA83DF17}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DA90286A-972D-4618-83AC-9439BA83DF17}.Release|x64.ActiveCfg = Release|Any CPU
 		{DA90286A-972D-4618-83AC-9439BA83DF17}.Release|x64.Build.0 = Release|Any CPU
+		{3A23B209-6139-41D5-97D4-1CD681455867}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A23B209-6139-41D5-97D4-1CD681455867}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A23B209-6139-41D5-97D4-1CD681455867}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3A23B209-6139-41D5-97D4-1CD681455867}.Debug|x64.Build.0 = Debug|Any CPU
+		{3A23B209-6139-41D5-97D4-1CD681455867}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A23B209-6139-41D5-97D4-1CD681455867}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A23B209-6139-41D5-97D4-1CD681455867}.Release|x64.ActiveCfg = Release|Any CPU
+		{3A23B209-6139-41D5-97D4-1CD681455867}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
