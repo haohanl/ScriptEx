@@ -123,6 +123,7 @@ namespace ScriptExDee_II
         public bool DisableSystemCheck { get; set; }
         public bool AutoWinUpdate { get; set; }
         public bool IgnoreInvalidCommands { get; set; }
+        public string DefaultMode { get; set; }
         public Dictionary<string, string> ModeKeys { get; set; }
         public Dictionary<string, string> SpecialKeys { get; set; }
     }
@@ -134,6 +135,9 @@ namespace ScriptExDee_II
         public DriveType SrcDriveType { get; set; }
         public bool ForceSrcDriveLetter { get; set; }
         public string SrcDriveLetter { get; set; }
+        public bool SrcUseNetwork { get; set; }
+        public bool SrcPreferNetwork { get; set; }
+        public string SrcNetworkRoot { get; set; }
     }
 
     public class ModeConfig

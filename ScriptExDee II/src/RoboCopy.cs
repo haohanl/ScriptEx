@@ -32,8 +32,77 @@ namespace ScriptExDee_II
             }
             else
             {
-                SrcDrive = GetDrive();
+                string _srcDrive;
+                string _driveName = Program.Config.RoboCopy.SrcDriveName;
+                DriveType _driveType = Program.Config.RoboCopy.SrcDriveType;
+
+                // Search for exact drive
+                _srcDrive = GetDrive(_driveName, _driveType);
+
+                // If no exact drive is found, fallback to a drive of the same type
+                if (_srcDrive != null)
+                {
+                    Console.WriteLine($"Source '{Program.Config.RoboCopy.SrcDriveName}' located on '{_srcDrive}'.");
+                    SrcDrive = _srcDrive;
+                    return;
+                }
+
+                // otherwise return the drive
+                _srcDrive = GetDrive(_driveType);
+
+                // Return drive root directory if valid drive is found
+                if (_srcDrive != null)
+                {
+                    Console.WriteLine($"Source '{Program.Config.RoboCopy.SrcDriveName}' not found. Defaulting to '{_srcDrive}'.");
+                    SrcDrive = _srcDrive;
+                    return;
+                }
+
+                // If no matching devices are present, default to forced drive letter
+                Console.WriteLine($"Source '{Program.Config.RoboCopy.SrcDriveName}' not found. Program will only run local files.");
+                SrcDrive = null;
+                return;
             }
+        }
+
+
+        public static void Reinitialise()
+        {
+            string _srcDrive;
+            string _driveName = Program.Config.RoboCopy.SrcDriveName;
+            DriveType _driveType = Program.Config.RoboCopy.SrcDriveType;
+
+            // Search for exact drive
+            _srcDrive = GetDrive(_driveName, _driveType);
+
+            // If no exact drive is found, fallback to a drive of the same type
+            if (_srcDrive != null)
+            {
+                if (_srcDrive != SrcDrive)
+                {
+                    Console.WriteLine($"Source '{Program.Config.RoboCopy.SrcDriveName}' located on '{_srcDrive}'.");
+                    SrcDrive = _srcDrive;
+                }
+                return;
+            }
+
+            // otherwise return the drive
+            _srcDrive = GetDrive(_driveType);
+
+            // Return drive root directory if valid drive is found
+            if (_srcDrive != null)
+            {
+                if (_srcDrive != SrcDrive)
+                {
+                    Console.WriteLine($"Source '{Program.Config.RoboCopy.SrcDriveName}' not found. Defaulting to '{_srcDrive}'.");
+                    SrcDrive = _srcDrive;
+                }
+                return;
+            }
+
+            // If no matching devices are present, default to forced drive letter
+            SrcDrive = null;
+            return;
         }
 
         /// <summary>
@@ -113,42 +182,6 @@ namespace ScriptExDee_II
             // Terminate proc
             proc.WaitForExit();
             proc.Close();
-        }
-
-        /// <summary>
-        /// Return the remote drive root directory as specified in the config file
-        /// </summary>
-        static string GetDrive()
-        {
-            string _srcDrive;
-            string _driveName = Program.Config.RoboCopy.SrcDriveName;
-            DriveType _driveType = Program.Config.RoboCopy.SrcDriveType;
-
-            // Search for exact drive
-            _srcDrive = GetDrive(_driveName, _driveType);
-            
-            // If no exact drive is found, fallback to a drive of the same type
-            if (_srcDrive == null)
-            {
-                Console.Write($"Specified source not found. ");
-                _srcDrive = GetDrive(_driveType);
-            }
-            // otherwise return the drive
-            else
-            {
-                return _srcDrive;
-            }
-
-            // Return drive root directory if valid drive is found
-            if (_srcDrive != null)
-            {
-                Console.WriteLine($"Defaulting to '{_srcDrive}'.");
-                return _srcDrive;
-            }
-
-            // If no matching devices are present, default to forced drive letter
-            Console.WriteLine($"Program will only run local sources.");
-            return null;
         }
 
         /// <summary>

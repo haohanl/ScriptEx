@@ -10,6 +10,7 @@ Program:
     DisableSystemCheck: false
     AutoWinUpdate: true
     IgnoreInvalidCommands: false
+    DefaultMode: "!s"
     ModeKeys:
         "!s": Software
         "!t": Testing
@@ -17,16 +18,23 @@ Program:
         "!q": QC
     SpecialKeys:
         "|": Threadblock
-        
+        "?": Help
+      
+      
 # RoboCopy operating parameters
 RoboCopy:
     SrcDriveName: SAMSUNG USB
     SrcDriveRoot: ~
     SrcDriveType: Removable 
-    # Replace with 'Network' for network drive
 
     ForceSrcDriveLetter: false
     SrcDriveLetter: D
+
+    # To be implemented
+    SrcUseNetwork: false
+    SrcPreferNetwork: false
+    SrcNetworkRoot: "\\\\cache\\SI Software"
+
 
 # Modes of operation
 Modes:
@@ -259,6 +267,7 @@ Modes:
                 Path: "IBT\\IntelBurnTestV2.New"
                 Delay: 0
                 IgnoreThreadBlock: true
+
     # Utility suite command configuration
     Utility:
         SrcCopy: true

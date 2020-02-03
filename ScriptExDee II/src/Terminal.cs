@@ -6,14 +6,18 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace ScriptExDee_II
 {
+    /// <summary>
+    /// Main class for handling user input and console output
+    /// </summary>
     public static class Terminal
     {
 
         // Terminal static variables
-        static string CurrentMode = "Software";
+        public static string CurrentMode;
         static bool IsCommandClean;
         static List<string> CommandList;
 
@@ -21,26 +25,33 @@ namespace ScriptExDee_II
         {
             while (true)
             {
+                // Update Terminal title
+                Title.SetMode();
+
                 // Read user input and validate
+                Console.Write("> ");
                 CommandList = ProcessUserInput();
 
-                Console.Write("Running: ");
-                foreach (string command in CommandList)
+                // Display commands running
+                if (CommandList.Count() > 0)
                 {
-                    Console.Write(command + " ");
+                    Console.Write("[#] Commands: ");
+                    foreach (string command in CommandList)
+                    {
+                        Console.Write(command + " ");
+                    }
+                    Console.WriteLine();
                 }
-                Console.WriteLine();
-
                 // Transfer relevant software from remote source
                 TransferSoftware(CommandList, CurrentMode);
 
                 // Run all user commands
                 RunUserCommands(CommandList);
 
-                
+                // Insert new line
+                WriteLineBreak();
             }
         }
-
 
         #region # Input validation
 
@@ -54,15 +65,20 @@ namespace ScriptExDee_II
             List<string> _commands;
             List<string> _validCommands;
 
-            // Read user input
-            do
-            {
-                IsCommandClean = true;
-                _input = Console.ReadLine();
-                _commands = new List<string>(_input.Trim().Split(' '));
-                _validCommands = ValidateCommands(_commands, CurrentMode);
+            // Loop until valid command line entered
+            IsCommandClean = true;
 
-            } while (!IsCommandClean && !Program.Config.Program.IgnoreInvalidCommands);
+            // Read user inpout
+            _input = Console.ReadLine();
+
+            // Validate user input
+            _commands = new List<string>(_input.Trim().Split(' '));
+            _validCommands = ValidateCommands(_commands, CurrentMode);
+
+            if (!IsCommandClean && !Program.Config.Program.IgnoreInvalidCommands)
+            {
+                _validCommands.Clear();
+            }
 
             return _validCommands;
         }
@@ -97,7 +113,8 @@ namespace ScriptExDee_II
                     // Check for potential stack overflow
                     if (_expandedMacro.Contains(key))
                     {
-                        throw new InvalidMacroException("Macro command cannot call itself.");
+                        Terminal.WriteLine("Macro command cannot call itself.", "!");
+                        continue;
                     }
 
                     // Macro operating mode validation
@@ -154,7 +171,7 @@ namespace ScriptExDee_II
         static void TransferSoftware(List<string> commands, string currentMode)
         {
             // Check for remote drive availability
-            RoboCopy.Initialise();
+            RoboCopy.Reinitialise();
             if (RoboCopy.SrcDrive == null)
             {
                 return;
@@ -202,7 +219,7 @@ namespace ScriptExDee_II
 
         #endregion
 
-        #region Command execution
+        #region # Command execution
 
 
         static void RunUserCommands(List<string> commands)
@@ -240,6 +257,9 @@ namespace ScriptExDee_II
                     continue;
                 }
             }
+
+            // Wait for user commands to complete
+            ThreadBlock(_threadList);
         }
 
 
@@ -324,22 +344,8 @@ namespace ScriptExDee_II
 
         #endregion
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        #region # Terminal formatting
+        
         public static void WriteLineBreak()
         {
             WriteLineBreak('-');
@@ -360,5 +366,103 @@ namespace ScriptExDee_II
         {
             Console.WriteLine($"[{prefix}] {line}");
         }
+        #endregion
+
+        /// <summary>
+        /// Controls the terminal window title
+        /// </summary>
+        public static class Title
+        {
+            // Title states
+            public static string WUPText = "";
+            public static string ProgramMode = "SUMMARY";
+            static readonly string ProgramTitle = $"{Program.Title} [Build {Program.Version}]";
+
+            // Set the terminal title
+            public static void Update()
+            {
+                if (WUPText != "")
+                {
+                    Console.Title = $"{ProgramTitle} - {ProgramMode} - {WUPText}";
+                }
+                else
+                {
+                    Console.Title = $"{ProgramTitle} - {ProgramMode}";
+                }
+            }
+
+            public static void SetMode()
+            {
+                SetMode(Terminal.CurrentMode.ToUpper());
+            }
+            // Set the terminal mode
+            public static void SetMode(string mode)
+            {
+                ProgramMode = mode;
+                Update();
+            }
+
+            // Set the WUP status
+            public static void SetWUP(string wup)
+            {
+                WUPText = wup;
+                Update();
+            }
+
+        }
+
+        /// <summary>
+        /// Sets the theme of the terminal program.
+        /// and terminal opacity.
+        /// </summary>
+        public static class Theme
+        {
+            // Code snippet from "https://stackoverflow.com/questions/3369993/how-to-set-a-console-application-window-to-be-the-top-most-window-c"
+            // Used to keep console on top.
+            [DllImport("user32.dll", SetLastError = true)]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            private static extern bool SetWindowPos(
+                IntPtr hWnd,
+                IntPtr hWndInsertAfter,
+                int x,
+                int y,
+                int cx,
+                int cy,
+                int uFlags);
+
+            //private const int HWND_TOPMOST = -1;
+            //private const int SWP_NOMOVE = 0x0002;
+            //private const int SWP_NOSIZE = 0x0001;
+
+            // Used to set opacity of terminal
+            [DllImport("user32.dll")]
+            static extern bool SetLayeredWindowAttributes(IntPtr hwnd, uint crKey, byte bAlpha, uint dwFlags);
+            // Code snippet from https://www.pinvoke.net/default.aspx/Structures.COLORREF
+            // For conversion from COLORREF to uint
+            private static uint MakeCOLORREF(byte r, byte g, byte b)
+            {
+                return (((uint)r) | (((uint)g) << 8) | (((uint)b) << 16));
+            }
+
+            public static void ApplyTheme()
+            {
+                IntPtr hWnd = Process.GetCurrentProcess().MainWindowHandle;
+
+                // Keep window on top
+                //SetWindowPos(hWnd,
+                //    new IntPtr(HWND_TOPMOST),
+                //    0, 0, 0, 0,
+                //    SWP_NOMOVE | SWP_NOSIZE);
+
+                // Set opacity
+                SetLayeredWindowAttributes(hWnd,
+                    MakeCOLORREF(0, 0, 0),
+                    210, // Opacity number (0-255)
+                    0x00000002
+                    );
+            }
+        }
     }
+
+    
 }
