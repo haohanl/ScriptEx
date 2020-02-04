@@ -6,16 +6,19 @@
 ---
 # Program operating parameters
 Program:
-    LogOutput: false
-    DisableSystemCheck: false
+    DisableSystemCheck: true
     AutoWinUpdate: true
     IgnoreInvalidCommands: false
+    SetPerformanceMode: true
+    TitleScreenDelay: 30
+
     DefaultMode: "!s"
     ModeKeys:
         "!s": Software
         "!t": Testing
         "!u": Utility
         "!q": QC
+
     SpecialKeys:
         "|": Threadblock
         "?": Help
@@ -46,8 +49,7 @@ Modes:
 
         Categories:
             - driver
-            - rgb
-            - other
+            - lighting
 
         Commands:
             # Hardware Drivers
@@ -61,7 +63,7 @@ Modes:
                 IgnoreThreadBlock: false
             na:
                 Name: NVIDIA GPU Auto Installer
-                Category: other
+                Category: driver
                 Exec: NV_INSTALL.exe
                 Args: ~
                 Path: _NVIDIA AUTO

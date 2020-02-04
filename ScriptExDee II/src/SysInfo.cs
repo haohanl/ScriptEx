@@ -139,16 +139,23 @@ namespace ScriptExDee_II
 
             if (SysInfo.Drives != null)
             {
+                bool _check = true;
                 Console.Write(tab + "DISK:");
                 foreach (Drive drive in SysInfo.Drives.List)
                 {
                     if (drive.MediaType != "Removable Media")
                     {
+                        if (_check)
+                        {
+                            _check = false;
+                        }
+                        else
+                        {
+                            Console.Write(tab + "     ");
+                        }
                         Console.Write($" {drive.Name} ({drive.Size.ToString("N0")} GB) [{drive.Partitions} Partitions]\n");
-                        Console.Write(tab + "     ");
                     }
                 }
-                Console.WriteLine();
             }
             else
             {

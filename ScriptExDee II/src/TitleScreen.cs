@@ -18,13 +18,13 @@ namespace ScriptExDee_II
                        /_/ {Program.Quote} 
        Haohan Liu (c) 2020";
 
-        public const string LTAB = "    ";
+        public const string LTAB = "     ";
         public const string TAB = "       ";
 
         public static void ShowTitle()
         {          
             // Animate starting text
-            AnimateWrite(Title, 50);
+            AnimateWrite(Title, Program.Config.Program.TitleScreenDelay);
             WriteLineBreak('=', 75);
         }
 
@@ -32,6 +32,7 @@ namespace ScriptExDee_II
         {
             // Start Threads
             Program.ThrShowTitle.Start();
+            Program.ThrPowerControl.Start();
 
             // Check for System check parameter
             if (!Program.Config.Program.DisableSystemCheck)
@@ -42,6 +43,7 @@ namespace ScriptExDee_II
 
             // Join threads
             Program.ThrShowTitle.Join();
+            Program.ThrPowerControl.Join();
 
             // Show SysSummary
             SysInfo.SysSummary(TitleScreen.TAB);

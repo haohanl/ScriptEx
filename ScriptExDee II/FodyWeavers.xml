@@ -6,6 +6,7 @@
     <IncludeAssemblies>
       Interop.WUApiLib
       YamlDotNet
+      Microsoft.Win32.TaskScheduler
     </IncludeAssemblies>
   </Costura>
   

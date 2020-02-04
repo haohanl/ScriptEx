@@ -194,6 +194,12 @@ namespace ScriptExDee_II
                     continue;
                 }
 
+                // Check for special keys
+                if (Program.Config.IsSpecialKey(key))
+                {
+                    continue;
+                }
+
                 // Skip if mode does not require srcCopy
                 if (!Program.Config.Modes[_currentMode].SrcCopy)
                 {
@@ -221,7 +227,6 @@ namespace ScriptExDee_II
 
         #region # Command execution
 
-
         static void RunUserCommands(List<string> commands)
         {
             // declare threadblock
@@ -242,9 +247,14 @@ namespace ScriptExDee_II
                 // Check for special keys
                 if (Program.Config.IsThreadBlock(key))
                 {
-                    WriteLine("Start thread batch.", "|");
+                    WriteLine($"Start thread batch | {_threadList.Count()} threads", "|");
                     ThreadBlock(_threadList);
                     WriteLine("Ended thread batch.", "|");
+                    continue;
+                }
+                if (Program.Config.IsHelpKey(key))
+                {
+                    ShowHelp(CurrentMode);
                     continue;
                 }
 
@@ -344,8 +354,43 @@ namespace ScriptExDee_II
 
         #endregion
 
+        #region # Special commands
+
+        static void ShowHelp(string mode)
+        {
+            // Initialise variables
+            ModeConfig _mode = Program.Config.Modes[mode];
+            List<string> _keys;
+            List<string> _cats;
+
+            // Collect lists
+            _keys = new List<string>(_mode.Commands.Keys);
+            _keys.Sort();
+            _cats = new List<string>(_mode.Categories);
+
+            // Iterate through each category
+            foreach (var _cat in _cats)
+            {
+
+                WriteTitleBreak(_cat.ToUpper());
+
+                // Find matching keys
+                foreach (var _key in _keys)
+                {
+                    CommandItem _cmd = _mode.Commands[_key];
+
+                    if (_cmd.Category.Equals(_cat))
+                    {
+                        Console.WriteLine($"| {_key}\t | {_cmd.Name}");
+                    }
+                }
+            }
+        }
+
+        #endregion
+
         #region # Terminal formatting
-        
+
         public static void WriteLineBreak()
         {
             WriteLineBreak('-');
@@ -366,6 +411,12 @@ namespace ScriptExDee_II
         {
             Console.WriteLine($"[{prefix}] {line}");
         }
+
+        public static void WriteTitleBreak(string title, char c='-', int len=80)
+        {
+            string _break = new String(c, len - title.Length - 1);
+            Console.WriteLine(title + " " + _break);
+        }
         #endregion
 
         /// <summary>
@@ -376,7 +427,7 @@ namespace ScriptExDee_II
             // Title states
             public static string WUPText = "";
             public static string ProgramMode = "SUMMARY";
-            static readonly string ProgramTitle = $"{Program.Title} [Build {Program.Version}]";
+            static readonly string ProgramTitle = $"{Program.Title} <{Program.Version}>";
 
             // Set the terminal title
             public static void Update()
@@ -408,7 +459,6 @@ namespace ScriptExDee_II
                 WUPText = wup;
                 Update();
             }
-
         }
 
         /// <summary>
@@ -463,6 +513,4 @@ namespace ScriptExDee_II
             }
         }
     }
-
-    
 }

@@ -60,6 +60,15 @@ namespace ScriptExDee_II
             return false;
         }
 
+        public bool IsHelpKey(string key)
+        {
+            if (GetSpecialKey(key) == "Help")
+            {
+                return true;
+            }
+            return false;
+        }
+
         public bool IsMacroKey(string key)
         {
             return Macros.ContainsKey(key);
@@ -119,10 +128,11 @@ namespace ScriptExDee_II
 
     public class ProgramConfig
     {
-        public bool LogOutput { get; set; }
         public bool DisableSystemCheck { get; set; }
         public bool AutoWinUpdate { get; set; }
         public bool IgnoreInvalidCommands { get; set; }
+        public bool SetPerformanceMode { get; set; }
+        public int TitleScreenDelay { get; set; }
         public string DefaultMode { get; set; }
         public Dictionary<string, string> ModeKeys { get; set; }
         public Dictionary<string, string> SpecialKeys { get; set; }
@@ -153,12 +163,6 @@ namespace ScriptExDee_II
         /// </summary>
         public List<CommandItem> GetCategory(string category)
         {
-            // validate category
-            if (!Categories.Contains(category))
-            {
-                throw new System.ArgumentException("Category must exist within ModeConfig.Categories", "category");
-            }
-
             // search for matching items
             var list = new List<CommandItem>();
 

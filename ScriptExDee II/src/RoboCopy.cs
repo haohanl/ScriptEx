@@ -160,7 +160,7 @@ namespace ScriptExDee_II
 
             // Start RoboCopy
             proc.Start();
-            Terminal.WriteLine($"Initiated RoboCopy | {desc}");
+            Terminal.WriteLine($"Initiated RoboCopy | {desc}", "*");
 
             // Catch RoboCopy log
             string log = proc.StandardOutput.ReadToEnd().Trim();
@@ -176,7 +176,7 @@ namespace ScriptExDee_II
             // Otherwise, output size info
             else
             {
-                Terminal.WriteLine($"Completed Robocopy | {desc} | {transfer[0].Value.ToUpper() + "B"}");
+                Terminal.WriteLine($"Completed Robocopy | {desc} | {transfer[0].Value.ToUpper() + "B"}", "*");
             }
 
             // Terminate proc

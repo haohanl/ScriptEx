@@ -21,6 +21,7 @@ namespace ScriptExDee_II
         // Program background threads
         public static Thread ThrSysInfo = new Thread(SysInfo.GatherSysInfo);
         public static Thread ThrShowTitle = new Thread(TitleScreen.ShowTitle);
+        public static Thread ThrPowerControl = new Thread(PowerControl.SetToPerformance);
 
         static void Main(string[] args)
         {
@@ -43,7 +44,6 @@ namespace ScriptExDee_II
             }
             catch (Exception ex)
             {
-                Thread.Sleep(1000);
                 Terminal.WriteLineBreak('-', 80);
                 Console.WriteLine($"'{ConfigFile}' could not be loaded. Program unable to start.");
                 Terminal.WriteLineBreak('-', 80);
