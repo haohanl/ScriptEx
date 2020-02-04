@@ -44,13 +44,13 @@ namespace ScriptExDee_II
             }
             catch (Exception ex)
             {
-                Terminal.WriteLineBreak('-', 80);
+                Terminal.WriteLineBreak();
                 Console.WriteLine($"'{ConfigFile}' could not be loaded. Program unable to start.");
-                Terminal.WriteLineBreak('-', 80);
+                Terminal.WriteLineBreak();
                 Console.WriteLine(ex);
-                Terminal.WriteLineBreak('-', 80);
+                Terminal.WriteLineBreak();
                 Console.WriteLine($"'{ConfigFile}' could not be loaded. Program unable to start.");
-                Terminal.WriteLineBreak('-', 80);
+                Terminal.WriteLineBreak();
                 Console.WriteLine("\nProgram will exit...");
                 Console.ReadKey();
             }

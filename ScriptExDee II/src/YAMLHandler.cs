@@ -62,7 +62,7 @@ namespace ScriptExDee_II
 
         public bool IsHelpKey(string key)
         {
-            if (GetSpecialKey(key) == "Help")
+            if (GetSpecialKey(key) == "Show Commands")
             {
                 return true;
             }

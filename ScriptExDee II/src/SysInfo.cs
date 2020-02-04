@@ -138,7 +138,6 @@ namespace ScriptExDee_II
             if (SysInfo.MOBO != null)
             {
                 Console.WriteLine(tab + $"MOBO: {SysInfo.MOBO.Name} ({SysInfo.MOBO.Manufacturer})");
-                Console.WriteLine(tab + $"S/N : {SysInfo.MOBO.SerialNumber}");
                 Console.WriteLine(tab + $"BIOS: {SysInfo.MOBO.BIOS} [{SysInfo.MOBO.BIOSDate}]");
                 Console.WriteLine();
             }

@@ -21,7 +21,7 @@ Program:
 
     SpecialKeys:
         "|": Threadblock
-        "?": Help
+        "?": Show Commands
       
       
 # RoboCopy operating parameters
@@ -119,7 +119,7 @@ Modes:
                 Path: ASUS Aura
                 Delay: 0
                 IgnoreThreadBlock: false
-            ag:
+            aug:
                 Name: ASUS Aura (GPU Only)
                 Category: lighting
                 Exec: AsusSetup.exe
@@ -284,6 +284,55 @@ Modes:
                 Path: QC
                 Delay: 0
                 IgnoreThreadBlock: false
+            dv:
+                Name: Device Manager
+                Exec: devmgmt.msc.lnk
+                Args: ~
+                Path: QC
+                Delay: 0
+                IgnoreThreadBlock: false
+            ds:
+                Name: Disk Management
+                Exec: diskmgmt.msc.lnk
+                Args: ~
+                Path: QC
+                Delay: 0
+                IgnoreThreadBlock: false
+            sd:
+                Name: Sound Devices
+                Exec: mmsys.cpl.lnk
+                Args: ~
+                Path: QC
+                Delay: 0
+                IgnoreThreadBlock: false
+            a:
+                Name: Windows Activation
+                Exec: slui.lnk
+                Args: ~
+                Path: QC
+                Delay: 0
+                IgnoreThreadBlock: false
+            sw:
+                Name: System Window (Check Activation)
+                Exec: controlsys.lnk
+                Args: ~
+                Path: QC
+                Delay: 0
+                IgnoreThreadBlock: false
+            u:
+                Name: Windows Update
+                Exec: msupdate.url
+                Args: ~
+                Path: QC
+                Delay: 0
+                IgnoreThreadBlock: false
+            e:
+                Name: Windows Explorer
+                Exec: explorer.lnk
+                Args: ~
+                Path: QC
+                Delay: 0
+                IgnoreThreadBlock: false
             
 
     # Utility suite command configuration
@@ -308,5 +357,9 @@ Macros:
         Name: Prime + Furmark
         SetMode: "!t"
         Command: p f m
+    Q:
+        Name: QC Windows
+        SetMode: "!q"
+        Command: dv ds sw e u
 
 ...

@@ -15,16 +15,33 @@ namespace ScriptExDee_II
     /// </summary>
     public static class Terminal
     {
-
         // Terminal static variables
         public static string CurrentMode;
         static bool IsCommandClean;
         static List<string> CommandList;
 
+        // Terminal Theme variables
+        const int TerminalWidth = 120;
+        const int TerminalHeight = 50;
+        const int TSIZE = 80;
+
         public static void Start()
         {
+            string _prevMode = CurrentMode;
+            
+            ShowPreText();
+
             while (true)
             {
+                // Check for mode change
+                if (_prevMode != CurrentMode)
+                {
+                    ShowNewMode();
+                }
+
+                // Update current mode
+                _prevMode = CurrentMode;
+
                 // Update Terminal title
                 Title.SetMode();
 
@@ -49,7 +66,7 @@ namespace ScriptExDee_II
                 RunUserCommands(CommandList);
 
                 // Insert new line
-                WriteLineBreak();
+                Console.WriteLine();
             }
         }
 
@@ -268,6 +285,13 @@ namespace ScriptExDee_II
                 {
                     Thread _cmdThr = new Thread(() => RunCommand(CurrentMode, key));
                     _cmdThr.Start();
+
+                    // check for threadblocking
+                    if (Program.Config.Modes[CurrentMode].Commands[key].IgnoreThreadBlock)
+                    {
+                        continue;
+                    }
+
                     _threadList.Add(_cmdThr);
                     continue;
                 }
@@ -338,8 +362,12 @@ namespace ScriptExDee_II
 
             // wait for process completion
             WriteLine($"Initiated {CurrentMode} Command | '{key}' | {_command.Name}");
-            _proc.WaitForExit();
-            _proc.Close();
+            try
+            {
+                _proc.WaitForExit();
+                _proc.Close();
+            }
+            catch (Exception) { }
             WriteLine($"Completed {CurrentMode} Command | '{key}' | {_command.Name}");
         }
 
@@ -390,7 +418,7 @@ namespace ScriptExDee_II
                 foreach (var _key in _keys)
                 {
                     CommandItem _cmd = _mode.Commands[_key];
-                    Console.WriteLine($"| {_key}\t | {_cmd.Name}");
+                    Console.WriteLine(String.Format(" {0, -5} - {1}", _key, _cmd.Name));
                 }
                 return;
             }
@@ -409,7 +437,7 @@ namespace ScriptExDee_II
 
                     if (_cmd.Category.Equals(_cat))
                     {
-                        Console.WriteLine($"| {_key}\t | {_cmd.Name}");
+                        Console.WriteLine(String.Format(" {0, -5} - {1}", _key, _cmd.Name));
                     }
                 }
             }
@@ -419,13 +447,38 @@ namespace ScriptExDee_II
 
         #region # Terminal formatting
 
+        static void ShowNewMode()
+        {
+            Console.Clear();
+            ShowPreText();
+        }
+
+        static void ShowPreText()
+        {
+            WriteLineBreak();
+            Console.WriteLine($"{Program.Title} | Build {Program.Version}");
+            ShowKeyDict(Program.Config.Program.ModeKeys, "MODES");
+            ShowKeyDict(Program.Config.Program.SpecialKeys, "SPECIAL");
+            ShowHelp(CurrentMode);
+            WriteLineBreak();
+        }
+
+        static void ShowKeyDict(Dictionary<string, string> dict, string title)
+        {
+            WriteTitleBreak(title);
+            foreach (var item in dict)
+            {
+                Console.WriteLine(String.Format(" {0, -5} - {1}", item.Key, item.Value));
+            }
+        }
+
         public static void WriteLineBreak()
         {
             WriteLineBreak('-');
         }
         public static void WriteLineBreak(char c)
         {
-            WriteLineBreak(c, 80);
+            WriteLineBreak(c, TSIZE);
         }
         public static void WriteLineBreak(char c, int len)
         {
@@ -440,10 +493,14 @@ namespace ScriptExDee_II
             Console.WriteLine($"[{prefix}] {line}");
         }
 
-        public static void WriteTitleBreak(string title, char c='-', int len=80)
+        public static void WriteTitleBreak(string title, char c='-', int len=TSIZE)
         {
-            string _break = new String(c, len - title.Length - 1);
-            Console.WriteLine(title + " " + _break);
+            int _size = len - title.Length;
+            int _ir = (int)Math.Floor((double)_size / 2) - 1;
+            int _il = (int)Math.Ceiling((double)_size / 2) - 1;
+            string _l = new String(c, _il);
+            string _r = new String(c, _ir);
+            Console.WriteLine(_l + " " + title + " " + _r);
         }
         #endregion
 
@@ -454,7 +511,7 @@ namespace ScriptExDee_II
         {
             // Title states
             public static string WUPText = "";
-            public static string ProgramMode = "SUMMARY";
+            public static string ProgramMode = "SYSTEM SUMMARY";
             static readonly string ProgramTitle = $"{Program.Title} <{Program.Version}>";
 
             // Set the terminal title
@@ -472,7 +529,7 @@ namespace ScriptExDee_II
 
             public static void SetMode()
             {
-                SetMode(Terminal.CurrentMode.ToUpper());
+                SetMode(Terminal.CurrentMode.ToUpper() + " MODE");
             }
             // Set the terminal mode
             public static void SetMode(string mode)
@@ -538,6 +595,9 @@ namespace ScriptExDee_II
                     210, // Opacity number (0-255)
                     0x00000002
                     );
+
+                // Set console size to be default width, extended height
+                Console.SetWindowSize(Terminal.TerminalWidth, Terminal.TerminalHeight);
             }
         }
     }
