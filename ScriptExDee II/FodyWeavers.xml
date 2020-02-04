@@ -7,6 +7,9 @@
       Interop.WUApiLib
       YamlDotNet
       Microsoft.Win32.TaskScheduler
+      Microsoft.Win32.Registry
+      System.Security.AccessControl
+      System.Security.Principal.Windows
     </IncludeAssemblies>
   </Costura>
   

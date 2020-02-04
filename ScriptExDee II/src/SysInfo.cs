@@ -18,6 +18,7 @@ namespace ScriptExDee_II
         static public MOBOData MOBO = null;
         static public RAMData RAM = null;
         static public DriveData Drives = null;
+        static public OSData OS = null;
         static public bool Initialised = false;
 
         public static void GatherSysInfo()
@@ -71,6 +72,17 @@ namespace ScriptExDee_II
             {
                 Console.WriteLine(ex);
                 Drives = null;
+                return;
+            }
+
+            try
+            {
+                OS = new OSData();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                OS = null;
                 return;
             }
 
@@ -128,7 +140,6 @@ namespace ScriptExDee_II
                 Console.WriteLine(tab + $"MOBO: {SysInfo.MOBO.Name} ({SysInfo.MOBO.Manufacturer})");
                 Console.WriteLine(tab + $"S/N : {SysInfo.MOBO.SerialNumber}");
                 Console.WriteLine(tab + $"BIOS: {SysInfo.MOBO.BIOS} [{SysInfo.MOBO.BIOSDate}]");
-
                 Console.WriteLine();
             }
             else
@@ -156,11 +167,17 @@ namespace ScriptExDee_II
                         Console.Write($" {drive.Name} ({drive.Size.ToString("N0")} GB) [{drive.Partitions} Partitions]\n");
                     }
                 }
+                Console.WriteLine();
             }
             else
             {
                 Console.WriteLine(tab + "DISK: UNKNOWN");
                 Console.WriteLine();
+            }
+
+            if (SysInfo.OS != null)
+            {
+                Console.WriteLine(tab + $"OS  : {OS.Name} [{OS.ProdKey}]");
             }
         }
     }
@@ -439,6 +456,23 @@ namespace ScriptExDee_II
         {
             DriveLetter = drive["DeviceID"].ToString();
             Name = drive["VolumeName"].ToString();
+        }
+    }
+
+
+    class OSData
+    {
+        public string ProdKey;
+        public string Name;
+
+        public OSData()
+        {
+            string wmiObject = "Win32_OperatingSystem";
+            var searcher = new SysChecker(wmiObject);
+
+            Name = searcher.GetFirst("Caption");
+
+            ProdKey = WinKeyDecoder.GetWindowsProductKeyFromRegistry();
         }
     }
 }
