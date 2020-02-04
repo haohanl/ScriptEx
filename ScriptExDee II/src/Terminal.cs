@@ -66,7 +66,7 @@ namespace ScriptExDee_II
                 RunUserCommands(CommandList);
 
                 // Insert new line
-                Console.WriteLine();
+                WriteLineBreak();
             }
         }
 
@@ -459,6 +459,8 @@ namespace ScriptExDee_II
             Console.WriteLine($"{Program.Title} | Build {Program.Version}");
             ShowKeyDict(Program.Config.Program.ModeKeys, "MODES");
             ShowKeyDict(Program.Config.Program.SpecialKeys, "SPECIAL");
+            ShowMacroKeys();
+            Console.WriteLine();
             ShowHelp(CurrentMode);
             WriteLineBreak();
         }
@@ -469,6 +471,33 @@ namespace ScriptExDee_II
             foreach (var item in dict)
             {
                 Console.WriteLine(String.Format(" {0, -5} - {1}", item.Key, item.Value));
+            }
+        }
+
+        static void ShowMacroKeys()
+        {
+            // Initialise variables
+            Dictionary<string, MacroItem> _macros = Program.Config.Macros;
+            List<string> _keys;
+
+            // Collect command keys
+            try
+            {
+                _keys = new List<string>(_macros.Keys);
+                _keys.Sort();
+            }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine(" No macro commands configured.");
+                return;
+            }
+
+            // Print macros
+            WriteTitleBreak("MACROS");
+            foreach (var _key in _keys)
+            {
+                MacroItem _macro = _macros[_key];
+                Console.WriteLine(String.Format(" {0, -5} - {1} - {2}", _key, _macro.Name, _macro.SetMode + " " + _macro.Command));
             }
         }
 

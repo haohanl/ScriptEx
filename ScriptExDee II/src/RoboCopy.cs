@@ -80,7 +80,7 @@ namespace ScriptExDee_II
             {
                 if (_srcDrive != SrcDrive)
                 {
-                    Console.WriteLine($"Source '{Program.Config.RoboCopy.SrcDriveName}' located on '{_srcDrive}'.");
+                    Terminal.WriteLine($"Source '{Program.Config.RoboCopy.SrcDriveName}' located on '{_srcDrive}'.", "*");
                     SrcDrive = _srcDrive;
                 }
                 return;
@@ -94,13 +94,14 @@ namespace ScriptExDee_II
             {
                 if (_srcDrive != SrcDrive)
                 {
-                    Console.WriteLine($"Source '{Program.Config.RoboCopy.SrcDriveName}' not found. Defaulting to '{_srcDrive}'.");
+                    Terminal.WriteLine($"Source '{Program.Config.RoboCopy.SrcDriveName}' not found. Defaulting to '{_srcDrive}'.", "!");
                     SrcDrive = _srcDrive;
                 }
                 return;
             }
 
-            // If no matching devices are present, default to forced drive letter
+            // If no matching devices are present
+            Terminal.WriteLine($"Source '{Program.Config.RoboCopy.SrcDriveName}' not found. Program will only run local files.", "!");
             SrcDrive = null;
             return;
         }

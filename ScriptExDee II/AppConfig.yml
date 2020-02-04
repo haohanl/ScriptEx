@@ -223,27 +223,66 @@ Modes:
         DstModeRoot: "%USERPROFILE%\\Desktop\\AAA Testing"
 
         Categories:
-            - cpu
+            - cpu + ram
             - gpu
-            - ram
             - other
 
         Commands:
             p:
                 Name: Prime95 (Blend)
-                Category: cpu
+                Category: cpu + ram
                 Exec: prime95.exe
                 Args: -t
                 Path: Benchmark
                 Delay: 5000
                 IgnoreThreadBlock: false
             f:
+                Name: Furmark (inf)
+                Category: gpu
+                Exec: FurMark.exe
+                Args: /nogui /msaa=8 /width=1280 height=720 /xtreme_burning
+                Path: Benchmark
+                Delay: 0
+                IgnoreThreadBlock: false
+            f15:
                 Name: Furmark (15 min)
                 Category: gpu
                 Exec: FurMark.exe
                 Args: /nogui /msaa=8 /width=1280 height=720 /max_time=900000 /xtreme_burning
                 Path: Benchmark
                 Delay: 0
+                IgnoreThreadBlock: false
+            f25:
+                Name: Furmark (25 min)
+                Category: gpu
+                Exec: FurMark.exe
+                Args: /nogui /msaa=8 /width=1280 height=720 /max_time=1500000 /xtreme_burning
+                Path: Benchmark
+                Delay: 0
+                IgnoreThreadBlock: false
+            a:
+                Name: AIDA64 Stability Test noGPU (inf)
+                Category: cpu + ram
+                Exec: aida64.exe
+                Args: /SST CPU,FPU,Cache,RAM
+                Path: AIDA64
+                Delay: 1000
+                IgnoreThreadBlock: false
+            a15:
+                Name: AIDA64 Stability Test noGPU (15 min)
+                Category: cpu + ram
+                Exec: aida64.exe
+                Args: /SST CPU,FPU,Cache,RAM /SSTDUR 15
+                Path: AIDA64
+                Delay: 1000
+                IgnoreThreadBlock: false
+            a25:
+                Name: AIDA64 Stability Test noGPU (25 min)
+                Category: cpu + ram
+                Exec: aida64.exe
+                Args: /SST CPU,FPU,Cache,RAM /SSTDUR 25
+                Path: AIDA64
+                Delay: 1000
                 IgnoreThreadBlock: false
             m:
                 Name: HWMonitor
@@ -253,23 +292,31 @@ Modes:
                 Path: Benchmark
                 Delay: 0
                 IgnoreThreadBlock: true
-            AA:
-                Name: AIDA64 Stability Test noGPU (inf)
-                Category: cpu
-                Exec: aida64.exe
-                Args: /SST CPU,FPU,Cache,RAM
-                Path: AIDA64
-                Delay: 1000
-                IgnoreThreadBlock: true
+            s:
+                Name: Superposition
+                Category: gpu
+                Exec: launcher.exe
+                Args: ~
+                Path: Benchmark\Superposition\bin
+                Delay: 0
+                IgnoreThreadBlock: false
+            h:
+                Name: Heaven
+                Category: gpu
+                Exec: heaven_modified.bat
+                Args: ~
+                Path: Benchmark\Heaven
+                Delay: 0
+                IgnoreThreadBlock: false
             i:
                 Name: Intel Burn Test V2
-                Category: ram
+                Category: cpu + ram
                 Exec: IntelBurnTestV2.exe
                 Args: ~
                 Path: "IBT\\IntelBurnTestV2.New"
                 Delay: 0
-                IgnoreThreadBlock: true
-
+                IgnoreThreadBlock: false
+            
     # QC suite command configuration
     QC:
         SrcCopy: false
@@ -324,7 +371,7 @@ Modes:
                 Exec: msupdate.url
                 Args: ~
                 Path: QC
-                Delay: 0
+                Delay: 2500
                 IgnoreThreadBlock: false
             e:
                 Name: Windows Explorer
@@ -344,10 +391,24 @@ Modes:
         Commands:
             r:
                 Name: Revo Uninstaller
-                Exec: prime95.exe
-                Args: -t
-                Path: UTILITIES
-                Delay: 5000
+                Exec: RevoUPort.exe
+                Args: ~
+                Path: Revo Uninstaller
+                Delay: 0
+                IgnoreThreadBlock: false
+            dn:
+                Name: DDU (NVIDIA)
+                Exec: DDU_NV.bat
+                Args: ~
+                Path: DDU
+                Delay: 0
+                IgnoreThreadBlock: false
+            da:
+                Name: DDU (AMD)
+                Exec: DDU_AMD.bat
+                Args: ~
+                Path: DDU
+                Delay: 0
                 IgnoreThreadBlock: false
 
 
@@ -357,6 +418,10 @@ Macros:
         Name: Prime + Furmark
         SetMode: "!t"
         Command: p f m
+    G: 
+        Name: AIDA64 + Furmark
+        SetMode: "!t"
+        Command: a f25 m | s
     Q:
         Name: QC Windows
         SetMode: "!q"
