@@ -55,7 +55,7 @@ namespace ScriptExDee_II
             WriteLineBreak('-', 75);
 
             // Take user key
-            WriteLine("Press any key to begin...");
+            Console.Write(TAB + "Press any key to begin...");
             ReadModeKey();
             Console.Clear();
         }

@@ -239,7 +239,12 @@ namespace ScriptExDee_II
                 if (Program.Config.IsModeKey(key))
                 {
                     ThreadBlock(_threadList);
-                    WriteLine($"Mode changed to '{Program.Config.GetMode(key)}'", "*");
+                    if (CurrentMode.Equals(Program.Config.GetMode(key)))
+                    {
+                        WriteLine($"Already in '{Program.Config.GetMode(key)} Mode'", "*");
+                        continue;
+                    }
+                    WriteLine($"Switched to '{Program.Config.GetMode(key)} Mode'", "*");
                     CurrentMode = Program.Config.GetMode(key);
                     continue;
                 }
@@ -363,12 +368,35 @@ namespace ScriptExDee_II
             List<string> _keys;
             List<string> _cats;
 
-            // Collect lists
-            _keys = new List<string>(_mode.Commands.Keys);
-            _keys.Sort();
-            _cats = new List<string>(_mode.Categories);
+            // Collect command keys
+            try
+            {
+                _keys = new List<string>(_mode.Commands.Keys);
+            }
+            catch (NullReferenceException)
+            {
+                WriteLine("Mode contains no commands.", "!");
+                return;
+            }
+
+            // Collect command categories
+            try
+            {
+                _cats = new List<string>(_mode.Categories);
+            }
+            catch (ArgumentNullException)
+            {
+                WriteTitleBreak("COMMANDS");
+                foreach (var _key in _keys)
+                {
+                    CommandItem _cmd = _mode.Commands[_key];
+                    Console.WriteLine($"| {_key}\t | {_cmd.Name}");
+                }
+                return;
+            }
 
             // Iterate through each category
+            _keys.Sort();
             foreach (var _cat in _cats)
             {
 

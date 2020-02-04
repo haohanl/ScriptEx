@@ -6,7 +6,7 @@
 ---
 # Program operating parameters
 Program:
-    DisableSystemCheck: true
+    DisableSystemCheck: false
     AutoWinUpdate: true
     IgnoreInvalidCommands: false
     SetPerformanceMode: true
@@ -270,22 +270,31 @@ Modes:
                 Delay: 0
                 IgnoreThreadBlock: true
 
+    # QC suite command configuration
+    QC:
+        SrcCopy: false
+        SrcModeRoot: AAA Testing
+        DstModeRoot: "%USERPROFILE%\\Desktop\\AAA Testing"
+            
+        Commands:
+            t:
+                Name: Task Manager
+                Exec: Task Manager.lnk
+                Args: ~
+                Path: QC
+                Delay: 0
+                IgnoreThreadBlock: false
+            
+
     # Utility suite command configuration
     Utility:
         SrcCopy: true
         SrcModeRoot: UTILITIES
         DstModeRoot: "%USERPROFILE%\\Desktop\\Utilities"
 
-        Categories:
-            - cpu
-            - gpu
-            - ram
-            - other
-
         Commands:
             r:
                 Name: Revo Uninstaller
-                Category: other
                 Exec: prime95.exe
                 Args: -t
                 Path: UTILITIES
