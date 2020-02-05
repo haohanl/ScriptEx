@@ -21,15 +21,15 @@ namespace ScriptExDee_II
         static List<string> CommandList;
 
         // Terminal Theme variables
-        const int TerminalWidth = 120;
-        const int TerminalHeight = 50;
-        const int TSIZE = 80;
+        public const int TerminalWidth = 120;
+        public const int TerminalHeight = 50;
+        public const int TSIZE = 119;
 
         public static void Start()
         {
             string _prevMode = CurrentMode;
             
-            ShowPreText();
+            ShowModeHeader();
 
             while (true)
             {
@@ -389,12 +389,19 @@ namespace ScriptExDee_II
 
         #region # Special commands
 
-        static void ShowHelp(string mode)
+        static void ShowHelp(string mode, char c='─', char cOffset='┴')
         {
             // Initialise variables
             ModeConfig _mode = Program.Config.Modes[mode];
             List<string> _keys;
             List<string> _cats;
+            int offset = (CurrentMode + "MODE COMMANDS").Length + 3;
+
+            // Show mode header
+            string _mHeader = $" {CurrentMode.ToUpper()} MODE COMMANDS";
+            int _mOffset = _mHeader.Length + 1;
+            Console.WriteLine(new String('─', _mOffset) + "┐");
+            Console.WriteLine(_mHeader + " │");
 
             // Collect command keys
             try
@@ -414,21 +421,31 @@ namespace ScriptExDee_II
             }
             catch (ArgumentNullException)
             {
-                WriteTitleBreak("COMMANDS");
+                WriteHeaderTitleBreak("COMMANDS", offset, cOffset, c);
                 foreach (var _key in _keys)
                 {
                     CommandItem _cmd = _mode.Commands[_key];
-                    Console.WriteLine(String.Format(" {0, -5} - {1}", _key, _cmd.Name));
+                    Console.WriteLine(String.Format(" {0, -5} │ {1, -30} │ \\{2, -30} | {3}", _key, _cmd.Name, _cmd.Path, _cmd.Exec));
                 }
                 return;
             }
 
             // Iterate through each category
             _keys.Sort();
+            bool _hit = true;
             foreach (var _cat in _cats)
             {
-
-                WriteTitleBreak(_cat.ToUpper());
+                // Write titles
+                if (_hit)
+                {
+                    // Only write header for topmost cat
+                    WriteHeaderTitleBreak(_cat.ToUpper(), offset, cOffset, c);
+                    _hit = false;
+                }
+                else
+                {
+                    WriteTitleBreak(_cat.ToUpper(), c);
+                }
 
                 // Find matching keys
                 foreach (var _key in _keys)
@@ -437,7 +454,7 @@ namespace ScriptExDee_II
 
                     if (_cmd.Category.Equals(_cat))
                     {
-                        Console.WriteLine(String.Format(" {0, -5} - {1}", _key, _cmd.Name));
+                        Console.WriteLine(String.Format(" {0, -5} │ {1, -30} │ \\{2, -30} | {3}", _key, _cmd.Name, _cmd.Path, _cmd.Exec));
                     }
                 }
             }
@@ -450,40 +467,49 @@ namespace ScriptExDee_II
         static void ShowNewMode()
         {
             Console.Clear();
-            ShowPreText();
+            ShowModeHeader();
         }
 
-        static void ShowPreText()
+        static void ShowModeHeader()
         {
-            WriteLineBreak();
-            Console.WriteLine($"{Program.Title} | Build {Program.Version}");
-            ShowKeyDict(Program.Config.Program.ModeKeys, "MODES");
-            ShowKeyDict(Program.Config.Program.SpecialKeys, "SPECIAL");
-            ShowMacroKeys();
+            // Universal header
+            string _tHeader = $" {Program.Title} | Build {Program.Version}";
+            int _tOffset = _tHeader.Length + 1;
+            Console.WriteLine(new String('═', _tOffset) + "╗");
+            Console.WriteLine(_tHeader + " ║");
+
+            WriteHeaderTitleBreak("MODES", _tOffset, '╩', '═');
+            ShowCommands(Program.Config.Program.ModeKeys);
+
+            WriteTitleBreak("SPECIAL", '═');
+            ShowCommands(Program.Config.Program.SpecialKeys);
+
+            WriteTitleBreak("MACROS", '═');
+            ShowCommands(Program.Config.Macros);
+            WriteLineBreak('═');
+
             Console.WriteLine();
             ShowHelp(CurrentMode);
-            WriteLineBreak();
+            WriteLineBreak('─');
         }
 
-        static void ShowKeyDict(Dictionary<string, string> dict, string title)
+        static void ShowCommands(Dictionary<string, string> dict)
         {
-            WriteTitleBreak(title);
             foreach (var item in dict)
             {
-                Console.WriteLine(String.Format(" {0, -5} - {1}", item.Key, item.Value));
+                Console.WriteLine(String.Format(" {0, -5} │ {1}", item.Key, item.Value));
             }
         }
 
-        static void ShowMacroKeys()
+        static void ShowCommands(Dictionary<string, MacroItem> dict)
         {
             // Initialise variables
-            Dictionary<string, MacroItem> _macros = Program.Config.Macros;
             List<string> _keys;
 
             // Collect command keys
             try
             {
-                _keys = new List<string>(_macros.Keys);
+                _keys = new List<string>(dict.Keys);
                 _keys.Sort();
             }
             catch (NullReferenceException)
@@ -493,17 +519,16 @@ namespace ScriptExDee_II
             }
 
             // Print macros
-            WriteTitleBreak("MACROS");
             foreach (var _key in _keys)
             {
-                MacroItem _macro = _macros[_key];
-                Console.WriteLine(String.Format(" {0, -5} - {1} - {2}", _key, _macro.Name, _macro.SetMode + " " + _macro.Command));
+                MacroItem _macro = dict[_key];
+                Console.WriteLine(String.Format(" {0, -5} │ {1, -20} │ {2}", _key, _macro.Name, _macro.SetMode + " " + _macro.Command));
             }
         }
 
         public static void WriteLineBreak()
         {
-            WriteLineBreak('-');
+            WriteLineBreak('─');
         }
         public static void WriteLineBreak(char c)
         {
@@ -515,14 +540,29 @@ namespace ScriptExDee_II
         }
         public static void WriteLine(string line)
         {
-            WriteLine(line, "-");
+            WriteLine(line, "─");
         }
         public static void WriteLine(string line, string prefix)
         {
             Console.WriteLine($"[{prefix}] {line}");
         }
 
-        public static void WriteTitleBreak(string title, char c='-', int len=TSIZE)
+        public static void WriteHeaderTitleBreak(string title, int offset, char cOffset, char c='─', int len=TSIZE)
+        {
+            int _size = len - title.Length;
+            int _ir = (int)Math.Floor((double)_size / 2) - 1;
+            int _il = (int)Math.Ceiling((double)_size / 2) - 1;
+            string _l = new String(c, _il);
+            string _r = new String(c, _ir);
+
+            char[] _cl = _l.ToCharArray();
+            _cl[offset] = cOffset;
+            string _nl = new String(_cl);
+
+            Console.WriteLine(_nl + " " + title + " " + _r);
+        }
+
+        public static void WriteTitleBreak(string title, char c='─', int len=TSIZE)
         {
             int _size = len - title.Length;
             int _ir = (int)Math.Floor((double)_size / 2) - 1;

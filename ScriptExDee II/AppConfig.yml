@@ -10,7 +10,7 @@ Program:
     AutoWinUpdate: true
     IgnoreInvalidCommands: false
     SetPerformanceMode: true
-    TitleScreenDelay: 30
+    TitleScreenDelay: 50
 
     DefaultMode: "!s"
     ModeKeys:
@@ -261,7 +261,7 @@ Modes:
                 Delay: 0
                 IgnoreThreadBlock: false
             a:
-                Name: AIDA64 Stability Test noGPU (inf)
+                Name: AIDA64 Stability Test (inf)
                 Category: cpu + ram
                 Exec: aida64.exe
                 Args: /SST CPU,FPU,Cache,RAM
@@ -269,7 +269,7 @@ Modes:
                 Delay: 1000
                 IgnoreThreadBlock: false
             a15:
-                Name: AIDA64 Stability Test noGPU (15 min)
+                Name: AIDA64 Stability Test (15 min)
                 Category: cpu + ram
                 Exec: aida64.exe
                 Args: /SST CPU,FPU,Cache,RAM /SSTDUR 15
@@ -277,7 +277,7 @@ Modes:
                 Delay: 1000
                 IgnoreThreadBlock: false
             a25:
-                Name: AIDA64 Stability Test noGPU (25 min)
+                Name: AIDA64 Stability Test (25 min)
                 Category: cpu + ram
                 Exec: aida64.exe
                 Args: /SST CPU,FPU,Cache,RAM /SSTDUR 25
@@ -360,7 +360,7 @@ Modes:
                 Delay: 0
                 IgnoreThreadBlock: false
             sw:
-                Name: System Window (Check Activation)
+                Name: System Window (PC Summary)
                 Exec: controlsys.lnk
                 Args: ~
                 Path: QC
@@ -419,7 +419,7 @@ Macros:
         SetMode: "!t"
         Command: p f m
     G: 
-        Name: AIDA64 + Furmark
+        Name: Standard Testing
         SetMode: "!t"
         Command: a f25 m | s
     Q:

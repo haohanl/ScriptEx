@@ -78,11 +78,12 @@ namespace ScriptExDee_II
             try
             {
                 OS = new OSData();
+                OS.GetProdKey();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
-                OS = null;
+                OS = new OSData();
                 return;
             }
 
@@ -92,6 +93,9 @@ namespace ScriptExDee_II
 
         public static void SysSummary(string tab="")
         {
+            // constant
+            string _div = tab + "     │";
+
             // Check for SysInfo Initialisation
             if (!SysInfo.Initialised)
             {
@@ -102,55 +106,55 @@ namespace ScriptExDee_II
             // Print System Summary
             if (SysInfo.CPU != null)
             {
-                Console.WriteLine(tab + $"CPU : {SysInfo.CPU.Name}");
-                Console.WriteLine();
+                Console.WriteLine(tab + $" CPU │ {SysInfo.CPU.Name}");
+                Console.WriteLine(_div);
             }
             else
             {
-                Console.WriteLine(tab + "CPU : UNKNOWN");
-                Console.WriteLine();
+                Console.WriteLine(tab + " CPU │ UNKNOWN");
+                Console.WriteLine(_div);
             }
 
             if (SysInfo.GPU != null)
             {
-                Console.WriteLine(tab + $"GPU : {SysInfo.GPU.Name} ({SysInfo.GPU.DriverVersion}) [{SysInfo.GPU.DriverDate}]");
-                Console.WriteLine();
+                Console.WriteLine(tab + $" GPU │ {SysInfo.GPU.Name} ({SysInfo.GPU.DriverVersion}) [{SysInfo.GPU.DriverDate}]");
+                Console.WriteLine(_div);
             }
             else
             {
-                Console.WriteLine(tab + "GPU : UNKNOWN");
-                Console.WriteLine();
+                Console.WriteLine(tab + " GPU │ UNKNOWN");
+                Console.WriteLine(_div);
             }
 
 
             if (SysInfo.RAM != null)
             {
-                Console.WriteLine(tab + $"RAM : {SysInfo.RAM.TotalCapacity.ToString("F")}GB ({SysInfo.RAM.NumSticks}×{SysInfo.RAM.SingleCapacity}GB) [{SysInfo.RAM.Speed}MHz]");
-                Console.WriteLine(tab + $"      {SysInfo.RAM.Name} ({SysInfo.RAM.Manufacturer})");
-                Console.WriteLine();
+                Console.WriteLine(tab + $" RAM │ {SysInfo.RAM.TotalCapacity.ToString("F")}GB ({SysInfo.RAM.NumSticks}×{SysInfo.RAM.SingleCapacity}GB) [{SysInfo.RAM.Speed}MHz]");
+                Console.WriteLine(tab + $"     │ {SysInfo.RAM.Name} ({SysInfo.RAM.Manufacturer})");
+                Console.WriteLine(_div);
             }
             else
             {
-                Console.WriteLine(tab + "RAM : UNKNOWN");
-                Console.WriteLine();
+                Console.WriteLine(tab + " RAM │ UNKNOWN");
+                Console.WriteLine(_div);
             }
 
             if (SysInfo.MOBO != null)
             {
-                Console.WriteLine(tab + $"MOBO: {SysInfo.MOBO.Name} ({SysInfo.MOBO.Manufacturer})");
-                Console.WriteLine(tab + $"BIOS: {SysInfo.MOBO.BIOS} [{SysInfo.MOBO.BIOSDate}]");
-                Console.WriteLine();
+                Console.WriteLine(tab + $"MOBO │ {SysInfo.MOBO.Name} ({SysInfo.MOBO.Manufacturer})");
+                Console.WriteLine(tab + $"BIOS │ {SysInfo.MOBO.BIOS} [{SysInfo.MOBO.BIOSDate}]");
+                Console.WriteLine(_div);
             }
             else
             {
-                Console.WriteLine(tab + "MOBO: UNKNOWN");
-                Console.WriteLine();
+                Console.WriteLine(tab + "MOBO │ UNKNOWN");
+                Console.WriteLine(_div);
             }
 
             if (SysInfo.Drives != null)
             {
                 bool _check = true;
-                Console.Write(tab + "DISK:");
+                Console.Write(tab + "DISK ");
                 foreach (Drive drive in SysInfo.Drives.List)
                 {
                     if (drive.MediaType != "Removable Media")
@@ -163,20 +167,26 @@ namespace ScriptExDee_II
                         {
                             Console.Write(tab + "     ");
                         }
-                        Console.Write($" {drive.Name} ({drive.Size.ToString("N0")} GB) [{drive.Partitions} Partitions]\n");
+                        Console.Write($"│ {drive.Name} ({drive.Size.ToString("N0")} GB) [{drive.Partitions} Partitions]\n");
                     }
                 }
-                Console.WriteLine();
+                Console.WriteLine(_div);
             }
             else
             {
-                Console.WriteLine(tab + "DISK: UNKNOWN");
-                Console.WriteLine();
+                Console.WriteLine(tab + "DISK │ UNKNOWN");
+                Console.WriteLine(_div);
             }
 
-            if (SysInfo.OS != null)
+            if (SysInfo.OS.ProdKey != null)
             {
-                Console.WriteLine(tab + $"OS  : {OS.Name} [{OS.ProdKey}]");
+                Console.WriteLine(tab + $"  OS │ {OS.Name}");
+                Console.WriteLine(tab + $" KEY │ {OS.ProdKey}");
+            }
+            else
+            {
+                Console.WriteLine(tab + $"  OS │ {OS.Name}");
+                Console.WriteLine(tab + $" KEY │ NOT ACTIVATED");
             }
         }
     }
@@ -470,7 +480,10 @@ namespace ScriptExDee_II
             var searcher = new SysChecker(wmiObject);
 
             Name = searcher.GetFirst("Caption");
+        }
 
+        public void GetProdKey()
+        {
             ProdKey = WinKeyDecoder.GetWindowsProductKeyFromRegistry();
         }
     }

@@ -10,22 +10,24 @@ namespace ScriptExDee_II
     {
         // Source: http://patorjk.com/software/taag/#p=display&f=Slant&t=ScriptExDee%20II
         static readonly string Title = $@"
-        _____           _       __  ______     ____               ________
-       / ___/__________(_)___  / /_/ ____/  __/ __ \___  ___     /  _/  _/
-       \__ \/ ___/ ___/ / __ \/ __/ __/ | |/_/ / / / _ \/ _ \    / / / /  
-      ___/ / /__/ /  / / /_/ / /_/ /____>  </ /_/ /  __/  __/  _/ /_/ /   
-     /____/\___/_/  /_/ .___/\__/_____/_/|_/_____/\___/\___/  /___/___/   
-                     /_/ {Program.Quote} 
-     Haohan Liu (c) 2020";
+{HTAB}   _____           _       __  ______     ____               ________
+{HTAB}  / ___/__________(_)___  / /_/ ____/  __/ __ \___  ___     /  _/  _/
+{HTAB}  \__ \/ ___/ ___/ / __ \/ __/ __/ | |/_/ / / / _ \/ _ \    / / / /  
+{HTAB} ___/ / /__/ /  / / /_/ / /_/ /____>  </ /_/ /  __/  __/  _/ /_/ /   
+{HTAB}/____/\___/_/  /_/ .___/\__/_____/_/|_/_____/\___/\___/  /___/___/   
+{HTAB}                /_/ {Program.Quote} 
+{TAB}Haohan Liu (c) 2020";
 
-        public const string LTAB = "   ";
-        public const string TAB = "     ";
+        public const string LTAB = "";
+        public const string TAB = "        ";
+        const int TSIZE = Terminal.TSIZE;
+        const string HTAB = "                       ";
 
         public static void ShowTitle()
         {          
             // Animate starting text
             AnimateWrite(Title, Program.Config.Program.TitleScreenDelay);
-            WriteLineBreak('=', 75);
+            WriteLineBreak('═', TSIZE);
         }
 
         public static void Show()
@@ -46,13 +48,13 @@ namespace ScriptExDee_II
             Program.ThrPowerControl.Join();
 
             // Show SysSummary
-            SysInfo.SysSummary(TitleScreen.TAB);
-            WriteLineBreak('-', 75);
+            SysInfo.SysSummary(TAB);
+            WriteLineBreak('─', TSIZE);
 
             // Begin RoboCopy initialisation
-            Console.Write(TitleScreen.TAB);
+            Console.Write(TAB);
             RoboCopy.Initialise();
-            WriteLineBreak('-', 75);
+            WriteLineBreak('─', TSIZE);
 
             // Take user key
             Console.Write(TAB + "Press any key to begin...");

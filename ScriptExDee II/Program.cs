@@ -10,7 +10,7 @@ namespace ScriptExDee_II
     class Program
     {
         // Program information
-        public static string Version = "20.02.04";
+        public static string Version = "20.02.05";
         public static string Title = "ScriptExDee II";
         public static string Quote = Quotes.GetQuote();
 
