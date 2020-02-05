@@ -13,6 +13,7 @@ namespace ScriptExDee_II
         public static string Version = "20.02.05";
         public static string Title = "ScriptExDee II";
         public static string Quote = Quotes.GetQuote();
+        public static string BasePath = AppDomain.CurrentDomain.BaseDirectory;
 
         // Configuration file
         public static string ConfigFile = "AppConfig.yml";

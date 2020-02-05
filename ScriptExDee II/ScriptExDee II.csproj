@@ -85,6 +85,7 @@
     <Compile Include="src\Quotes.cs" />
     <Compile Include="src\RoboCopy.cs" />
     <Compile Include="src\SysInfo.cs" />
+    <Compile Include="src\TaskHandler.cs" />
     <Compile Include="src\Terminal.cs" />
     <Compile Include="src\TitleScreen.cs" />
     <Compile Include="src\WinKeyDecoder.cs" />

@@ -14,15 +14,21 @@ namespace ScriptExDee_II
             "Magware? Never heard of it",
             "Now accepting zip|money",
             "You didn't bend any pins. Bravo",
-            "Now *supports* Jacob64",
+            "Now \"supports\" Jacob64",
             "Time for a 15-minute break",
             "She'll be right mate",
             "You should get more sleep you know",
             "Stop breakin' my balls",
             "You're done? But done is over there",
-            "Dropping another *bomb*shell",
+            "Dropping another bombshell",
             "Pop goes the power supply",
             "Hey, you feelin' rich?",
+            "Sick smoke machine bro",
+            "Would be a shame if the RAM is faulty",
+            "Hope those fans are spinning",
+            "Electric boogaloo",
+            "What's that noise?",
+            "QC fail, not enough RGB"
         };
 
         /// <summary>

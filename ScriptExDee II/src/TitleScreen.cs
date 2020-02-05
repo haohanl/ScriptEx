@@ -47,14 +47,30 @@ namespace ScriptExDee_II
             Program.ThrShowTitle.Join();
             Program.ThrPowerControl.Join();
 
+            //
+            Console.WriteLine(Program.BasePath);
+
+            TaskHandler.CheckTaskService();
+            Console.WriteLine(TaskHandler.TaskExists);
+
+            TaskHandler.CreateTaskService();
+            TaskHandler.CheckTaskService();
+            Console.WriteLine(TaskHandler.TaskExists);
+
+            TaskHandler.DeleteTaskService();
+            TaskHandler.CheckTaskService();
+            Console.WriteLine(TaskHandler.TaskExists);
+
+            Terminal.WriteLineBreak();
+
             // Show SysSummary
             SysInfo.SysSummary(TAB);
-            WriteLineBreak('─', TSIZE);
+            Terminal.WriteLineBreak();
 
             // Begin RoboCopy initialisation
             Console.Write(TAB);
             RoboCopy.Initialise();
-            WriteLineBreak('─', TSIZE);
+            Terminal.WriteLineBreak();
 
             // Take user key
             Console.Write(TAB + "Press any key to begin...");
