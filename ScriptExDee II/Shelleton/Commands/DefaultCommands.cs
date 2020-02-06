@@ -19,7 +19,23 @@ namespace ScriptExDee_II.Shelleton.Commands
         public static void SysSummary()
         {
             SysInfo.Initialise();
+            Terminal.WriteLineBreak();
             SysInfo.SysSummary(" ");
+        }
+
+        public static void CreateTaskService()
+        {
+            TaskHandler.CreateTaskService();
+        }
+
+        public static void DeleteTaskService()
+        {
+            TaskHandler.DeleteTaskService();
+        }
+
+        public static void CleanupOnExit(bool toggle=true)
+        {
+            ExitHandler.CleanupOnExit(toggle);
         }
     }
 }
