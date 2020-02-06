@@ -48,18 +48,6 @@ namespace ScriptExDee_II
             Program.ThrPowerControl.Join();
 
             //
-            Console.WriteLine(Program.BasePath);
-
-            TaskHandler.CheckTaskService();
-            Console.WriteLine(TaskHandler.TaskExists);
-
-            TaskHandler.CreateTaskService();
-            TaskHandler.CheckTaskService();
-            Console.WriteLine(TaskHandler.TaskExists);
-
-            TaskHandler.DeleteTaskService();
-            TaskHandler.CheckTaskService();
-            Console.WriteLine(TaskHandler.TaskExists);
 
             Terminal.WriteLineBreak();
 

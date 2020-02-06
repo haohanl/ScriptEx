@@ -424,7 +424,7 @@ Macros:
         Command: a f25 m | s
     Q:
         Name: QC Windows
-        SetMode: "!q"
+        SetMode: !q
         Command: dv ds sw e u
 
 ...

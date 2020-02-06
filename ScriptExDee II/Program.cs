@@ -13,7 +13,7 @@ namespace ScriptExDee_II
         public static string Version = "20.02.05";
         public static string Title = "ScriptExDee II";
         public static string Quote = Quotes.GetQuote();
-        public static string BasePath = AppDomain.CurrentDomain.BaseDirectory;
+        public static string ExecPath = AppDomain.CurrentDomain.BaseDirectory;
 
         // Configuration file
         public static string ConfigFile = "AppConfig.yml";
@@ -27,6 +27,7 @@ namespace ScriptExDee_II
         static void Main(string[] args)
         {
             Initialise();
+            ExitHandler.Start();
 
             TitleScreen.Show();
             
@@ -48,12 +49,14 @@ namespace ScriptExDee_II
                 Terminal.WriteLineBreak();
                 Console.WriteLine($"'{ConfigFile}' could not be loaded. Program unable to start.");
                 Terminal.WriteLineBreak();
-                Console.WriteLine(ex);
-                Terminal.WriteLineBreak();
-                Console.WriteLine($"'{ConfigFile}' could not be loaded. Program unable to start.");
+
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.InnerException.Message);
+
                 Terminal.WriteLineBreak();
                 Console.WriteLine("\nProgram will exit...");
                 Console.ReadKey();
+                Environment.Exit(-1);
             }
         }
     }

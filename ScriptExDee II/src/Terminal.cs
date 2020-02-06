@@ -425,7 +425,7 @@ namespace ScriptExDee_II
                 foreach (var _key in _keys)
                 {
                     CommandItem _cmd = _mode.Commands[_key];
-                    Console.WriteLine(String.Format(" {0, -5} │ {1, -30} │ \\{2, -30} | {3}", _key, _cmd.Name, _cmd.Path, _cmd.Exec));
+                    Console.WriteLine(String.Format(" {0, -5} │ {1, -30} │ \\{2, -30} │ {3}", _key, _cmd.Name, _cmd.Path, _cmd.Exec));
                 }
                 return;
             }
@@ -454,7 +454,7 @@ namespace ScriptExDee_II
 
                     if (_cmd.Category.Equals(_cat))
                     {
-                        Console.WriteLine(String.Format(" {0, -5} │ {1, -30} │ \\{2, -30} | {3}", _key, _cmd.Name, _cmd.Path, _cmd.Exec));
+                        Console.WriteLine(String.Format(" {0, -5} │ {1, -30} │ \\{2, -30} │ {3}", _key, _cmd.Name, _cmd.Path, _cmd.Exec));
                     }
                 }
             }

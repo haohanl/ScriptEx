@@ -81,6 +81,7 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\ExitHandler.cs" />
     <Compile Include="src\PowerControl.cs" />
     <Compile Include="src\Quotes.cs" />
     <Compile Include="src\RoboCopy.cs" />

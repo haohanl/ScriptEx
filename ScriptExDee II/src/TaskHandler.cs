@@ -19,7 +19,7 @@ namespace ScriptExDee_II
             td.Principal.RunLevel = TaskRunLevel.Highest;
             td.Triggers.AddNew(TaskTriggerType.Logon);
             //td.Triggers.AddNew(TaskTriggerType.Once);   
-            string program_path = Path.Combine(Program.BasePath);
+            string program_path = Path.Combine(Program.ExecPath);
 
             td.Actions.Add(new ExecAction(program_path, null));
             ts.RootFolder.RegisterTaskDefinition(taskDef, td);
@@ -58,11 +58,11 @@ namespace ScriptExDee_II
         }
 
 
-        public static bool TaskExists = false;
+        private static bool TaskExists = false;
         /// <summary>
         /// Check to see if service exists
         /// </summary>
-        public static void CheckTaskService()
+        private static void CheckTaskService()
         {
             TaskExists = false;
             CheckAllTasks();
@@ -88,6 +88,19 @@ namespace ScriptExDee_II
             {
                 TaskExists = true;
             }
+        }
+
+        /// <summary>
+        /// Check if the service is active
+        /// </summary>
+        public static bool ServiceActive()
+        {
+            CheckTaskService();
+            if (TaskExists)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
