@@ -149,17 +149,23 @@ namespace ScriptExDee_II
         /// </summary>
         public static void Copy(string srcPath, string dstPath, string desc)
         {
-            var proc = new Process();
 
             // Setup RoboCopy parameters
-            proc.StartInfo.FileName = Shell;
-            proc.StartInfo.Arguments = $@"/C {Command} ""{srcPath}"" ""{dstPath}"" {Params}";
-            proc.StartInfo.CreateNoWindow = true;
-            proc.StartInfo.UseShellExecute = false;
-            proc.StartInfo.RedirectStandardOutput = true;
+            ProcessStartInfo info = new ProcessStartInfo
+            {
+                FileName = Shell,
+                Arguments = $@"/C {Command} ""{srcPath}"" ""{dstPath}"" {Params}",
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                RedirectStandardOutput = true
+            };
             //proc.StartInfo.WorkingDirectory = Program.RootPath;
 
             // Start RoboCopy
+            Process proc = new Process
+            {
+                StartInfo = info
+            };
             proc.Start();
             Terminal.WriteLine($"Initiated RoboCopy | {desc}", "*");
 

@@ -15,7 +15,7 @@ namespace ScriptExDee_II
     /// </summary>
     static class ExitHandler
     {
-        static bool SystemExited = false;
+        static bool SelfDestructOnExit = false;
 
         #region # Trap application termination
         [DllImport("Kernel32")]
@@ -38,12 +38,12 @@ namespace ScriptExDee_II
             Console.WriteLine("Exiting system due to external CTRL-C, or process kill, or shutdown");
 
             //do your cleanup here
-            SelfDestruct();
+            if (SelfDestructOnExit)
+            {
+                SelfDestruct();
+            }
 
             Console.WriteLine("Cleanup complete");
-
-            //allow main to run off
-            SystemExited = true;
 
             //shutdown right away so there are no lingering threads
             Environment.Exit(-1);
@@ -68,11 +68,13 @@ namespace ScriptExDee_II
         /// </summary>
         private static void ForceDelete(string path)
         {
-            ProcessStartInfo info = new ProcessStartInfo();
-            info.Arguments = "/C choice /C Y /N /D Y /T 2 & Del " + "\"" + path + "\"";
-            info.WindowStyle = ProcessWindowStyle.Hidden;
-            info.CreateNoWindow = true;
-            info.FileName = "cmd.exe";
+            ProcessStartInfo info = new ProcessStartInfo
+            {
+                Arguments = "/C choice /C Y /N /D Y /T 2 & Del " + "\"" + path + "\"",
+                WindowStyle = ProcessWindowStyle.Hidden,
+                CreateNoWindow = true,
+                FileName = "cmd.exe"
+            };
             Process.Start(info);
         }
 
@@ -81,6 +83,11 @@ namespace ScriptExDee_II
             // Delete base executable and config file
             ForceDelete(Path.Combine(Program.ExecPath, Program.Title + ".exe"));
             ForceDelete(Path.Combine(Program.ExecPath, Program.ConfigFile));
+        }
+
+        public static void CleanupOnExit(bool toggle=true)
+        {
+            SelfDestructOnExit = toggle;
         }
         #endregion
     }

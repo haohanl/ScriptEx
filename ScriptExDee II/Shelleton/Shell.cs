@@ -76,12 +76,12 @@ namespace ScriptExDee_II.Shelleton
             // Validate the command name:
             if (!_commandLibraries.ContainsKey(command.LibraryClassName))
             {
-                return BadCommandMessage(command);
+                return BadCommandMessage();
             }
             var methodDictionary = _commandLibraries[command.LibraryClassName];
             if (!methodDictionary.ContainsKey(command.Name))
             {
-                return BadCommandMessage(command);
+                return BadCommandMessage();
             }
 
             // Make sure the corret number of required arguments are provided:
@@ -360,7 +360,7 @@ namespace ScriptExDee_II.Shelleton
         }
 
 
-        static string BadCommandMessage(ShellCommand command=null)
+        static string BadCommandMessage()
         {
             // TODO: Update message to include command
             return string.Format("Command does not exist.");

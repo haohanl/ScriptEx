@@ -20,12 +20,14 @@ namespace ScriptExDee_II
         public static Config Config = null;
 
 
-        static void Main(string[] args)
+        static void Main()
         {
             InitialiseConfig();
+
             ExitHandler.Start();
 
             Shelleton.Shell.Initialise();
+
             InitialiseTitleScreen();
 
             Terminal.Start();

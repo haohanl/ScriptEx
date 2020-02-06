@@ -14,6 +14,11 @@ namespace ScriptExDee_II
         /// </summary>
         public static void CreateTaskService()
         {
+            if (ServiceActive())
+            {
+                return;
+            }
+
             TaskService ts = new TaskService();
             TaskDefinition td = ts.NewTask();
             td.Principal.RunLevel = TaskRunLevel.Highest;
