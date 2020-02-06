@@ -81,16 +81,19 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="src\ExitHandler.cs" />
-    <Compile Include="src\PowerControl.cs" />
-    <Compile Include="src\Quotes.cs" />
-    <Compile Include="src\RoboCopy.cs" />
-    <Compile Include="src\SysInfo.cs" />
-    <Compile Include="src\TaskHandler.cs" />
-    <Compile Include="src\Terminal.cs" />
-    <Compile Include="src\TitleScreen.cs" />
-    <Compile Include="src\WinKeyDecoder.cs" />
-    <Compile Include="src\YAMLHandler.cs" />
+    <Compile Include="Shelleton\Commands\DefaultCommands.cs" />
+    <Compile Include="Shelleton\Shell.cs" />
+    <Compile Include="Shelleton\ShellCommand.cs" />
+    <Compile Include="Src\ExitHandler.cs" />
+    <Compile Include="Src\PowerControl.cs" />
+    <Compile Include="Src\Quotes.cs" />
+    <Compile Include="Src\RoboCopy.cs" />
+    <Compile Include="Src\SysInfo.cs" />
+    <Compile Include="Src\TaskHandler.cs" />
+    <Compile Include="Src\Terminal.cs" />
+    <Compile Include="Src\TitleScreen.cs" />
+    <Compile Include="Src\WinKeyDecoder.cs" />
+    <Compile Include="Src\YAMLHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

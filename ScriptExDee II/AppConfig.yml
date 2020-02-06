@@ -11,6 +11,7 @@ Program:
     IgnoreInvalidCommands: false
     SetPerformanceMode: true
     TitleScreenDelay: 50
+    InvokeReflectionKey: "/"
 
     DefaultMode: "!s"
     ModeKeys:
@@ -424,7 +425,7 @@ Macros:
         Command: a f25 m | s
     Q:
         Name: QC Windows
-        SetMode: !q
+        SetMode: "!q"
         Command: dv ds sw e u
 
 ...

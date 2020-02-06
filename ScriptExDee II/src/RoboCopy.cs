@@ -18,7 +18,7 @@ namespace ScriptExDee_II
         // Commandline constants
         private static readonly string Shell = "cmd.exe";
         private static readonly string Command = "ROBOCOPY";
-        private static readonly string Params = @"/e /nc /ns /np /NJH /NDL /NFL /MT";
+        private static readonly string Params = @"/e /xo /nc /ns /np /NJH /NDL /NFL /MT";
 
         /// <summary>
         /// Search for remote source

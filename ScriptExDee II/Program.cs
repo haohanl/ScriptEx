@@ -19,22 +19,19 @@ namespace ScriptExDee_II
         public static string ConfigFile = "AppConfig.yml";
         public static Config Config = null;
 
-        // Program background threads
-        public static Thread ThrSysInfo = new Thread(SysInfo.GatherSysInfo);
-        public static Thread ThrShowTitle = new Thread(TitleScreen.ShowTitle);
-        public static Thread ThrPowerControl = new Thread(PowerControl.SetToPerformance);
 
         static void Main(string[] args)
         {
-            Initialise();
+            InitialiseConfig();
             ExitHandler.Start();
 
-            TitleScreen.Show();
-            
+            Shelleton.Shell.Initialise();
+            InitialiseTitleScreen();
+
             Terminal.Start();
         }
 
-        static void Initialise()
+        static void InitialiseConfig()
         {
             Terminal.Theme.ApplyTheme();
             Terminal.Title.Update();
@@ -58,6 +55,31 @@ namespace ScriptExDee_II
                 Console.ReadKey();
                 Environment.Exit(-1);
             }
+        }
+
+        static void InitialiseTitleScreen()
+        {
+            // Program background threads
+            Thread ThrSysInfo = new Thread(SysInfo.Initialise);
+            Thread ThrShowTitle = new Thread(TitleScreen.ShowTitle);
+            Thread ThrPowerControl = new Thread(PowerControl.SetToPerformance);
+
+            // Start Threads
+            ThrShowTitle.Start();
+            ThrPowerControl.Start();
+
+            // Check for System check parameter
+            if (!Program.Config.Program.DisableSystemCheck)
+            {
+                ThrSysInfo.Start();
+                ThrSysInfo.Join();
+            }
+
+            // Join threads
+            ThrShowTitle.Join();
+            ThrPowerControl.Join();
+
+            TitleScreen.ShowSummary();
         }
     }
 }

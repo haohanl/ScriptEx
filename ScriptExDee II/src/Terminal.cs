@@ -45,9 +45,20 @@ namespace ScriptExDee_II
                 // Update Terminal title
                 Title.SetMode();
 
-                // Read user input and validate
-                Console.Write("> ");
-                CommandList = ProcessUserInput();
+                // Read user input
+                ReadUserInput();
+
+                // Check for invoke special case. If found, divert to Shelleton
+                if (Program.Config.IsInvokeKey(CommandList.First()[0].ToString()))
+                {
+                    CommandList[0] = CommandList[0].Substring(1);
+                    Shelleton.Shell.Run(string.Join(" ", CommandList));
+                    WriteLineBreak();
+                    continue;
+                }
+
+                // Validate input
+                ValidateInput();
 
                 // Display commands running
                 if (CommandList.Count() > 0)
@@ -75,29 +86,27 @@ namespace ScriptExDee_II
         /// <summary>
         /// Intake user input for validation and conversion into CommandItems
         /// </summary>
-        static List<string> ProcessUserInput()
+        static void ReadUserInput()
         {
             // Preprocessing variables
             string _input;
-            List<string> _commands;
-            List<string> _validCommands;
-
-            // Loop until valid command line entered
-            IsCommandClean = true;
 
             // Read user inpout
+            Console.Write("> ");
             _input = Console.ReadLine();
+            CommandList = new List<string>(_input.Trim().Split(' '));
+        }
 
-            // Validate user input
-            _commands = new List<string>(_input.Trim().Split(' '));
-            _validCommands = ValidateCommands(_commands, CurrentMode);
+        static void ValidateInput()
+        {
+            IsCommandClean = true;
+            List<string> _cList = new List<string>(CommandList);
+            CommandList = ValidateCommands(_cList, CurrentMode);
 
             if (!IsCommandClean && !Program.Config.Program.IgnoreInvalidCommands)
             {
-                _validCommands.Clear();
+                CommandList.Clear();
             }
-
-            return _validCommands;
         }
 
         /// <summary>
@@ -484,7 +493,7 @@ namespace ScriptExDee_II
             WriteTitleBreak("SPECIAL", '═');
             ShowCommands(Program.Config.Program.SpecialKeys);
 
-            WriteTitleBreak("MACROS", '═');
+            WriteTitleBreak("MACRO", '═');
             ShowCommands(Program.Config.Macros);
             WriteLineBreak('═');
 
@@ -537,6 +546,10 @@ namespace ScriptExDee_II
         public static void WriteLineBreak(char c, int len)
         {
             Console.WriteLine(new String(c, len));
+        }
+        public static void WriteLine()
+        {
+            Console.WriteLine();
         }
         public static void WriteLine(string line)
         {

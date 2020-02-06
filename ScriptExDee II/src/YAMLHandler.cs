@@ -69,6 +69,15 @@ namespace ScriptExDee_II
             return false;
         }
 
+        public bool IsInvokeKey(string key)
+        {
+            if (key == Program.InvokeReflectionKey)
+            {
+                return true;
+            }
+            return false;
+        }
+
         public bool IsMacroKey(string key)
         {
             return Macros.ContainsKey(key);
@@ -134,6 +143,7 @@ namespace ScriptExDee_II
         public bool SetPerformanceMode { get; set; }
         public int TitleScreenDelay { get; set; }
         public string DefaultMode { get; set; }
+        public string InvokeReflectionKey { get; set; }
         public Dictionary<string, string> ModeKeys { get; set; }
         public Dictionary<string, string> SpecialKeys { get; set; }
     }

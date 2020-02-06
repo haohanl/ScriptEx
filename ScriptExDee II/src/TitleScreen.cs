@@ -27,28 +27,13 @@ namespace ScriptExDee_II
         {          
             // Animate starting text
             AnimateWrite(Title, Program.Config.Program.TitleScreenDelay);
-            WriteLineBreak('═', TSIZE);
+            Terminal.WriteLineBreak('═', TSIZE);
         }
 
-        public static void Show()
+        public static void ShowSummary()
         {
-            // Start Threads
-            Program.ThrShowTitle.Start();
-            Program.ThrPowerControl.Start();
-
-            // Check for System check parameter
-            if (!Program.Config.Program.DisableSystemCheck)
-            {
-                Program.ThrSysInfo.Start();
-                Program.ThrSysInfo.Join();
-            }
-
-            // Join threads
-            Program.ThrShowTitle.Join();
-            Program.ThrPowerControl.Join();
-
-            //
-
+            // Show Initialisation Summary
+            WriteLine("Set to Performance Mode... done");
             Terminal.WriteLineBreak();
 
             // Show SysSummary

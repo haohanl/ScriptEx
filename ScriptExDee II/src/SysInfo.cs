@@ -21,7 +21,7 @@ namespace ScriptExDee_II
         static public OSData OS = null;
         static public bool Initialised = false;
 
-        public static void GatherSysInfo()
+        public static void Initialise()
         {
             // Attempt to gather info
             try
