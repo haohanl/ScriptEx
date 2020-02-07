@@ -91,7 +91,7 @@ namespace ScriptExDee_II
             return Macros.ContainsKey(key);
         }
 
-        public bool ContainsKey(string mode, string key)
+        public bool IsCommandKey(string mode, string key)
         {
             if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(mode))
             {
@@ -138,7 +138,7 @@ namespace ScriptExDee_II
 
         public CommandItem GetCommandItem(string mode, string key)
         {
-            if (ContainsKey(mode, key))
+            if (IsCommandKey(mode, key))
             {
                 return Modes[mode].Commands[key];
             }

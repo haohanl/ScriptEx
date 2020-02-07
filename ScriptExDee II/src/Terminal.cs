@@ -175,7 +175,7 @@ namespace ScriptExDee_II
                 }
 
                 // Check for key validity
-                if (Program.Config.ContainsKey(_currentMode, key))
+                if (Program.Config.IsCommandKey(_currentMode, key))
                 {
                     _validCommands.Add(key);
                     continue;
@@ -236,7 +236,7 @@ namespace ScriptExDee_II
                 }
 
                 // Check for key validity
-                if (Program.Config.ContainsKey(_currentMode, key))
+                if (Program.Config.IsCommandKey(_currentMode, key))
                 {
                     Thread thr = new Thread(() => RoboCopy.Copy(_currentMode, key));
                     thr.Start();
@@ -293,7 +293,7 @@ namespace ScriptExDee_II
                 }
 
                 // Check for key validity
-                if (Program.Config.ContainsKey(CurrentMode, key))
+                if (Program.Config.IsCommandKey(CurrentMode, key))
                 {
                     Thread _cmdThr = new Thread(() => RunCommand(CurrentMode, key));
                     _cmdThr.Start();
