@@ -83,6 +83,19 @@ namespace ScriptExDee_II.Shelleton.Commands
         /// </summary>
         public static void cti(string mode, string key)
         {
+            // check validity of mode and key
+            if (!Program.Config.Program.ModeKeys.Values.Contains(mode))
+            {
+                Console.WriteLine("Invalid mode");
+                return;
+            }
+            if (!Program.Config.IsCommandKey(mode, key))
+            {
+                Console.WriteLine("Invalid command key");
+                return;
+            }
+
+            // perform cti check
             CommandTransferInfo _cti = new CommandTransferInfo(mode, key);
             Terminal.WriteLineBreak();
             Console.WriteLine("   NAME: " + _cti.Name);
