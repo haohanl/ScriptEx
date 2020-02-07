@@ -73,7 +73,7 @@ namespace ScriptExDee_II.Shelleton
             }
             catch (Exception ex)
             {
-                WriteLine("EXCEPTION: " + ex);
+                WriteLine("EXCEPTION: " + ex.Message);
             }
         }
 

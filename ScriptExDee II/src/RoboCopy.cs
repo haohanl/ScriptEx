@@ -114,7 +114,6 @@ namespace ScriptExDee_II
         public static void Copy(string mode, string key)
         {
             // Get relevant config data
-            CommandItem _command = Program.Config.GetCommandItem(mode, key);
             ModeConfig _mode = Program.Config.Modes[mode];
 
             // Check for Copy permission
@@ -123,24 +122,11 @@ namespace ScriptExDee_II
                 return;
             }
 
-            // Set transfer name
-            string _desc = _command.Name;
-
-            // Create paths for robocopy
-            string _modeRoot = Path.Combine(SrcDrive, _mode.SrcModeRoot);
-            string _srcPath = _command.GetNewestSrcPath(_modeRoot);
-
-            string _dstRoot = Environment.ExpandEnvironmentVariables(_mode.DstModeRoot);
-            string _dstPath = _command.GetDstPath(_dstRoot);
-
-            // Validate paths
-            if (_srcPath == null || _dstPath == null)
-            {
-                return;
-            }
-
+            // Collect transfer information
+            CommandTransferInfo _cti = new CommandTransferInfo(mode, key);
+            
             // Execute copy
-            Copy(_srcPath, _dstPath, _desc);
+            Copy(_cti.NewestSrcPath, _cti.DstPath, _cti.Name);
 
         }
 
@@ -232,6 +218,98 @@ namespace ScriptExDee_II
             }
 
             return null;
+        }
+    }
+
+    /// <summary>
+    /// Store information relating to robocopy for a commanditem
+    /// </summary>
+    public class CommandTransferInfo
+    {
+        public string Name;
+        public string NewestSrcPath;
+        public string SrcPath;
+        public string NetPath;
+        public string DstPath;
+        public CommandTransferInfo(string mode, string key)
+        {
+            // Get relevant config data
+            ModeConfig _mode = Program.Config.Modes[mode];
+            CommandItem _command = Program.Config.GetCommandItem(mode, key);
+
+            // Set transfer name
+            Name = _command.Name;
+
+            // Check for copy permissions
+            if (!_mode.SrcCopy)
+            {
+                Name = _command.Name + " [ROBOCOPY DISABLED]";
+                NewestSrcPath = null;
+                SrcPath = null;
+                NetPath = null;
+                DstPath = null;
+                return;
+            }
+
+            // Grab local src path
+            if (string.IsNullOrEmpty(RoboCopy.SrcDrive))
+            {
+                SrcPath = null;
+            }
+            else
+            {
+                string _modeRoot = Path.Combine(RoboCopy.SrcDrive, _mode.SrcModeRoot);
+                SrcPath = _command.GetNewestSrcPath(_modeRoot);
+            }
+
+            // Grab dst path
+            string _dstRoot = Environment.ExpandEnvironmentVariables(_mode.DstModeRoot);
+            DstPath = _command.GetDstPath(_dstRoot);
+
+            // Grab remote src path
+            if (Directory.Exists(_mode.NetModeRoot))
+            {
+                NetPath = _command.GetNewestNetPath(_mode.NetModeRoot);
+            }
+
+            // Get the newest path
+            GetNewestPath();
+        }
+
+        private void GetNewestPath()
+        {
+            // Set one to be the newest if another is unavailable
+            if (string.IsNullOrEmpty(NetPath) && string.IsNullOrEmpty(SrcPath))
+            {
+                NewestSrcPath = null;
+                return;
+            }
+            if (string.IsNullOrEmpty(NetPath))
+            {
+                NewestSrcPath = SrcPath;
+                return;
+            }
+            if (string.IsNullOrEmpty(SrcPath))
+            {
+                NewestSrcPath = NetPath;
+                return;
+            }
+
+            // Find the newest
+            DirectoryInfo _net = new DirectoryInfo(NetPath);
+            DirectoryInfo _src = new DirectoryInfo(SrcPath);
+
+            int _result = DateTime.Compare(_src.CreationTime, _net.CreationTime);
+
+            if (_result >= 0)
+            {
+                NewestSrcPath = SrcPath;
+            }
+            else
+            {
+                NewestSrcPath = NetPath;
+            }
+
         }
     }
 }

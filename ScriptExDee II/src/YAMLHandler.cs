@@ -79,7 +79,7 @@ namespace ScriptExDee_II
 
         public bool IsInvokeKey(string key)
         {
-            if (key == Program.InvokeReflectionKey)
+            if (key == Program.InvokeKey)
             {
                 return true;
             }
@@ -152,7 +152,7 @@ namespace ScriptExDee_II
         public bool IgnoreInvalidCommands { get; set; }
         public int TitleScreenDelay { get; set; }
         public string DefaultMode { get; set; }
-        public string InvokeReflectionKey { get; set; }
+        public string InvokeKey { get; set; }
         public List<string> StartupCommands { get; set; }
         public Dictionary<string, string> ModeKeys { get; set; }
         public Dictionary<string, string> SpecialKeys { get; set; }
@@ -167,35 +167,16 @@ namespace ScriptExDee_II
         public string SrcDriveLetter { get; set; }
         public bool SrcUseNetwork { get; set; }
         public bool SrcPreferNetwork { get; set; }
-        public string SrcNetworkRoot { get; set; }
     }
 
     public class ModeConfig
     {
         public bool SrcCopy { get; set; }
         public string SrcModeRoot { get; set; }
+        public string NetModeRoot { get; set; }
         public string DstModeRoot { get; set; }
         public List<string> Categories { get; set; }
         public Dictionary<string, CommandItem> Commands { get; set; }
-
-        /// <summary>
-        /// Return a List of CommandItem objects that match the given category
-        /// </summary>
-        public List<CommandItem> GetCategory(string category)
-        {
-            // search for matching items
-            var list = new List<CommandItem>();
-
-            foreach (var command in Commands.Values)
-            {
-                if (command.Category == category)
-                {
-                    list.Append(command);
-                }
-            }
-
-            return list;
-        }
     }
 
     public class CommandItem
@@ -204,13 +185,10 @@ namespace ScriptExDee_II
         public string Category { get; set; }
         public string Exec { get; set; }
         public string Args { get; set; }
-        public string Path { get; set; }
+        public string SrcPath { get; set; }
+        public string NetPath { get; set; }
         public int Delay { get; set; }
         public bool IgnoreThreadBlock { get; set; }
-        public override string ToString()
-        {
-            return $"Name: {Name}\nCategory: {Category}\nExec: {Exec}\nArgs: {Args}\nPath: {Path}\nDelay: {Delay}\nIgnoreBlockThread: {IgnoreThreadBlock}";
-        }
 
         /// <summary>
         /// Return the path of the newest folder in the command root
@@ -218,7 +196,7 @@ namespace ScriptExDee_II
         public string GetNewestSrcPath(string modeRoot)
         {
             // Path variables           
-            string _srcRoot = System.IO.Path.Combine(modeRoot, Path);
+            string _srcRoot = System.IO.Path.Combine(modeRoot, SrcPath);
             string _srcPath = null;
 
             // Ensure the path exists
@@ -228,7 +206,29 @@ namespace ScriptExDee_II
             }
             catch (Exception)
             {
-                Terminal.WriteLine($"Remote source does not exist for '{Name}'. Attempting local execution.", "!");
+                Terminal.WriteLine($"Local source does not exist for '{Name}'.", "!");
+                return null;
+            }
+            return _srcPath;
+        }
+
+        /// <summary>
+        /// Return the path of the newest folder in the command root
+        /// </summary>
+        public string GetNewestNetPath(string modeRoot)
+        {
+            // Path variables           
+            string _srcRoot = System.IO.Path.Combine(modeRoot, NetPath);
+            string _srcPath = null;
+
+            // Ensure the path exists
+            try
+            {
+                _srcPath = new DirectoryInfo(_srcRoot).GetDirectories().OrderBy(fi => fi.CreationTime).Last().FullName;
+            }
+            catch (Exception)
+            {
+                Terminal.WriteLine($"Remote source does not exist for '{Name}'.", "!");
                 return null;
             }
             return _srcPath;
@@ -240,7 +240,7 @@ namespace ScriptExDee_II
         public string GetDstPath(string modeRoot)
         {
             string _dstRoot = Environment.ExpandEnvironmentVariables(modeRoot);
-            string _dstPath = System.IO.Path.Combine(_dstRoot, Path);
+            string _dstPath = System.IO.Path.Combine(_dstRoot, SrcPath);
             return _dstPath;
         }
     }

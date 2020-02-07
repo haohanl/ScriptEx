@@ -4,25 +4,44 @@
 
 
 ---
-# Program operating parameters
+# Program parameters. Only change these if you know what
+# you are doing or aren't afraid to break something.
 Program:
+    # If an invalid command is found in the input, no
+    # commands will run. Change this if you want input
+    # containing invalid commands to still run valid
+    # inputs. 
     IgnoreInvalidCommands: false
-    TitleScreenDelay: 20
-    InvokeReflectionKey: "/"
 
+    # The speed at which the title animation runs.
+    # Less is faster, more is slower.
+    TitleScreenDelay: 20
+
+    # Invoke key must be used at the start of an input.
+    # When detected, all input will be directed to the
+    # Shelleton interface. 
+    InvokeKey: "/"
+
+    # Shelleton commands to run at program startup.
     StartupCommands:
         - Startup.SetPerformanceMode true
         - Startup.AutoWinUpdate true
-        - Startup.RunSystemCheck true
+        - Startup.RunSystemCheck false
 
-
+    # Default starting mode of the program. This mode
+    # will be selected if no valid mode is requested
+    # at the title screen.
     DefaultMode: "!s"
+
+    # Command keys to change the mode of the program.
     ModeKeys:
         "!s": Software
         "!t": Testing
         "!u": Utility
         "!q": QC
 
+    # Command keys with special functionality within
+    # the program. 
     SpecialKeys:
         "|": Threadblock
         "?": Show Commands
@@ -30,25 +49,37 @@ Program:
       
 # RoboCopy operating parameters
 RoboCopy:
+    # Configure this to match your storage device. 
+    # Only change SrcDriveRoot if all SrcModeRoot paths are
+    # in a subdirectory within the drive.
     SrcDriveName: SAMSUNG USB
     SrcDriveRoot: ~
     SrcDriveType: Removable 
 
+    # Only for testing purposes. Program will automatically
+    # fall back to any removable media devices if main
+    # source is not found.
     ForceSrcDriveLetter: false
     SrcDriveLetter: D
 
-    # To be implemented
-    SrcUseNetwork: false
-    SrcPreferNetwork: false
-    SrcNetworkRoot: "\\\\cache\\SI Software"
+    # Program will compare local and network folder creation times
+    # and choose the newest to copy. 
+    # Network must be public and not require credentials.
+    SrcUseNetwork: true
 
 
-# Modes of operation
+# Each operating mode will contain its own set of commands.
+# When creating new commands, follow the convention of lowercase
+# keys for Mode commands and uppercase keys for Macro commands.
 Modes:
-    # Software installation command configuration
+
+    # Software installation mode.
+    # Contains commands pertaining to system software
+    # and driver installations. 
     Software:
         SrcCopy: true
         SrcModeRoot: SOFTWARE
+        NetModeRoot: "\\\\LIU-WORKSTATION\\Software"
         DstModeRoot: "%USERPROFILE%\\Desktop\\Setup"
 
         Categories:
@@ -62,7 +93,8 @@ Modes:
                 Category: driver
                 Exec: setup.exe
                 Args: -noreboot -nosplash
-                Path: _NVIDIA GPU
+                SrcPath: _NVIDIA GPU
+                NetPath: Nvidia
                 Delay: 0
                 IgnoreThreadBlock: false
             na:
@@ -70,7 +102,8 @@ Modes:
                 Category: driver
                 Exec: NV_INSTALL.exe
                 Args: ~
-                Path: _NVIDIA AUTO
+                SrcPath: _NVIDIA AUTO
+                NetPath: Nvidia Auto
                 Delay: 0
                 IgnoreThreadBlock: false
             amd:
@@ -78,7 +111,8 @@ Modes:
                 Category: driver
                 Exec: Setup.exe
                 Args: ~
-                Path: _AMD GPU
+                SrcPath: _AMD GPU
+                NetPath: AMD
                 Delay: 0
                 IgnoreThreadBlock: false
             amds:
@@ -86,7 +120,8 @@ Modes:
                 Category: driver
                 Exec: Setup.exe
                 Args: -INSTALL
-                Path: _AMD GPU
+                SrcPath: _AMD GPU
+                NetPath: AMD
                 Delay: 0
                 IgnoreThreadBlock: false
             amc:
@@ -94,7 +129,8 @@ Modes:
                 Category: driver
                 Exec: "*.exe"
                 Args: ~
-                Path: _AMD Chipset
+                SrcPath: _AMD Chipset
+                NetPath: AMD Chipset
                 Delay: 0
                 IgnoreThreadBlock: false
             ig:
@@ -102,7 +138,8 @@ Modes:
                 Category: driver
                 Exec: igxpin.exe
                 Args: -s -overwrite
-                Path: _INTEL iGPU
+                SrcPath: _INTEL iGPU
+                NetPath: Intel
                 Delay: 0
                 IgnoreThreadBlock: false
     
@@ -112,7 +149,8 @@ Modes:
                 Category: lighting
                 Exec: Setup.exe
                 Args: ~
-                Path: AMD Wraith Prism
+                SrcPath: AMD Wraith Prism
+                NetPath: Wraith Prism
                 Delay: 0
                 IgnoreThreadBlock: false
             au:
@@ -120,7 +158,8 @@ Modes:
                 Category: lighting
                 Exec: AsusSetup.exe
                 Args: /s /SMS
-                Path: ASUS Aura
+                SrcPath: ASUS Aura
+                NetPath: Aura
                 Delay: 0
                 IgnoreThreadBlock: false
             aug:
@@ -128,7 +167,8 @@ Modes:
                 Category: lighting
                 Exec: AsusSetup.exe
                 Args: /s /SMS
-                Path: ASUS Aura GPU
+                SrcPath: ASUS Aura GPU
+                NetPath: Aura GPU
                 Delay: 0
                 IgnoreThreadBlock: false
             ac:
@@ -136,7 +176,8 @@ Modes:
                 Category: lighting
                 Exec: "*.exe"
                 Args: ~
-                Path: ASUS Armory Crate
+                SrcPath: ASUS Armory Crate
+                NetPath: Armory Crate
                 Delay: 0
                 IgnoreThreadBlock: false
             al:
@@ -144,7 +185,8 @@ Modes:
                 Category: lighting
                 Exec: AsusSetup.exe
                 Args: /s /SMS
-                Path: ASUS LiveDash
+                SrcPath: ASUS LiveDash
+                NetPath: Livedash
                 Delay: 0
                 IgnoreThreadBlock: false
             cm:
@@ -152,7 +194,8 @@ Modes:
                 Category: lighting
                 Exec: "*.exe"
                 Args: /SILENT /NORESTART /SP-
-                Path: CM MasterPlus
+                SrcPath: CM MasterPlus
+                NetPath: MasterPlus
                 Delay: 0
                 IgnoreThreadBlock: false
             tb:
@@ -160,7 +203,8 @@ Modes:
                 Category: lighting
                 Exec: Setup.exe
                 Args: /s /SMS
-                Path: TEAM Blitz
+                SrcPath: TEAM Blitz
+                NetPath: Blitz
                 Delay: 0
                 IgnoreThreadBlock: false
             ci:
@@ -168,7 +212,8 @@ Modes:
                 Category: lighting
                 Exec: "*.msi"
                 Args: /qb
-                Path: CORSAIR iCUE
+                SrcPath: CORSAIR iCUE
+                NetPath: iCUE
                 Delay: 0
                 IgnoreThreadBlock: false
             mm:
@@ -176,7 +221,8 @@ Modes:
                 Category: lighting
                 Exec: "*.exe"
                 Args: /SILENT /NORESTART /SP- 
-                Path: MSI Mystic Light
+                SrcPath: MSI Mystic Light
+                NetPath: Mystic Light
                 Delay: 0
                 IgnoreThreadBlock: false
             md2:
@@ -184,7 +230,8 @@ Modes:
                 Category: lighting
                 Exec: "*.exe"
                 Args: /SILENT /NORESTART /SP- 
-                Path: MSI Dragon Center 2
+                SrcPath: MSI Dragon Center 2
+                NetPath: Dragon Center
                 Delay: 0
                 IgnoreThreadBlock: false
             md2s:
@@ -192,7 +239,8 @@ Modes:
                 Category: lighting
                 Exec: "*.exe"
                 Args: /SILENT /NORESTART /SP- 
-                Path: MSI OneDC_SDK
+                SrcPath: MSI OneDC_SDK
+                NetPath: OneDC_SDK
                 Delay: 0
                 IgnoreThreadBlock: false
             nc:
@@ -200,7 +248,8 @@ Modes:
                 Category: lighting
                 Exec: "*.exe"
                 Args: ~ 
-                Path: NZXT CAM
+                SrcPath: NZXT CAM
+                NetPath: CAM
                 Delay: 0
                 IgnoreThreadBlock: false
             gr:
@@ -208,7 +257,8 @@ Modes:
                 Category: lighting
                 Exec: UpdPack.exe
                 Args: ~
-                Path: GIGABYTE RGBFusion
+                SrcPath: GIGABYTE RGBFusion
+                NetPath: RGBFusion
                 Delay: 0
                 IgnoreThreadBlock: false
             ga:
@@ -216,14 +266,18 @@ Modes:
                 Category: lighting
                 Exec: "*.exe"
                 Args: /SILENT /NORESTART /SP-
-                Path: GIGABYTE Aorus Engine
+                SrcPath: GIGABYTE Aorus Engine
+                NetPath: Aorus Engine
                 Delay: 0
                 IgnoreThreadBlock: false
 
-    # Testing suite command configuration
+    # Testing mode.
+    # Contains commands pertaining to system stress testing
+    # and benchmarking. 
     Testing:
         SrcCopy: false
         SrcModeRoot: AAA Testing
+        NetModeRoot: ~
         DstModeRoot: "%USERPROFILE%\\Desktop\\AAA Testing"
 
         Categories:
@@ -237,7 +291,7 @@ Modes:
                 Category: cpu + ram
                 Exec: prime95.exe
                 Args: -t
-                Path: Benchmark
+                SrcPath: Benchmark
                 Delay: 5000
                 IgnoreThreadBlock: false
             f:
@@ -245,7 +299,7 @@ Modes:
                 Category: gpu
                 Exec: FurMark.exe
                 Args: /nogui /msaa=8 /width=1280 height=720 /xtreme_burning
-                Path: Benchmark
+                SrcPath: Benchmark
                 Delay: 0
                 IgnoreThreadBlock: false
             f15:
@@ -253,7 +307,7 @@ Modes:
                 Category: gpu
                 Exec: FurMark.exe
                 Args: /nogui /msaa=8 /width=1280 height=720 /max_time=900000 /xtreme_burning
-                Path: Benchmark
+                SrcPath: Benchmark
                 Delay: 0
                 IgnoreThreadBlock: false
             f25:
@@ -261,7 +315,7 @@ Modes:
                 Category: gpu
                 Exec: FurMark.exe
                 Args: /nogui /msaa=8 /width=1280 height=720 /max_time=1500000 /xtreme_burning
-                Path: Benchmark
+                SrcPath: Benchmark
                 Delay: 0
                 IgnoreThreadBlock: false
             a:
@@ -269,7 +323,7 @@ Modes:
                 Category: cpu + ram
                 Exec: aida64.exe
                 Args: /SST CPU,FPU,Cache,RAM
-                Path: AIDA64
+                SrcPath: AIDA64
                 Delay: 1000
                 IgnoreThreadBlock: false
             a15:
@@ -277,7 +331,7 @@ Modes:
                 Category: cpu + ram
                 Exec: aida64.exe
                 Args: /SST CPU,FPU,Cache,RAM /SSTDUR 15
-                Path: AIDA64
+                SrcPath: AIDA64
                 Delay: 1000
                 IgnoreThreadBlock: false
             a25:
@@ -285,7 +339,7 @@ Modes:
                 Category: cpu + ram
                 Exec: aida64.exe
                 Args: /SST CPU,FPU,Cache,RAM /SSTDUR 25
-                Path: AIDA64
+                SrcPath: AIDA64
                 Delay: 1000
                 IgnoreThreadBlock: false
             m:
@@ -293,7 +347,7 @@ Modes:
                 Category: other
                 Exec: HWMonitor_x64.exe
                 Args: ~
-                Path: Benchmark
+                SrcPath: Benchmark
                 Delay: 0
                 IgnoreThreadBlock: true
             s:
@@ -301,7 +355,7 @@ Modes:
                 Category: gpu
                 Exec: launcher.exe
                 Args: ~
-                Path: Benchmark\Superposition\bin
+                SrcPath: Benchmark\Superposition\bin
                 Delay: 0
                 IgnoreThreadBlock: false
             h:
@@ -309,7 +363,7 @@ Modes:
                 Category: gpu
                 Exec: heaven_modified.bat
                 Args: ~
-                Path: Benchmark\Heaven
+                SrcPath: Benchmark\Heaven
                 Delay: 0
                 IgnoreThreadBlock: false
             i:
@@ -317,14 +371,17 @@ Modes:
                 Category: cpu + ram
                 Exec: IntelBurnTestV2.exe
                 Args: ~
-                Path: "IBT\\IntelBurnTestV2.New"
+                SrcPath: "IBT\\IntelBurnTestV2.New"
                 Delay: 0
                 IgnoreThreadBlock: false
             
-    # QC suite command configuration
+    # QC mode.
+    # Contains commands pertaining to finalising a system
+    # for the final quality control phase. 
     QC:
         SrcCopy: false
         SrcModeRoot: AAA Testing
+        NetModeRoot: ~
         DstModeRoot: "%USERPROFILE%\\Desktop\\AAA Testing"
             
         Commands:
@@ -332,64 +389,67 @@ Modes:
                 Name: Task Manager
                 Exec: Task Manager.lnk
                 Args: ~
-                Path: QC
+                SrcPath: QC
                 Delay: 0
                 IgnoreThreadBlock: false
             dv:
                 Name: Device Manager
                 Exec: devmgmt.msc.lnk
                 Args: ~
-                Path: QC
+                SrcPath: QC
                 Delay: 0
                 IgnoreThreadBlock: false
             ds:
                 Name: Disk Management
                 Exec: diskmgmt.msc.lnk
                 Args: ~
-                Path: QC
+                SrcPath: QC
                 Delay: 0
                 IgnoreThreadBlock: false
             sd:
                 Name: Sound Devices
                 Exec: mmsys.cpl.lnk
                 Args: ~
-                Path: QC
+                SrcPath: QC
                 Delay: 0
                 IgnoreThreadBlock: false
             a:
                 Name: Windows Activation
                 Exec: slui.lnk
                 Args: ~
-                Path: QC
+                SrcPath: QC
                 Delay: 0
                 IgnoreThreadBlock: false
             sw:
                 Name: System Window (PC Summary)
                 Exec: controlsys.lnk
                 Args: ~
-                Path: QC
+                SrcPath: QC
                 Delay: 0
                 IgnoreThreadBlock: false
             u:
                 Name: Windows Update
                 Exec: msupdate.url
                 Args: ~
-                Path: QC
+                SrcPath: QC
                 Delay: 2500
                 IgnoreThreadBlock: false
             e:
                 Name: Windows Explorer
                 Exec: explorer.lnk
                 Args: ~
-                Path: QC
+                SrcPath: QC
                 Delay: 0
                 IgnoreThreadBlock: false
             
 
-    # Utility suite command configuration
+    # Utility mode.
+    # Contains commands pertaining to activities outside of
+    # software installation, testing, or quality control. 
     Utility:
         SrcCopy: true
         SrcModeRoot: UTILITIES
+        NetModeRoot: ~
         DstModeRoot: "%USERPROFILE%\\Desktop\\Utilities"
 
         Commands:
@@ -397,26 +457,38 @@ Modes:
                 Name: Revo Uninstaller
                 Exec: RevoUPort.exe
                 Args: ~
-                Path: Revo Uninstaller
+                SrcPath: Revo Uninstaller
+                Delay: 0
+                IgnoreThreadBlock: true
+            d:
+                Name: DDU (Manual)
+                Exec: "*.exe"
+                Args: ~
+                SrcPath: DDU
                 Delay: 0
                 IgnoreThreadBlock: false
             dn:
                 Name: DDU (NVIDIA)
                 Exec: DDU_NV.bat
                 Args: ~
-                Path: DDU
+                SrcPath: DDU
                 Delay: 0
                 IgnoreThreadBlock: false
             da:
                 Name: DDU (AMD)
                 Exec: DDU_AMD.bat
                 Args: ~
-                Path: DDU
+                SrcPath: DDU
                 Delay: 0
                 IgnoreThreadBlock: false
 
 
-# Program macros for sequential execution
+# Macros execute a line of commands as they would be executed
+# from the terminal. SetMode ensures the macro will begin
+# running in the correct Mode. 
+#
+# When creating new commands, follow the convention of lowercase
+# keys for Mode commands and uppercase keys for Macro commands.
 Macros:
     F:
         Name: Prime + Furmark
@@ -427,7 +499,7 @@ Macros:
         SetMode: "!t"
         Command: a f25 m | s
     Q:
-        Name: QC Windows
+        Name: Open QC Windows
         SetMode: "!q"
         Command: dv ds sw e u
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace ScriptExDee_II.Shelleton.Commands
 {
@@ -37,6 +38,31 @@ namespace ScriptExDee_II.Shelleton.Commands
             {
                 DeleteTaskService();
             }
+        }
+
+        public static void checkpath(string path)
+        {
+            if (Directory.Exists(path))
+            {
+                Console.WriteLine($"Path exists [{path}]");
+            }
+            else
+            {
+                Console.WriteLine($"Path not found [{path}]");
+            }
+        }
+
+        /// <summary>
+        /// Retrieve CopyTransferInformation from a specific command key
+        /// </summary>
+        public static void cti(string mode, string key)
+        {
+            CommandTransferInfo _cti = new CommandTransferInfo(mode, key);
+            Console.WriteLine("NAME: " + _cti.Name);
+            Console.WriteLine("NEWEST: " + _cti.NewestSrcPath);
+            Console.WriteLine("SRC: " + _cti.SrcPath);
+            Console.WriteLine("NET: " + _cti.NetPath);
+            Console.WriteLine("DST: " + _cti.DstPath);
         }
         #endregion
 
