@@ -26,6 +26,7 @@ Program:
     StartupCommands:
         - Startup.SetPerformanceMode true
         - Startup.AutoWinUpdate true
+        - Startup.EnableAutoStart true
         - Startup.RunSystemCheck false
 
     # Default starting mode of the program. This mode

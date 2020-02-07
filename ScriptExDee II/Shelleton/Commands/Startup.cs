@@ -48,5 +48,19 @@ namespace ScriptExDee_II.Shelleton.Commands
                 Console.WriteLine(TitleScreen.TAB + "Set to Performance Mode... disabled");
             }
         }
+
+        public static void EnableAutoStart(bool toggle=true)
+        {
+            if (toggle)
+            {
+                Console.Write(TitleScreen.TAB + "Enable Autostart Service... ");
+                TaskHandler.CreateTaskService();
+                Console.WriteLine("done");
+            }
+            else
+            {
+                Console.WriteLine(TitleScreen.TAB + "Enable Autostart Service... disabled");
+            }
+        }
     }
 }
