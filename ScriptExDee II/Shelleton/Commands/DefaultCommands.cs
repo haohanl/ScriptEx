@@ -75,7 +75,7 @@ namespace ScriptExDee_II.Shelleton.Commands
             {
                 List<string> Arguments = new List<string>(key.RequiredArgs);
                 Arguments.AddRange(key.OptionalArgs);
-                Console.WriteLine(string.Format("{0, -30} │ {1}", 
+                Console.WriteLine(string.Format(" {0, -30} │ {1}", 
                     key.Name, string.Join(" ", Arguments)
                     ));
             }

@@ -381,8 +381,10 @@ namespace ScriptExDee_II.Shelleton
             {
                 foreach (var _command in _commandLibraries[_class].Keys)
                 {
-                    CommandHelpInfo _chi = new CommandHelpInfo();
-                    _chi.Name = string.Format("{0}.{1}", _class, _command);
+                    CommandHelpInfo _chi = new CommandHelpInfo
+                    {
+                        Name = string.Format("{0}.{1}", _class, _command)
+                    };
 
                     IEnumerable<ParameterInfo> _params = _commandLibraries[_class][_command].ToList();
                     foreach (var _param in _params)
