@@ -8,7 +8,40 @@ namespace ScriptExDee_II.Shelleton.Commands
 {
     public static class DefaultCommands
     {
-        public static void Help()
+
+        #region # Terminal accessible commands
+        public static void h()
+        {
+            Console.WriteLine("SHELLETON COMMANDS (<> Required argument, [] Optional argument):");
+            Help();
+        }
+
+        public static void si()
+        {
+            SysSummary();
+        }
+
+        public static void cleanup(bool toggle=true)
+        {
+            DeleteTaskService();
+            CleanupOnExit(toggle);
+        }
+
+        public static void autostart(bool toggle=true)
+        {
+            if (toggle)
+            {
+                CreateTaskService();
+            }
+            else
+            {
+                DeleteTaskService();
+            }
+        }
+        #endregion
+
+        #region # Program interface methods
+        static void Help()
         {
             foreach (var key in Shell.GetCommands())
             {
@@ -16,26 +49,27 @@ namespace ScriptExDee_II.Shelleton.Commands
             }
         }
         
-        public static void SysSummary()
+        static void SysSummary()
         {
             SysInfo.Initialise();
             Terminal.WriteLineBreak();
             SysInfo.SysSummary(" ");
         }
 
-        public static void CreateTaskService()
+        static void CreateTaskService()
         {
             TaskHandler.CreateTaskService();
         }
 
-        public static void DeleteTaskService()
+        static void DeleteTaskService()
         {
             TaskHandler.DeleteTaskService();
         }
 
-        public static void CleanupOnExit(bool toggle=true)
+        static void CleanupOnExit(bool toggle=true)
         {
             ExitHandler.CleanupOnExit(toggle);
         }
+        #endregion
     }
 }

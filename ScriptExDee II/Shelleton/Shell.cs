@@ -375,7 +375,22 @@ namespace ScriptExDee_II.Shelleton
             {
                 foreach (var _command in _commandLibraries[_class].Keys)
                 {
-                    _commands.Add(string.Format("{0}.{1}", _class, _command));
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append(string.Format("{0}.{1}", _class, _command));
+
+                    IEnumerable<ParameterInfo> _params = _commandLibraries[_class][_command].ToList();
+                    foreach (var _param in _params)
+                    {
+                        if (_param.IsOptional)
+                        {
+                            sb.Append(string.Format(" [{0}]",_param.ToString()));
+                        }
+                        else
+                        {
+                            sb.Append(string.Format(" <{0}>", _param.ToString()));
+                        }
+                    }
+                    _commands.Add(sb.ToString());
                 }
             }
 

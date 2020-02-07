@@ -43,11 +43,19 @@ namespace ScriptExDee_II
         // Validation Methods
         public bool IsModeKey(string key)
         {
+            if (string.IsNullOrEmpty(key))
+            {
+                return false;
+            }
             return Program.ModeKeys.ContainsKey(key);
         }
         
         public bool IsSpecialKey(string key)
         {
+            if (string.IsNullOrEmpty(key))
+            {
+                return false;
+            }
             return Program.SpecialKeys.ContainsKey(key);
         }
 
@@ -85,6 +93,10 @@ namespace ScriptExDee_II
 
         public bool ContainsKey(string mode, string key)
         {
+            if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(mode))
+            {
+                return false;
+            }
             if (Modes.ContainsKey(mode))
             {
                 if (Modes[mode].Commands.ContainsKey(key))

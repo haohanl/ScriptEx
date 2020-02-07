@@ -96,6 +96,9 @@
     <Compile Include="Src\YAMLHandler.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\.editorconfig">
+      <Link>.editorconfig</Link>
+    </None>
     <None Include="App.config" />
     <None Include="app.manifest" />
     <None Include="packages.config" />
