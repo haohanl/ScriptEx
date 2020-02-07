@@ -73,7 +73,8 @@ namespace ScriptExDee_II.Shelleton
             }
             catch (Exception ex)
             {
-                WriteLine("EXCEPTION: " + ex.Message);
+                WriteLine(" EXCEPTION: " + ex.Message);
+                WriteLine("STACKTRACE: \n" + ex.StackTrace);
             }
         }
 
@@ -102,17 +103,19 @@ namespace ScriptExDee_II.Shelleton
             int optionalCount = optionalParams.Count();
             int providedCount = command.Arguments.Count();
 
+            List<string> _args = new List<string>(ParameterInfoToStringList(optionalParams));
+            _args.AddRange(ParameterInfoToStringList(requiredParams));
             if (requiredCount > providedCount)
             {
                 return string.Format(
-                    "Missing required argument. {0} required, {1} optional, {2} provided",
-                    requiredCount, optionalCount, providedCount);
+                    "Missing required arguments ({0} required, {1} optional, {2} provided)\n --> {3}.{4} {5}",
+                    requiredCount, optionalCount, providedCount, command.LibraryClassName, command.Name, string.Join(" ", _args));
             }
             if (providedCount > (requiredCount + optionalCount))
             {
                 return string.Format(
-                    "Too many arguments provided. {0} required, {1} optional, {2} provided",
-                    requiredCount, optionalCount, providedCount);
+                    "Too many arguments provided ({0} required, {1} optional, {2} provided)\n --> {3}.{4} {5}",
+                    requiredCount, optionalCount, providedCount, command.LibraryClassName, command.Name, string.Join(" ", _args));
             }
 
             // Make sure all arguments are coerced to the proper type, and that there is a 
@@ -155,8 +158,8 @@ namespace ScriptExDee_II.Shelleton
                         string argumentTypeName = typeRequired.Name;
                         string message =
                             string.Format(""
-                            + "The value passed for argument '{0}' cannot be parsed to type '{1}'",
-                            argumentName, argumentTypeName);
+                            + "Argument '{0}' contains value '{1}' that cannot be parsed to type '{2}'",
+                            argumentName, command.Arguments.ElementAt(i), argumentTypeName);
                         throw new ArgumentException(message);
                     }
                 }
@@ -372,6 +375,24 @@ namespace ScriptExDee_II.Shelleton
             return string.Format("Command does not exist.");
         }
 
+        static List<string> ParameterInfoToStringList(IEnumerable<ParameterInfo> parameterList)
+        {
+            List<string> ls = new List<string>();
+
+            foreach (var item in parameterList)
+            {
+                if (item.IsOptional)
+                {
+                    ls.Add($"[{item.ToString()}]");
+                }
+                else
+                {
+                    ls.Add($"<{item.ToString()}>");
+                }
+            }
+
+            return ls;
+        }
 
         public static List<CommandHelpInfo> GetCommands()
         {
