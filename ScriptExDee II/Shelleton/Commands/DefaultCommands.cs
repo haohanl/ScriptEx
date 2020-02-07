@@ -70,9 +70,14 @@ namespace ScriptExDee_II.Shelleton.Commands
         #region # Program interface methods
         static void Help()
         {
+            Terminal.WriteLineBreak();
             foreach (var key in Shell.GetCommands())
             {
-                Console.WriteLine(" - " + key);
+                List<string> Arguments = new List<string>(key.RequiredArgs);
+                Arguments.AddRange(key.OptionalArgs);
+                Console.WriteLine(string.Format("{0, -30} │ {1}", 
+                    key.Name, string.Join(" ", Arguments)
+                    ));
             }
         }
         

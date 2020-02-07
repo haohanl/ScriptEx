@@ -373,34 +373,45 @@ namespace ScriptExDee_II.Shelleton
         }
 
 
-        public static List<string> GetCommands()
+        public static List<CommandHelpInfo> GetCommands()
         {
-            List<string> _commands = new List<string>();
+            List<CommandHelpInfo> _commands = new List<CommandHelpInfo>();
 
             foreach (var _class in _commandLibraries.Keys)
             {
                 foreach (var _command in _commandLibraries[_class].Keys)
                 {
-                    StringBuilder sb = new StringBuilder();
-                    sb.Append(string.Format("{0}.{1}", _class, _command));
+                    CommandHelpInfo _chi = new CommandHelpInfo();
+                    _chi.Name = string.Format("{0}.{1}", _class, _command);
 
                     IEnumerable<ParameterInfo> _params = _commandLibraries[_class][_command].ToList();
                     foreach (var _param in _params)
                     {
                         if (_param.IsOptional)
                         {
-                            sb.Append(string.Format(" [{0}]",_param.ToString()));
+                            _chi.OptionalArgs.Add(string.Format("[{0}]",_param.ToString()));
                         }
                         else
                         {
-                            sb.Append(string.Format(" <{0}>", _param.ToString()));
+                            _chi.RequiredArgs.Add(string.Format("<{0}>", _param.ToString()));
                         }
                     }
-                    _commands.Add(sb.ToString());
+                    _commands.Add(_chi);
                 }
             }
 
             return _commands;
+        }
+        public class CommandHelpInfo
+        {
+            public string Name { get; set; }
+            public List<string> RequiredArgs { get; set; }
+            public List<string> OptionalArgs { get; set; }
+            public CommandHelpInfo()
+            {
+                RequiredArgs = new List<string>();
+                OptionalArgs = new List<string>();
+            }
         }
 
 
