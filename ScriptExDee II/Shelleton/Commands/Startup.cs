@@ -53,13 +53,13 @@ namespace ScriptExDee_II.Shelleton.Commands
         {
             if (toggle)
             {
-                Console.Write(TitleScreen.TAB + "Enable Autostart Service... ");
+                Console.Write(TitleScreen.TAB + "Enable Autostart Task... ");
                 TaskHandler.CreateTaskService();
                 Console.WriteLine("done");
             }
             else
             {
-                Console.WriteLine(TitleScreen.TAB + "Enable Autostart Service... disabled");
+                Console.WriteLine(TitleScreen.TAB + "Enable Autostart Task... disabled");
             }
         }
     }

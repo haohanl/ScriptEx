@@ -16,6 +16,7 @@ namespace ScriptExDee_II
         {
             if (ServiceActive())
             {
+                Console.Write("Task already exists... ");
                 return;
             }
 
@@ -23,10 +24,13 @@ namespace ScriptExDee_II
             TaskDefinition td = ts.NewTask();
             td.Principal.RunLevel = TaskRunLevel.Highest;
             td.Triggers.AddNew(TaskTriggerType.Logon);
-            //td.Triggers.AddNew(TaskTriggerType.Once);   
-            string program_path = Path.Combine(Program.ExecPath);
 
-            td.Actions.Add(new ExecAction(program_path, null));
+            //td.Triggers.AddNew(TaskTriggerType.Once);   
+
+            string program_path = Path.Combine(Program.ExecPath);
+            string program_dir = Path.Combine(Program.ExecFolder);
+            td.Actions.Add(new ExecAction(program_path, null, program_dir));
+
             ts.RootFolder.RegisterTaskDefinition(taskDef, td);
 
         }
