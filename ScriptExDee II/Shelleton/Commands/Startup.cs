@@ -62,5 +62,13 @@ namespace ScriptExDee_II.Shelleton.Commands
                 Console.WriteLine(TitleScreen.TAB + "Enable Autostart Task... disabled");
             }
         }
+
+        public static void DisableConsoleQuickEdit(bool toggle=true)
+        {
+            if (toggle)
+            {
+                Terminal.DisableConsoleQuickEdit.Go();
+            }
+        }
     }
 }

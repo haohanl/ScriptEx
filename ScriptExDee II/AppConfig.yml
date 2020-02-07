@@ -24,6 +24,7 @@ Program:
 
     # Shelleton commands to run at program startup.
     StartupCommands:
+        - Startup.DisableConsoleQuickEdit true
         - Startup.SetPerformanceMode true
         - Startup.AutoWinUpdate true
         - Startup.EnableAutoStart true

@@ -11,23 +11,45 @@ namespace ScriptExDee_II.Shelleton.Commands
     {
 
         #region # Terminal accessible commands
+        /// <summary>
+        /// Show shelleton help
+        /// </summary>
         public static void h()
         {
             Console.WriteLine("SHELLETON COMMANDS (<> Required argument, [] Optional argument):");
             Help();
         }
 
+        /// <summary>
+        /// Show system information
+        /// </summary>
         public static void si()
         {
             SysSummary();
         }
 
+        /// <summary>
+        /// Reset console window text to default
+        /// </summary>
+        public static void cls()
+        {
+            Terminal.ShowNewMode();
+        }
+
+        /// <summary>
+        /// Toggle program self cleanup protocols
+        /// </summary>
+        /// <param name="toggle"></param>
         public static void cleanup(bool toggle=true)
         {
             DeleteTaskService();
             CleanupOnExit(toggle);
         }
 
+        /// <summary>
+        /// Toggle program auto start task
+        /// </summary>
+        /// <param name="toggle"></param>
         public static void autostart(bool toggle=true)
         {
             if (toggle)
@@ -40,6 +62,10 @@ namespace ScriptExDee_II.Shelleton.Commands
             }
         }
 
+        /// <summary>
+        /// Check if path exists
+        /// </summary>
+        /// <param name="path"></param>
         public static void checkpath(string path)
         {
             if (Directory.Exists(path))
@@ -58,11 +84,13 @@ namespace ScriptExDee_II.Shelleton.Commands
         public static void cti(string mode, string key)
         {
             CommandTransferInfo _cti = new CommandTransferInfo(mode, key);
-            Console.WriteLine("NAME: " + _cti.Name);
-            Console.WriteLine("NEWEST: " + _cti.NewestSrcPath);
-            Console.WriteLine("SRC: " + _cti.SrcPath);
-            Console.WriteLine("NET: " + _cti.NetPath);
-            Console.WriteLine("DST: " + _cti.DstPath);
+            Terminal.WriteLineBreak();
+            Console.WriteLine("   NAME: " + _cti.Name);
+            Console.WriteLine(" NEWEST: " + _cti.NewestSrcPath);
+            Console.WriteLine("    SRC: " + _cti.SrcPath);
+            Console.WriteLine("    NET: " + _cti.NetPath);
+            Console.WriteLine("    DST: " + _cti.DstPath);
+            Terminal.WriteLineBreak();
         }
         #endregion
 
@@ -75,10 +103,11 @@ namespace ScriptExDee_II.Shelleton.Commands
             {
                 List<string> Arguments = new List<string>(key.RequiredArgs);
                 Arguments.AddRange(key.OptionalArgs);
-                Console.WriteLine(string.Format(" {0, -30} │ {1}", 
+                Console.WriteLine(string.Format(" {0, -35} │ {1}", 
                     key.Name, string.Join(" ", Arguments)
                     ));
             }
+            Terminal.WriteLineBreak();
         }
         
         static void SysSummary()
@@ -86,6 +115,7 @@ namespace ScriptExDee_II.Shelleton.Commands
             SysInfo.Initialise();
             Terminal.WriteLineBreak();
             SysInfo.SysSummary(" ");
+            Terminal.WriteLineBreak();
         }
 
         static void CreateTaskService()

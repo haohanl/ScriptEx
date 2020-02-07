@@ -37,23 +37,26 @@ namespace ScriptExDee_II
                 if (_prevMode != CurrentMode)
                 {
                     ShowNewMode();
+
+                    // Update Terminal title
+                    Title.SetMode();
                 }
 
                 // Update current mode
                 _prevMode = CurrentMode;
 
-                // Update Terminal title
-                Title.SetMode();
-
                 // Read user input
                 ReadUserInput();
+                if (string.IsNullOrEmpty(CommandList.First()))
+                {
+                    continue;
+                }
 
                 // Check for invoke special case. If found, divert to Shelleton
                 if (Program.Config.IsInvokeKey(CommandList.First()[0].ToString()))
                 {
                     CommandList[0] = CommandList[0].Substring(1);
                     Shelleton.Shell.Run(string.Join(" ", CommandList));
-                    WriteLineBreak();
                     continue;
                 }
 
@@ -434,7 +437,7 @@ namespace ScriptExDee_II
                 foreach (var _key in _keys)
                 {
                     CommandItem _cmd = _mode.Commands[_key];
-                    Console.WriteLine(String.Format(" {0, -5} │ {1, -30} │ \\{2, -30} │ {3}", _key, _cmd.Name, _cmd.SrcPath, _cmd.Exec));
+                    Console.WriteLine(String.Format(" {0, -5} │ {1, -30} │ \\{2, -30} │ \\{3, -15} │ {4}", _key, _cmd.Name, _cmd.SrcPath, _cmd.NetPath, _cmd.Exec));
                 }
                 return;
             }
@@ -463,7 +466,7 @@ namespace ScriptExDee_II
 
                     if (_cmd.Category.Equals(_cat))
                     {
-                        Console.WriteLine(String.Format(" {0, -5} │ {1, -30} │ \\{2, -30} │ {3}", _key, _cmd.Name, _cmd.SrcPath, _cmd.Exec));
+                        Console.WriteLine(String.Format(" {0, -5} │ {1, -30} │ \\{2, -30} │ \\{3, -15} │ {4}", _key, _cmd.Name, _cmd.SrcPath, _cmd.NetPath, _cmd.Exec));
                     }
                 }
             }
@@ -473,7 +476,7 @@ namespace ScriptExDee_II
 
         #region # Terminal formatting
 
-        static void ShowNewMode()
+        public static void ShowNewMode()
         {
             Console.Clear();
             ShowModeHeader();
@@ -680,6 +683,54 @@ namespace ScriptExDee_II
 
                 // Set console size to be default width, extended height
                 Console.SetWindowSize(Terminal.TerminalWidth, Terminal.TerminalHeight);
+            }
+        }
+
+        /// <summary>
+        /// Disable terminal quick edit mode
+        /// Code from: https://stackoverflow.com/questions/13656846/how-to-programmatic-disable-c-sharp-console-applications-quick-edit-mode
+        /// </summary>
+        public static class DisableConsoleQuickEdit
+        {
+
+            const uint ENABLE_QUICK_EDIT = 0x0040;
+
+            // STD_INPUT_HANDLE (DWORD): -10 is the standard input device.
+            const int STD_INPUT_HANDLE = -10;
+
+            [DllImport("kernel32.dll", SetLastError = true)]
+            static extern IntPtr GetStdHandle(int nStdHandle);
+
+            [DllImport("kernel32.dll")]
+            static extern bool GetConsoleMode(IntPtr hConsoleHandle, out uint lpMode);
+
+            [DllImport("kernel32.dll")]
+            static extern bool SetConsoleMode(IntPtr hConsoleHandle, uint dwMode);
+
+            internal static bool Go()
+            {
+
+                IntPtr consoleHandle = GetStdHandle(STD_INPUT_HANDLE);
+
+                // get current console mode
+                uint consoleMode;
+                if (!GetConsoleMode(consoleHandle, out consoleMode))
+                {
+                    // ERROR: Unable to get console mode.
+                    return false;
+                }
+
+                // Clear the quick edit bit in the mode flags
+                consoleMode &= ~ENABLE_QUICK_EDIT;
+
+                // set the new mode
+                if (!SetConsoleMode(consoleHandle, consoleMode))
+                {
+                    // ERROR: Unable to set console mode
+                    return false;
+                }
+
+                return true;
             }
         }
     }
