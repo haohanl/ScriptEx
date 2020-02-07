@@ -149,13 +149,11 @@ namespace ScriptExDee_II
 
     public class ProgramConfig
     {
-        public bool DisableSystemCheck { get; set; }
-        public bool AutoWinUpdate { get; set; }
         public bool IgnoreInvalidCommands { get; set; }
-        public bool SetPerformanceMode { get; set; }
         public int TitleScreenDelay { get; set; }
         public string DefaultMode { get; set; }
         public string InvokeReflectionKey { get; set; }
+        public List<string> StartupCommands { get; set; }
         public Dictionary<string, string> ModeKeys { get; set; }
         public Dictionary<string, string> SpecialKeys { get; set; }
     }

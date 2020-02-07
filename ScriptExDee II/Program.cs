@@ -61,25 +61,8 @@ namespace ScriptExDee_II
 
         static void InitialiseTitleScreen()
         {
-            // Program background threads
-            Thread ThrSysInfo = new Thread(SysInfo.Initialise);
-            Thread ThrShowTitle = new Thread(TitleScreen.ShowTitle);
-            Thread ThrPowerControl = new Thread(PowerControl.SetToPerformance);
-
-            // Start Threads
-            ThrShowTitle.Start();
-            ThrPowerControl.Start();
-
-            // Check for System check parameter
-            if (!Program.Config.Program.DisableSystemCheck)
-            {
-                ThrSysInfo.Start();
-                ThrSysInfo.Join();
-            }
-
-            // Join threads
-            ThrShowTitle.Join();
-            ThrPowerControl.Join();
+            TitleScreen.ShowTitle();
+            Shelleton.Shell.Run(Config.Program.StartupCommands);
 
             TitleScreen.ShowSummary();
         }

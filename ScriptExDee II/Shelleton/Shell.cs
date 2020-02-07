@@ -47,10 +47,17 @@ namespace ScriptExDee_II.Shelleton
             string _input = Console.ReadLine();
             Run(_input);
         }
-        public static void Run(string input)
+        public static void Run(List<string> commands)
+        {
+            foreach (var command in commands)
+            {
+                Run(command);
+            }
+        }
+        public static void Run(string command)
         {
             // Ignore if input is empty
-            if (string.IsNullOrWhiteSpace(input))
+            if (string.IsNullOrWhiteSpace(command))
             {
                 return;
             }
@@ -58,9 +65,9 @@ namespace ScriptExDee_II.Shelleton
             // Attempt to parse input
             try
             {
-                ShellCommand command = new ShellCommand(input);
+                ShellCommand _cmd = new ShellCommand(command);
 
-                string result = Execute(command);
+                string result = Execute(_cmd);
 
                 WriteLine(result);
             }
@@ -69,7 +76,6 @@ namespace ScriptExDee_II.Shelleton
                 WriteLine("EXCEPTION: " + ex);
             }
         }
-
 
         static string Execute(ShellCommand command)
         {

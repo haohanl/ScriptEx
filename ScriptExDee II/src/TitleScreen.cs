@@ -22,7 +22,7 @@ namespace ScriptExDee_II
         public const string TAB = "        ";
         const int TSIZE = Terminal.TSIZE;
         const string HTAB = "                       ";
-
+        
         public static void ShowTitle()
         {          
             // Animate starting text
@@ -33,7 +33,6 @@ namespace ScriptExDee_II
         public static void ShowSummary()
         {
             // Show Initialisation Summary
-            WriteLine("Set to Performance Mode... done");
             Terminal.WriteLineBreak();
 
             // Show SysSummary

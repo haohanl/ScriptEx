@@ -6,12 +6,15 @@
 ---
 # Program operating parameters
 Program:
-    DisableSystemCheck: false
-    AutoWinUpdate: true
     IgnoreInvalidCommands: false
-    SetPerformanceMode: true
-    TitleScreenDelay: 50
+    TitleScreenDelay: 20
     InvokeReflectionKey: "/"
+
+    StartupCommands:
+        - Startup.SetPerformanceMode true
+        - Startup.AutoWinUpdate true
+        - Startup.RunSystemCheck true
+
 
     DefaultMode: "!s"
     ModeKeys:

@@ -99,7 +99,7 @@ namespace ScriptExDee_II
             // Check for SysInfo Initialisation
             if (!SysInfo.Initialised)
             {
-                Console.WriteLine(tab + "System summary disabled.");
+                Console.WriteLine(tab + "System Summary requires System Check to initialise.");
                 return;
             }
 

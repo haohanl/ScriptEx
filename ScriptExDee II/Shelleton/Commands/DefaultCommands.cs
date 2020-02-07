@@ -40,12 +40,13 @@ namespace ScriptExDee_II.Shelleton.Commands
         }
         #endregion
 
+
         #region # Program interface methods
         static void Help()
         {
             foreach (var key in Shell.GetCommands())
             {
-                Terminal.WriteLine(key);
+                Console.WriteLine(" - " + key);
             }
         }
         
