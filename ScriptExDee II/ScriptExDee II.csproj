@@ -66,6 +66,7 @@
       <HintPath>..\packages\System.Security.Principal.Windows.4.7.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -88,12 +89,14 @@
     <Compile Include="Src\ExitHandler.cs" />
     <Compile Include="Src\PowerControl.cs" />
     <Compile Include="Src\Quotes.cs" />
+    <Compile Include="Src\RestartHandler.cs" />
     <Compile Include="Src\RoboCopy.cs" />
     <Compile Include="Src\SysInfo.cs" />
     <Compile Include="Src\TaskHandler.cs" />
     <Compile Include="Src\Terminal.cs" />
     <Compile Include="Src\TitleScreen.cs" />
     <Compile Include="Src\WinKeyDecoder.cs" />
+    <Compile Include="Src\WUpdateHandler.cs" />
     <Compile Include="Src\YAMLHandler.cs" />
   </ItemGroup>
   <ItemGroup>

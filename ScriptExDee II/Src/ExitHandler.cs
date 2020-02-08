@@ -35,19 +35,25 @@ namespace ScriptExDee_II
 
         private static bool Handler(CtrlType sig)
         {
-            Console.WriteLine("Exiting system due to external CTRL-C, or process kill, or shutdown");
+            Console.WriteLine();
+            Terminal.WriteLineBreak();
+            Console.WriteLine(" Exiting system due to external CTRL-C, or process kill, or shutdown");
 
-            //do your cleanup here
+            // cleanup protocols
             if (SelfDestructOnExit)
             {
+                Console.Write(" Initiate cleanup... ");
+                TaskHandler.DeleteTaskService();
                 SelfDestruct();
+                Console.WriteLine("done");
+
+                Terminal.WriteLineBreak();
+                Console.WriteLine(" Yippee-ki-yay motherf-");
             }
 
-            Console.WriteLine("Cleanup complete");
-
-            //shutdown right away so there are no lingering threads
+            // shutdown program
+            Thread.Sleep(500);
             Environment.Exit(-1);
-
             return true;
         }
         #endregion
@@ -81,8 +87,8 @@ namespace ScriptExDee_II
         private static void SelfDestruct()
         {
             // Delete base executable and config file
-            ForceDelete(Path.Combine(Program.ExecPath, Program.Title + ".exe"));
-            ForceDelete(Path.Combine(Program.ExecPath, Program.ConfigFile));
+            ForceDelete(Path.Combine(Program.ExecPath));
+            ForceDelete(Path.Combine(Program.ExecFolder, Program.ConfigFile));
         }
 
         public static void CleanupOnExit(bool toggle=true)

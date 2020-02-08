@@ -24,14 +24,15 @@ namespace ScriptExDee_II.Shelleton.Commands
 
         public static void AutoWinUpdate(bool toggle=true)
         {
-            // TO BE IMPLEMENTED
             if (toggle)
             {
-                //
+                Console.Write(TitleScreen.TAB + "Start Windows Updater... ");
+                WUpdateHandler.Start();
+                Console.WriteLine("done");
             }
             else
             {
-                //
+                Console.WriteLine(TitleScreen.TAB + "Start Windows Updater... disabled");
             }
         }
 

@@ -16,7 +16,7 @@ namespace ScriptExDee_II
     public static class Terminal
     {
         // Terminal static variables
-        public static string CurrentMode;
+        public static string CurrentMode = null;
         static bool IsCommandClean;
         static List<string> CommandList;
 

@@ -42,7 +42,7 @@ namespace ScriptExDee_II.Shelleton.Commands
         /// <param name="toggle"></param>
         public static void cleanup(bool toggle=true)
         {
-            DeleteTaskService();
+            
             CleanupOnExit(toggle);
         }
 
@@ -104,6 +104,23 @@ namespace ScriptExDee_II.Shelleton.Commands
             Console.WriteLine("    NET: " + _cti.NetPath);
             Console.WriteLine("    DST: " + _cti.DstPath);
             Terminal.WriteLineBreak();
+        }
+
+        /// <summary>
+        /// Toggle RestartHandler AwaitingRestart switch
+        /// </summary>
+        /// <param name="toggle"></param>
+        public static void ars(bool toggle=true)
+        {
+            RestartHandler.AwaitingRestartState(toggle);
+        }
+
+        /// <summary>
+        /// Restart the computer
+        /// </summary>
+        public static void restart()
+        {
+            RestartHandler.RestartSystem();
         }
         #endregion
 
