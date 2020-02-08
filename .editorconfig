@@ -1,4 +1,10 @@
-﻿[*.cs]
+﻿# All files
+[*]
+# https://marketplace.visualstudio.com/items?itemName=PaulHarrington.EditorGuidelines
+guidelines = 80, 120
+guidelines_style = 1px dotted 888888
+
+[*.cs]
 
 # IDE1006: Naming Styles
 dotnet_diagnostic.IDE1006.severity = silent
