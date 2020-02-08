@@ -121,6 +121,7 @@ namespace ScriptExDee_II
             if (string.IsNullOrEmpty(Terminal.CurrentMode))
             {
                 TitleScreen.WriteLine();
+                Terminal.WriteLineBreak();
                 TitleScreen.WriteLine("System restarting in 5 seconds if no key is pressed.");
                 Console.Write(TitleScreen.TAB);
                 for (int i = 5; i > 0; i--)
@@ -132,6 +133,7 @@ namespace ScriptExDee_II
                     Console.Write(i + "... ");
                     Thread.Sleep(1000);
                 }
+                Console.WriteLine();
                 TitleScreen.WriteLine("System will restart.");
                 RestartHandler.AwaitingRestartState(true);
             }
