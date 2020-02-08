@@ -88,7 +88,7 @@ Modes:
     Software:
         SrcCopy: true
         SrcModeRoot: SOFTWARE
-        NetModeRoot: "\\\\LIU-WORKSTATION\\Software"
+        NetModeRoot: "\\\\cache\\SI Software"
         DstModeRoot: "%USERPROFILE%\\Desktop\\Setup"
 
         Categories:
@@ -464,7 +464,7 @@ Modes:
         Commands:
             r:
                 Name: Revo Uninstaller
-                Exec: RevoUPort.exe
+                Exec: RevoUPPort.exe
                 Args: ~
                 SrcPath: Revo Uninstaller
                 Delay: 0
