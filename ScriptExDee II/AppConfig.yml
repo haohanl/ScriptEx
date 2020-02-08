@@ -1,7 +1,14 @@
 ﻿# Configuration file for ScriptExDee II
 #
 # Written by Haohan Liu (c) 2020
-
+#
+# This file contains all the vital information required
+# for the program to operate. It is written in YAML,
+# see: https://yaml.org/refcard.html
+#
+# The program is highly extensible without the need for 
+# recompilation, however this file must be valid YAML
+# that follows the style laid out below. 
 
 ---
 # Program parameters. Only change these if you know what
