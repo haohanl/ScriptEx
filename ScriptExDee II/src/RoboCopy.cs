@@ -153,7 +153,7 @@ namespace ScriptExDee_II
                 StartInfo = info
             };
             proc.Start();
-            Terminal.WriteLine($"Initiated RoboCopy | {desc}", "*");
+            Terminal.WriteLine($"Initiated RoboCopy | {desc} | '{srcPath}'", "*");
 
             // Catch RoboCopy log
             string log = proc.StandardOutput.ReadToEnd().Trim();

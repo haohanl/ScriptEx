@@ -333,7 +333,7 @@ Modes:
                 Exec: aida64.exe
                 Args: /SST CPU,FPU,Cache,RAM
                 SrcPath: AIDA64
-                Delay: 1000
+                Delay: 0
                 IgnoreThreadBlock: false
             a15:
                 Name: AIDA64 Stability Test (15 min)
@@ -341,7 +341,7 @@ Modes:
                 Exec: aida64.exe
                 Args: /SST CPU,FPU,Cache,RAM /SSTDUR 15
                 SrcPath: AIDA64
-                Delay: 1000
+                Delay: 0
                 IgnoreThreadBlock: false
             a25:
                 Name: AIDA64 Stability Test (25 min)
@@ -349,7 +349,7 @@ Modes:
                 Exec: aida64.exe
                 Args: /SST CPU,FPU,Cache,RAM /SSTDUR 25
                 SrcPath: AIDA64
-                Delay: 1000
+                Delay: 0
                 IgnoreThreadBlock: false
             m:
                 Name: HWMonitor
@@ -506,7 +506,7 @@ Macros:
     G: 
         Name: Standard Testing
         SetMode: "!t"
-        Command: a f25 m | s
+        Command: f25 a m | s
     Q:
         Name: Open QC Windows
         SetMode: "!q"
