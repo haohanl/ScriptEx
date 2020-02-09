@@ -16,6 +16,7 @@ namespace ScriptExDee_II
     static class ExitHandler
     {
         static bool SelfDestructOnExit = false;
+        public static List<string> ExitCommands = new List<string>();
 
         #region # Trap application termination
         [DllImport("Kernel32")]
@@ -38,6 +39,9 @@ namespace ScriptExDee_II
             Console.WriteLine();
             Terminal.WriteLineBreak();
             Console.WriteLine(" Exiting system due to external CTRL-C, or process kill, or shutdown");
+
+            // run exit commands
+            Shelleton.Shell.Run(ExitCommands);
 
             // cleanup protocols
             if (SelfDestructOnExit)
