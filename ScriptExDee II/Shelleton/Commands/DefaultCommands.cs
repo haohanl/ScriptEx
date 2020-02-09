@@ -37,13 +37,42 @@ namespace ScriptExDee_II.Shelleton.Commands
         }
 
         /// <summary>
+        /// Prepare the system for manual qc
+        /// </summary>
+        public static void qc()
+        {
+            cleanup();
+            fd();
+            act();
+            si();
+        }
+
+        /// <summary>
+        /// Open windows activation prompt for key entry
+        /// </summary>
+        public static void act()
+        {
+            QCHandler.WinActivation();
+        }
+
+        /// <summary>
+        /// Run automatic drive partitioning script
+        /// </summary>
+        public static void fd()
+        {
+            QCHandler.FormatDrives();
+        }
+
+        /// <summary>
         /// Toggle program self cleanup protocols
         /// </summary>
         /// <param name="toggle"></param>
         public static void cleanup(bool toggle=true)
         {
-            
+            QCHandler.ClearHeaven();
+            QCHandler.ClearSuperposition();
             CleanupOnExit(toggle);
+            Console.WriteLine(" Program will self cleanup after exit.");
         }
 
         /// <summary>

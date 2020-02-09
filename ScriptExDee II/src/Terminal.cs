@@ -77,7 +77,7 @@ namespace ScriptExDee_II
                 TransferSoftware(CommandList, CurrentMode);
 
                 // Run all user commands
-                RunUserCommands(CommandList);
+                RunCommands(CommandList);
 
                 // Insert new line
                 WriteLineBreak();
@@ -118,7 +118,7 @@ namespace ScriptExDee_II
         /// <param name="commands">List of command key strings</param>
         /// <param name="currentMode">Current operating mode of program</param>
         /// <returns>List of validated commands</returns>
-        static List<string> ValidateCommands(List<string> commands, string currentMode)
+        public static List<string> ValidateCommands(List<string> commands, string currentMode)
         {
             string _currentMode;
             List<string> _validCommands;
@@ -256,7 +256,7 @@ namespace ScriptExDee_II
 
         #region # Command execution
 
-        static void RunUserCommands(List<string> commands)
+        static void RunCommands(List<string> commands)
         {
             // declare threadblock
             List<Thread> _threadList = new List<Thread>();
