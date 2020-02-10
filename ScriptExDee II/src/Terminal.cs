@@ -678,7 +678,13 @@ namespace ScriptExDee_II
                     );
 
                 // Set console size to be default width, extended height
-                Console.SetWindowSize(Terminal.TerminalWidth, Terminal.TerminalHeight);
+                try
+                {
+                    Console.SetWindowSize(Terminal.TerminalWidth, Terminal.TerminalHeight);
+                }
+                catch (Exception)
+                {
+                }
             }
         }
 
