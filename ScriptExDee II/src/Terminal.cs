@@ -199,12 +199,8 @@ namespace ScriptExDee_II
         /// </summary>
         static void TransferSoftware(List<string> commands, string currentMode)
         {
-            // Check for remote drive availability
+            // Reinitialise
             RoboCopy.Reinitialise();
-            if (RoboCopy.SrcDrive == null)
-            {
-                return;
-            }
 
             // Prepare new check
             string _currentMode;

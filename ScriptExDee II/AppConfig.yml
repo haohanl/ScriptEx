@@ -88,7 +88,7 @@ Modes:
     Software:
         SrcCopy: true
         SrcModeRoot: SOFTWARE
-        NetModeRoot: "\\\\cache\\SI Software"
+        NetModeRoot: "\\\\cache\\Public\\SI Software"
         DstModeRoot: "%USERPROFILE%\\Desktop\\Setup"
 
         Categories:
@@ -177,7 +177,7 @@ Modes:
                 Exec: AsusSetup.exe
                 Args: /s /SMS
                 SrcPath: ASUS Aura GPU
-                NetPath: Aura GPU
+                NetPath: Aura for GPU
                 Delay: 0
                 IgnoreThreadBlock: false
             ac:
@@ -267,7 +267,7 @@ Modes:
                 Exec: UpdPack.exe
                 Args: ~
                 SrcPath: GIGABYTE RGBFusion
-                NetPath: RGBFusion
+                NetPath: RGB Fusion
                 Delay: 0
                 IgnoreThreadBlock: false
             ga:

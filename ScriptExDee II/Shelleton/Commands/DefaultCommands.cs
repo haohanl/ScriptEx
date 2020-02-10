@@ -128,6 +128,7 @@ namespace ScriptExDee_II.Shelleton.Commands
             CommandTransferInfo _cti = new CommandTransferInfo(mode, key);
             Terminal.WriteLineBreak();
             Console.WriteLine("   NAME: " + _cti.Name);
+            Console.WriteLine("  VALID: " + _cti.ValidRoboCopy);
             Console.WriteLine(" NEWEST: " + _cti.NewestSrcPath);
             Console.WriteLine("    SRC: " + _cti.SrcPath);
             Console.WriteLine("    NET: " + _cti.NetPath);

@@ -206,7 +206,6 @@ namespace ScriptExDee_II
             }
             catch (Exception)
             {
-                Terminal.WriteLine($"Local source does not exist for '{Name}'.", "!");
                 return null;
             }
             return _srcPath;
@@ -228,7 +227,6 @@ namespace ScriptExDee_II
             }
             catch (Exception)
             {
-                Terminal.WriteLine($"Remote source does not exist for '{Name}'.", "!");
                 return null;
             }
             return _srcPath;

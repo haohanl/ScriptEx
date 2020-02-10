@@ -59,7 +59,7 @@ namespace ScriptExDee_II
                 }
 
                 // If no matching devices are present, default to forced drive letter
-                Console.WriteLine($"Source '{Program.Config.RoboCopy.SrcDriveName}' not found. Program will only run local files.");
+                Console.WriteLine($"Source '{Program.Config.RoboCopy.SrcDriveName}' not found. Program will run local files if network source is not available.");
                 SrcDrive = null;
                 return;
             }
@@ -101,7 +101,11 @@ namespace ScriptExDee_II
             }
 
             // If no matching devices are present
-            Terminal.WriteLine($"Source '{Program.Config.RoboCopy.SrcDriveName}' not found. Program will only run local files.", "!");
+            if (SrcDrive == null)
+            {
+                return;
+            }
+            Terminal.WriteLine($"Source '{Program.Config.RoboCopy.SrcDriveName}' not found. Program will only local files if network source is not available.", "!");
             SrcDrive = null;
             return;
         }
@@ -115,6 +119,7 @@ namespace ScriptExDee_II
         {
             // Get relevant config data
             ModeConfig _mode = Program.Config.Modes[mode];
+            CommandItem _command = Program.Config.GetCommandItem(mode, key);
 
             // Check for Copy permission
             if (!_mode.SrcCopy)
@@ -124,6 +129,13 @@ namespace ScriptExDee_II
 
             // Collect transfer information
             CommandTransferInfo _cti = new CommandTransferInfo(mode, key);
+
+            // Check if RoboCopy is valid
+            if (!_cti.ValidRoboCopy)
+            {
+                Terminal.WriteLine($"Sources cannot be found for '{_command.Name}' files.", "!");
+                return;
+            }
             
             // Execute copy
             Copy(_cti.NewestSrcPath, _cti.DstPath, _cti.Name);
@@ -227,10 +239,11 @@ namespace ScriptExDee_II
     public class CommandTransferInfo
     {
         public string Name;
-        public string NewestSrcPath;
-        public string SrcPath;
-        public string NetPath;
-        public string DstPath;
+        public bool ValidRoboCopy = false;
+        public string NewestSrcPath = null;
+        public string SrcPath = null;
+        public string NetPath = null;
+        public string DstPath = null;
         public CommandTransferInfo(string mode, string key)
         {
             // Get relevant config data
@@ -244,10 +257,6 @@ namespace ScriptExDee_II
             if (!_mode.SrcCopy)
             {
                 Name = _command.Name + " [ROBOCOPY DISABLED]";
-                NewestSrcPath = null;
-                SrcPath = null;
-                NetPath = null;
-                DstPath = null;
                 return;
             }
 
@@ -287,11 +296,13 @@ namespace ScriptExDee_II
             if (string.IsNullOrEmpty(NetPath))
             {
                 NewestSrcPath = SrcPath;
+                ValidRoboCopy = true;
                 return;
             }
             if (string.IsNullOrEmpty(SrcPath))
             {
                 NewestSrcPath = NetPath;
+                ValidRoboCopy = true;
                 return;
             }
 
@@ -304,10 +315,14 @@ namespace ScriptExDee_II
             if (_result >= 0)
             {
                 NewestSrcPath = SrcPath;
+                ValidRoboCopy = true;
+                return;
             }
             else
             {
                 NewestSrcPath = NetPath;
+                ValidRoboCopy = true;
+                return;
             }
 
         }
