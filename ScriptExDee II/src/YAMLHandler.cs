@@ -195,6 +195,12 @@ namespace ScriptExDee_II
         /// </summary>
         public string GetNewestSrcPath(string modeRoot)
         {
+            // Check if null
+            if (SrcPath == null)
+            {
+                return null;
+            }
+
             // Path variables           
             string _srcRoot = System.IO.Path.Combine(modeRoot, SrcPath);
             string _srcPath = null;
@@ -216,6 +222,12 @@ namespace ScriptExDee_II
         /// </summary>
         public string GetNewestNetPath(string modeRoot)
         {
+            // Check if null
+            if (NetPath == null)
+            {
+                return null;
+            }
+
             // Path variables           
             string _srcRoot = System.IO.Path.Combine(modeRoot, NetPath);
             string _srcPath = null;
