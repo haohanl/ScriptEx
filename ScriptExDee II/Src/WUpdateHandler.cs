@@ -133,6 +133,10 @@ namespace ScriptExDee_II
                     Console.Write(i + "... ");
                     Thread.Sleep(1000);
                 }
+                if (!string.IsNullOrEmpty(Terminal.CurrentMode))
+                {
+                    return;
+                }
                 Console.WriteLine();
                 TitleScreen.WriteLine("System will restart.");
                 RestartHandler.AwaitingRestartState(true);
