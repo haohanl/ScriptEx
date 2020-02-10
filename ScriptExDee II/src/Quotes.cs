@@ -28,7 +28,8 @@ namespace ScriptExDee_II
             "Hope those fans are spinning",
             "Electric boogaloo",
             "What's that noise?",
-            "QC fail, not enough RGB"
+            "QC fail, not enough RGB",
+            "Double up booooooys"
         };
 
         /// <summary>
