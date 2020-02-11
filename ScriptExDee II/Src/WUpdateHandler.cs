@@ -62,7 +62,7 @@ namespace ScriptExDee_II
                 catch (Exception)
                 {
                     Thread.Sleep(2000);
-                    SetStatus("WUH cannot continue (ERR:FU), retrying...");
+                    SetStatus("WUH cannot continue (ERR:FU), cannot connect to update servers, retrying...");
                     Thread.Sleep(2000);
                 }
             }
@@ -85,6 +85,7 @@ namespace ScriptExDee_II
                 {
                     Thread.Sleep(2000);
                     SetStatus("WUH cannot continue (ERR:DU), download failed.");
+                    RestartHandler.AwaitingRestartState(true);
                     Thread.Sleep(2000);
                 }
             }
@@ -111,6 +112,7 @@ namespace ScriptExDee_II
             catch (Exception)
             {
                 SetStatus("WUH cannot continue (ERR:IU), installer failed.");
+                RestartHandler.AwaitingRestartState(true);
                 return;
             }
 
