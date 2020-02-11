@@ -141,10 +141,10 @@ namespace ScriptExDee_II
                 var current = 0;
                 for (var j = 14; j >= 0; j--)
                 {
-                    current = current * 256;
+                    current *= 256;
                     current = digitalProductId[j + keyOffset] + current;
                     digitalProductId[j + keyOffset] = (byte)(current / 24);
-                    current = current % 24;
+                    current %= 24;
                     last = current;
                 }
                 key = digits[current] + key;
