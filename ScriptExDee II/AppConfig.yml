@@ -24,6 +24,10 @@ Program:
     # Less is faster, more is slower.
     TitleScreenDelay: 20
 
+    # Time between async command execution. Higher delays results in more
+    # stable execution. 
+    CommandExecutionDelay: 500
+
     # Invoke key must be used at the start of an input.
     # When detected, all input will be directed to the
     # Shelleton interface. 
@@ -88,7 +92,7 @@ Modes:
     Software:
         SrcCopy: true
         SrcModeRoot: SOFTWARE
-        NetModeRoot: "\\\\cache\\Public\\SI Software"
+        NetModeRoot: "\\\\LIU-WORKSTATION\\Software"#"\\\\cache\\Public\\SI Software"
         DstModeRoot: "%USERPROFILE%\\Desktop\\Setup"
 
         Categories:
@@ -424,7 +428,7 @@ Modes:
                 IgnoreThreadBlock: false
             a:
                 Name: Windows Activation
-                Exec: slui.lnk
+                Exec: msactivate.url
                 Args: ~
                 SrcPath: QC
                 Delay: 0
