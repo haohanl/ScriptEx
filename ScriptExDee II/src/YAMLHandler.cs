@@ -151,6 +151,7 @@ namespace ScriptExDee_II
     {
         public bool IgnoreInvalidCommands { get; set; }
         public int TitleScreenDelay { get; set; }
+        public int CommandExecutionDelay { get; set; }
         public string DefaultMode { get; set; }
         public string InvokeKey { get; set; }
         public List<string> StartupCommands { get; set; }

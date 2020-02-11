@@ -291,6 +291,10 @@ namespace ScriptExDee_II
                 // Check for key validity
                 if (Program.Config.IsCommandKey(CurrentMode, key))
                 {
+                    // Time to wait between command executions
+                    Thread.Sleep(Program.Config.Program.CommandExecutionDelay);
+
+                    // Initialise thread
                     Thread _cmdThr = new Thread(() => RunCommand(CurrentMode, key));
                     _cmdThr.Start();
 

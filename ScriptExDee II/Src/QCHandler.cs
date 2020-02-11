@@ -82,7 +82,9 @@ namespace ScriptExDee_II
         public static void WinActivation()
         {
             // If program is not x64, system32 path gets redirected and this fails to launch
-            ProcessStartInfo sInfo = new ProcessStartInfo("slui.exe");
+            string slui = Environment.GetFolderPath(Environment.SpecialFolder.System);
+            string sluiPath = Path.Combine(slui, "slui.exe");
+            ProcessStartInfo sInfo = new ProcessStartInfo(sluiPath);
             Process p = new Process
             {
                 StartInfo = sInfo

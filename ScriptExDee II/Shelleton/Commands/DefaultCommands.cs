@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Diagnostics;
 
 namespace ScriptExDee_II.Shelleton.Commands
 {
@@ -52,7 +53,7 @@ namespace ScriptExDee_II.Shelleton.Commands
         /// </summary>
         public static void act()
         {
-            QCHandler.WinActivation();
+            prun("slui");
         }
 
         /// <summary>
@@ -61,6 +62,14 @@ namespace ScriptExDee_II.Shelleton.Commands
         public static void fd()
         {
             QCHandler.FormatDrives();
+        }
+
+        /// <summary>
+        /// Restart the computer
+        /// </summary>
+        public static void restart()
+        {
+            RestartHandler.RestartSystem();
         }
 
         /// <summary>
@@ -145,13 +154,20 @@ namespace ScriptExDee_II.Shelleton.Commands
             RestartHandler.AwaitingRestartState(toggle);
         }
 
-        /// <summary>
-        /// Restart the computer
-        /// </summary>
-        public static void restart()
+
+        public static void prun(string exe)
         {
-            RestartHandler.RestartSystem();
+            ProcessStartInfo sInfo = new ProcessStartInfo(exe);
+            Process p = new Process
+            {
+                StartInfo = sInfo
+            };
+            p.Start();
+            p.WaitForExit();
+            p.Dispose();
         }
+
+        
         #endregion
 
 
