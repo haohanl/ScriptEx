@@ -29,6 +29,17 @@ namespace ScriptExDee_II
     /// </summary>
     public static class WinKeyDecoder
     {
+        public static string CheckWindowsProductKey()
+        {
+            string _key = GetWindowsProductKeyFromRegistry();
+            string _inactiveKey = "YTMG3-N6DKC-DKB77-7M9GH-8HVX7";
+
+            if (_key.Equals(_inactiveKey))
+            {
+                return "Windows not activated";
+            }
+            return _key;
+        }
         public static string GetWindowsProductKeyFromRegistry()
         {
             var localKey =

@@ -484,7 +484,7 @@ namespace ScriptExDee_II
 
         public void GetProdKey()
         {
-            ProdKey = WinKeyDecoder.GetWindowsProductKeyFromRegistry();
+            ProdKey = WinKeyDecoder.CheckWindowsProductKey();
         }
     }
 }
