@@ -266,17 +266,4 @@ namespace ScriptExDee_II
             return $"Name: {Name}\nSetMode: {SetMode}\nCommand: {Command}";
         }
     }
-
-
-
-    [Serializable]
-    public class InvalidMacroException : Exception
-    {
-        public InvalidMacroException() { }
-        public InvalidMacroException(string message) : base(message) { }
-        public InvalidMacroException(string message, Exception inner) : base(message, inner) { }
-        protected InvalidMacroException(
-          System.Runtime.Serialization.SerializationInfo info,
-          System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
-    }
 }
