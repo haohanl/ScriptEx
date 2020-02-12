@@ -201,6 +201,7 @@ namespace ScriptExDee_II
         {
             // Reinitialise
             RoboCopy.Reinitialise();
+            RoboCopy.CheckNetwork(currentMode);
 
             // Prepare new check
             string _currentMode;
@@ -216,6 +217,7 @@ namespace ScriptExDee_II
                 if (Program.Config.IsModeKey(key))
                 {
                     _currentMode = Program.Config.GetMode(key);
+                    RoboCopy.CheckNetwork(_currentMode);
                     continue;
                 }
 

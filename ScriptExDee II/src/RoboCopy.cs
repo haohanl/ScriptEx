@@ -14,6 +14,7 @@ namespace ScriptExDee_II
     {
         // Remote drive source
         public static string SrcDrive;
+        public static bool NetworkActive = false;
 
         // Commandline constants
         private static readonly string Shell = "cmd.exe";
@@ -108,6 +109,41 @@ namespace ScriptExDee_II
             Terminal.WriteLine($"Source '{Program.Config.RoboCopy.SrcDriveName}' not found. Program will only local files if network source is not available.", "!");
             SrcDrive = null;
             return;
+        }
+
+
+        public static void CheckNetwork(string mode)
+        {
+            // Get relevant config data
+            ModeConfig _mode = Program.Config.Modes[mode];
+
+            // Check if network is allowed
+            if (!Program.Config.RoboCopy.SrcUseNetwork)
+            {
+                NetworkActive = false;
+                Console.WriteLine("Net not enabled.");
+                return;
+            }
+
+            // Check for network path
+            if (string.IsNullOrEmpty(_mode.NetModeRoot))
+            {
+                NetworkActive = false;
+                Console.WriteLine("Net not present.");
+                return;
+            }
+
+            // Check if network exists
+            if (Directory.Exists(_mode.NetModeRoot))
+            {
+                NetworkActive = true;
+                Console.WriteLine("Net active.");
+            }
+            else
+            {
+                NetworkActive = false;
+                Console.WriteLine("Net not active.");
+            }
         }
 
         /// <summary>
@@ -276,9 +312,12 @@ namespace ScriptExDee_II
             DstPath = _command.GetDstPath(_dstRoot);
 
             // Grab remote src path
-            if (Directory.Exists(_mode.NetModeRoot))
+            if (RoboCopy.NetworkActive)
             {
-                NetPath = _command.GetNewestNetPath(_mode.NetModeRoot);
+                if (Directory.Exists(_mode.NetModeRoot))
+                {
+                    NetPath = _command.GetNewestNetPath(_mode.NetModeRoot);
+                }
             }
 
             // Get the newest path
