@@ -121,7 +121,7 @@ namespace ScriptExDee_II
             if (!Program.Config.RoboCopy.SrcUseNetwork)
             {
                 NetworkActive = false;
-                Console.WriteLine("Net not enabled.");
+                Terminal.WriteLine("Network share disabled.", "*");
                 return;
             }
 
@@ -129,7 +129,7 @@ namespace ScriptExDee_II
             if (string.IsNullOrEmpty(_mode.NetModeRoot))
             {
                 NetworkActive = false;
-                Console.WriteLine("Net not present.");
+                Terminal.WriteLine("Network share disabled in this mode.", "*");
                 return;
             }
 
@@ -137,12 +137,12 @@ namespace ScriptExDee_II
             if (Directory.Exists(_mode.NetModeRoot))
             {
                 NetworkActive = true;
-                Console.WriteLine("Net active.");
+                Terminal.WriteLine("Network share connected.", "*");
             }
             else
             {
                 NetworkActive = false;
-                Console.WriteLine("Net not active.");
+                Terminal.WriteLine("Network share not connected.", "*");
             }
         }
 
