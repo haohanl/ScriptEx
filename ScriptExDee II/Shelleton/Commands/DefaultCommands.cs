@@ -61,7 +61,7 @@ namespace ScriptExDee_II.Shelleton.Commands
         /// </summary>
         public static void act()
         {
-            prun("slui");
+            QCHandler.WinActivation();
         }
 
         /// <summary>
