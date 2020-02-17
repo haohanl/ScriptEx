@@ -153,6 +153,40 @@ namespace ScriptExDee_II.Shelleton.Commands
             p.Dispose();
         }
 
+        /// <summary>
+        /// Run a commandline command
+        /// </summary>
+        /// <param name="cmd"></param>
+        public static void crun(string cmd)
+        {
+            ProcessStartInfo info = new ProcessStartInfo
+            {
+                FileName = "cmd.exe",
+                Arguments = $@"/C {cmd}",
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                WorkingDirectory = Program.ExecFolder
+            };
+
+            Process proc = new Process
+            {
+                StartInfo = info
+            };
+            proc.Start();
+
+            // Print output
+            while (!proc.StandardOutput.EndOfStream)
+            {
+                Console.WriteLine(proc.StandardOutput.ReadLine());
+            }
+
+            Console.WriteLine(proc.StandardError.ReadToEnd().Trim());
+            proc.WaitForExit();
+            
+        }
+
 
         /// <summary>
         /// Toggle program self cleanup protocols
