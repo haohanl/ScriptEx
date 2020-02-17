@@ -63,9 +63,6 @@ namespace ScriptExDee_II
             }
             pSearcher.Dispose();
             Terminal.WriteLine("ALL DRIVES INITIALISED AND PARTITIONED", "*");
-            Terminal.WriteLineBreak();
-
-            
 
             // In case any drives are offline...
             /*
@@ -143,6 +140,50 @@ namespace ScriptExDee_II
                     _dir.Delete(true);
                 }
                 _di.Delete();
+            }
+        }
+
+        /// <summary>
+        /// Delete all folders and files on desktop
+        /// TODO: Add yml config blacklist and whitelist support
+        /// </summary>
+        public static void ClearDesktop()
+        {
+            string _desktop = @"%USERPROFILE%\Desktop";
+            string _path = Environment.ExpandEnvironmentVariables(_desktop);
+            var _di = new DirectoryInfo(_path);
+
+            foreach (var item in _di.GetFileSystemInfos("*", SearchOption.AllDirectories))
+            {
+                item.Attributes = FileAttributes.Normal;
+            }
+
+            var _files = _di.GetFiles();
+            var _folders = _di.GetDirectories();
+            foreach (var file in _files)
+            {
+                if (file.Extension != ".lnk")
+                {
+                    try
+                    {
+                        File.Delete(file.FullName);
+                    }
+                    catch (Exception)
+                    {
+                        continue;
+                    }
+                }
+            }
+            foreach (var folder in _folders)
+            {
+                try
+                {
+                    Directory.Delete(folder.FullName, true);
+                }
+                catch (Exception)
+                {
+                    continue;
+                }
             }
         }
     }

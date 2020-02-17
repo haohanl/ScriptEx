@@ -52,10 +52,13 @@ namespace ScriptExDee_II.Shelleton.Commands
         public static void qc()
         {
             cleanup();
+            Terminal.WriteLineBreak();
             Thread _fd = new Thread(fd);
             _fd.Start();
             act();
             si();
+
+            ExitHandler.ExitCommands.Add("cleardesktop");
         }
 
         /// <summary>
@@ -187,6 +190,11 @@ namespace ScriptExDee_II.Shelleton.Commands
             Console.WriteLine(proc.StandardError.ReadToEnd().Trim());
             proc.WaitForExit();
             
+        }
+
+        public static void cleardesktop()
+        {
+            QCHandler.ClearDesktop();
         }
 
 
