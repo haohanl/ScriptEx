@@ -62,7 +62,7 @@ namespace ScriptExDee_II
                 catch (Exception)
                 {
                     Thread.Sleep(2000);
-                    SetStatus("WUH cannot continue (ERR:FU), cannot connect to update servers, retrying...");
+                    SetStatus("WUH cannot continue (ERR:FU), cannot connect to update servers. Retrying...");
                     Thread.Sleep(2000);
                 }
             }
@@ -84,8 +84,7 @@ namespace ScriptExDee_II
                 catch (Exception)
                 {
                     Thread.Sleep(2000);
-                    SetStatus("WUH cannot continue (ERR:DU), download failed.");
-                    RestartHandler.AwaitingRestartState(true);
+                    SetStatus("WUH cannot continue (ERR:DU), download failed. Retrying...");
                     Thread.Sleep(2000);
                 }
             }
@@ -112,7 +111,11 @@ namespace ScriptExDee_II
             catch (Exception)
             {
                 SetStatus("WUH cannot continue (ERR:IU), installer failed.");
-                RestartHandler.AwaitingRestartState(true);
+                // Begin waiting for restart signal
+                RestartHandler.AwaitRestart();
+
+                // If program is in title screen, auto restart
+                TitleScreenRestartChecker();
                 return;
             }
 
@@ -120,6 +123,12 @@ namespace ScriptExDee_II
             RestartHandler.AwaitRestart();
 
             // If program is in title screen, auto restart
+            TitleScreenRestartChecker();
+
+        }
+
+        static void TitleScreenRestartChecker()
+        {
             if (string.IsNullOrEmpty(Terminal.CurrentMode))
             {
                 TitleScreen.WriteLine();
@@ -143,7 +152,6 @@ namespace ScriptExDee_II
                 TitleScreen.WriteLine("System will restart.");
                 RestartHandler.AwaitingRestartState(true);
             }
-
         }
 
         #region # Update handler
