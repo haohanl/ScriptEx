@@ -22,8 +22,8 @@ namespace ScriptExDee_II
             int GPT = 2;
 
             // Create partitions
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher(@"Root/Microsoft/Windows/Storage", "select * from MSFT_DISK");
-            foreach (ManagementObject m in searcher.Get())
+            ManagementObjectSearcher pSearcher = new ManagementObjectSearcher(@"Root/Microsoft/Windows/Storage", "select * from MSFT_DISK");
+            foreach (ManagementObject m in pSearcher.Get())
             {
                 // Initialize disk first
                 m.InvokeMethod("Initialize", new object[] { GPT });   // Will have no effect on intialized disks
@@ -37,31 +37,35 @@ namespace ScriptExDee_II
                     m.InvokeMethod("CreatePartition", new object[] { null, true, null, 1048576, null, true, null, null, false, false });
                     // Thread.Sleep(1000);
                     Console.WriteLine(" | INITIALISED");
+
+
+                    // Format 
+                    ManagementObjectSearcher vSearcher = new ManagementObjectSearcher("select * from Win32_Volume");
+                    foreach (ManagementObject n in vSearcher.Get())
+                    {
+
+                        if ((n["DriveType"].ToString() == HARD_DRIVE) && (n["FileSystem"] == null))
+                        {
+                            // https://docs.microsoft.com/en-au/previous-versions/windows/desktop/stormgmt/format-msft-volume
+                            n.InvokeMethod("Format", new object[] { "NTFS", true, 8192, "New Volume", false });
+                            Console.WriteLine($"[-] {n["DriveLetter"].ToString()} CREATED");
+                        }
+
+                    }
+                    vSearcher.Dispose();
+
+
                 }
                 else
                 {
                     Console.WriteLine(" | IGNORED");
                 }
             }
-            searcher.Dispose();
-            Terminal.WriteLine("ALL DRIVES INITIALISED", "*");
+            pSearcher.Dispose();
+            Terminal.WriteLine("ALL DRIVES INITIALISED AND PARTITIONED", "*");
             Terminal.WriteLineBreak();
 
-            // Format 
-            searcher = new ManagementObjectSearcher("select * from Win32_Volume");
-            foreach (ManagementObject m in searcher.Get())
-            {
-
-                if ((m["DriveType"].ToString() == HARD_DRIVE) && (m["FileSystem"] == null))
-                {
-                    // https://docs.microsoft.com/en-au/previous-versions/windows/desktop/stormgmt/format-msft-volume
-                    m.InvokeMethod("Format", new object[] { "NTFS", true, 8192, "New Volume", false });
-                    Console.WriteLine($"[-] {m["DriveLetter"].ToString()} CREATED");
-                }
-
-            }
-            searcher.Dispose();
-            Terminal.WriteLine("ALL DRIVES FORMATTED", "*");
+            
 
             // In case any drives are offline...
             /*

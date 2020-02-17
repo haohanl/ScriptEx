@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 using System.IO;
 using System.Diagnostics;
 
@@ -51,7 +52,8 @@ namespace ScriptExDee_II.Shelleton.Commands
         public static void qc()
         {
             cleanup();
-            fd();
+            Thread _fd = new Thread(fd);
+            _fd.Start();
             act();
             si();
         }
