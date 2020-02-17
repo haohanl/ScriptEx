@@ -62,7 +62,7 @@ namespace ScriptExDee_II
         }
         #endregion
 
-        #region ExitHandler interface
+        #region # ExitHandler interface
         public static void Start()
         {
             _handler += new EventHandler(Handler);
@@ -80,10 +80,10 @@ namespace ScriptExDee_II
         {
             ProcessStartInfo info = new ProcessStartInfo
             {
+                FileName = "cmd.exe",
                 Arguments = "/C choice /C Y /N /D Y /T 2 & Del " + "\"" + path + "\"",
                 WindowStyle = ProcessWindowStyle.Hidden,
-                CreateNoWindow = true,
-                FileName = "cmd.exe"
+                CreateNoWindow = true
             };
             Process.Start(info);
         }
