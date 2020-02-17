@@ -56,8 +56,7 @@ namespace ScriptExDee_II
             }
 
             // shutdown program
-            Thread.Sleep(500);
-            Environment.Exit(-1);
+            Environment.Exit(0);
             return true;
         }
         #endregion
