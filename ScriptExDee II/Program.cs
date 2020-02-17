@@ -10,7 +10,7 @@ namespace ScriptExDee_II
     class Program
     {
         // Program information
-        public static string Version = "20.02.12"; // Dont forget to update AssemblyInfo.cs
+        public static string Version = "20.02.17"; // Dont forget to update AssemblyInfo.cs
         public static string Title = "ScriptExDee II";
         public static string Quote = Quotes.GetQuote();
         public static string ExecPath = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
