@@ -123,6 +123,7 @@ namespace ScriptExDee_II
             string _currentMode;
             List<string> _validCommands;
 
+
             // Prepare new check
             _validCommands = new List<string>();
             _currentMode = currentMode;
@@ -216,6 +217,12 @@ namespace ScriptExDee_II
                 // Check for mode keys
                 if (Program.Config.IsModeKey(key))
                 {
+                    // Wait for last mode to complete
+                    // If this is not present, RoboCopy NetworkActive switch
+                    // may get flipped and cause skipping transfers
+                    ThreadBlock(threadBatch);
+
+                    // Continue execution
                     _currentMode = Program.Config.GetMode(key);
                     RoboCopy.CheckNetwork(_currentMode);
                     continue;
@@ -236,6 +243,7 @@ namespace ScriptExDee_II
                 // Check for key validity
                 if (Program.Config.IsCommandKey(_currentMode, key))
                 {
+                    // Start thread
                     Thread thr = new Thread(() => RoboCopy.Copy(_currentMode, key));
                     thr.Start();
                     threadBatch.Add(thr);
@@ -244,10 +252,7 @@ namespace ScriptExDee_II
             }
 
             // Wait for RoboCopy to complete
-            foreach (var thread in threadBatch)
-            {
-                thread.Join();
-            }
+            ThreadBlock(threadBatch);
         }
 
         #endregion

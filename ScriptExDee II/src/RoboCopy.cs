@@ -121,7 +121,7 @@ namespace ScriptExDee_II
             if (!Program.Config.RoboCopy.SrcUseNetwork)
             {
                 NetworkActive = false;
-                Terminal.WriteLine("Network share disabled.", "*");
+                Terminal.WriteLine("Network share disabled.", "o");
                 return;
             }
 
@@ -129,7 +129,7 @@ namespace ScriptExDee_II
             if (string.IsNullOrEmpty(_mode.NetModeRoot))
             {
                 NetworkActive = false;
-                Terminal.WriteLine("Network share disabled in this mode.", "*");
+                Terminal.WriteLine($"Network share disabled in '{mode} Mode.", "o");
                 return;
             }
 
@@ -137,12 +137,12 @@ namespace ScriptExDee_II
             if (Directory.Exists(_mode.NetModeRoot))
             {
                 NetworkActive = true;
-                Terminal.WriteLine("Network share connected.", "*");
+                Terminal.WriteLine("Network share connected.", "o");
             }
             else
             {
                 NetworkActive = false;
-                Terminal.WriteLine("Network share not connected.", "*");
+                Terminal.WriteLine("Network share not connected.", "o");
             }
         }
 
@@ -282,6 +282,9 @@ namespace ScriptExDee_II
         public string DstPath = null;
         public CommandTransferInfo(string mode, string key)
         {
+            // Initialise RoboCopy
+            RoboCopy.Reinitialise();
+
             // Get relevant config data
             ModeConfig _mode = Program.Config.Modes[mode];
             CommandItem _command = Program.Config.GetCommandItem(mode, key);

@@ -95,6 +95,12 @@ namespace ScriptExDee_II.Shelleton.Commands
         /// </summary>
         public static void cti(string mode, string key)
         {
+            // store current RoboCopy settings
+            bool _netState = RoboCopy.NetworkActive;
+
+            // check network status
+            RoboCopy.CheckNetwork(mode);
+
             // check validity of mode and key
             if (!Program.Config.Program.ModeKeys.Values.Contains(mode))
             {
@@ -117,6 +123,9 @@ namespace ScriptExDee_II.Shelleton.Commands
             Console.WriteLine("    NET: " + _cti.NetPath);
             Console.WriteLine("    DST: " + _cti.DstPath);
             Terminal.WriteLineBreak();
+
+            // Return to initial state
+            RoboCopy.NetworkActive = _netState;
         }
 
         /// <summary>
