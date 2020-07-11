@@ -18,8 +18,8 @@ namespace ScriptExDee_II.Shelleton
 
         // Regex
         const string UnquotedSpaces = "(?<=^[^\"]*(?:\"[^\"]*\"[^\"]*)*) (?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)";
-        private static Regex QuotedString = new Regex("\"(.*?)\"", RegexOptions.Singleline);
-        private static Regex UnquotedString = new Regex("[^\"]*[^\"]");
+        private static readonly Regex QuotedString = new Regex("\"(.*?)\"", RegexOptions.Singleline);
+        private static readonly Regex UnquotedString = new Regex("[^\"]*[^\"]");
 
 
         // ConsoleCommand constructor

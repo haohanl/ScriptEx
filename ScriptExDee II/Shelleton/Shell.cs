@@ -189,6 +189,12 @@ namespace ScriptExDee_II.Shelleton
                     command.Name,
                     BindingFlags.InvokeMethod | BindingFlags.Static | BindingFlags.Public,
                     null, null, inputArgs);
+
+                // For some reason, this is required to stop Visual Studio from screaming
+                if (result is null) {
+                    return "";
+                }
+
                 try
                 {
                     return result.ToString();
@@ -383,11 +389,11 @@ namespace ScriptExDee_II.Shelleton
             {
                 if (item.IsOptional)
                 {
-                    ls.Add($"[{item.ToString()}]");
+                    ls.Add($"[{item}]");
                 }
                 else
                 {
-                    ls.Add($"<{item.ToString()}>");
+                    ls.Add($"<{item}>");
                 }
             }
 

@@ -129,7 +129,7 @@ namespace ScriptExDee_II
 
             if (SysInfo.RAM != null)
             {
-                Console.WriteLine(tab + $" RAM │ {SysInfo.RAM.TotalCapacity.ToString("F")}GB ({SysInfo.RAM.NumSticks}×{SysInfo.RAM.SingleCapacity}GB) [{SysInfo.RAM.Speed}MHz]");
+                Console.WriteLine(tab + $" RAM │ {SysInfo.RAM.TotalCapacity:F}GB ({SysInfo.RAM.NumSticks}×{SysInfo.RAM.SingleCapacity}GB) [{SysInfo.RAM.Speed}MHz]");
                 Console.WriteLine(tab + $"     │ {SysInfo.RAM.Name} ({SysInfo.RAM.Manufacturer})");
                 Console.WriteLine(_div);
             }
@@ -167,7 +167,7 @@ namespace ScriptExDee_II
                         {
                             Console.Write(tab + "     ");
                         }
-                        Console.Write($"│ {drive.Name} ({drive.Size.ToString("N0")} GB) [{drive.Partitions} Partitions]\n");
+                        Console.Write($"│ {drive.Name} ({drive.Size:N0} GB) [{drive.Partitions} Partitions]\n");
                     }
                 }
                 Console.WriteLine(_div);
