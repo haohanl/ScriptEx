@@ -14,6 +14,7 @@ namespace ScriptExDee_II
     {
         // Remote drive source
         public static string SrcDrive;
+        public static string SrcDriveFallback;
         public static bool NetworkActive = false;
 
         // Commandline constants
@@ -26,10 +27,12 @@ namespace ScriptExDee_II
         /// </summary>
         public static void Initialise()
         {
+            SrcDriveFallback = $"{Program.Config.RoboCopy.SrcDriveLetter}:\\" + Program.Config.RoboCopy.SrcDriveRoot;
+
             // Initialise the remote drive root
             if (Program.Config.RoboCopy.ForceSrcDriveLetter)
             {
-                SrcDrive = $"{Program.Config.RoboCopy.SrcDriveLetter}:\\" + Program.Config.RoboCopy.SrcDriveRoot;
+                SrcDrive = SrcDriveFallback;
             }
             else
             {
@@ -69,6 +72,12 @@ namespace ScriptExDee_II
 
         public static void Reinitialise()
         {
+            // Check for forced drive
+            if (Program.Config.RoboCopy.ForceSrcDriveLetter) {
+                SrcDrive = SrcDriveFallback;
+                return;
+            }
+
             string _srcDrive;
             string _driveName = Program.Config.RoboCopy.SrcDriveName;
             DriveType _driveType = Program.Config.RoboCopy.SrcDriveType;
@@ -234,14 +243,20 @@ namespace ScriptExDee_II
             string _root = Program.Config.RoboCopy.SrcDriveRoot;
 
             // Filter drives to those that match the drive type
-            var _drives = from drive in DriveInfo.GetDrives()
-                          where drive.DriveType == srcDriveType
-                          select drive;
+            try {
+                var _drives = from drive in DriveInfo.GetDrives()
+                              where drive.DriveType == srcDriveType
+                              select drive;
 
-            if (_drives.Count() > 0)
-            {
-                return _drives.First().RootDirectory.ToString() + _root;
+                if (_drives.Count() > 0) {
+                    return _drives.First().RootDirectory.ToString() + _root;
+                }
             }
+            catch (Exception) {
+                Terminal.WriteLine($"System contains problematic IO device. Falling back to {SrcDriveFallback}", "!");
+                return SrcDriveFallback + _root;
+            }
+            
 
             return null;
         }
@@ -255,14 +270,19 @@ namespace ScriptExDee_II
             string _root = Program.Config.RoboCopy.SrcDriveRoot;
 
             // Filter drives to those that match the drive type
-            var _drives = from drive in DriveInfo.GetDrives()
-                          where drive.DriveType == srcDriveType && drive.VolumeLabel == srcDriveName
-                          select drive;
+            try {
+                var _drives = from drive in DriveInfo.GetDrives()
+                              where drive.DriveType == srcDriveType && drive.VolumeLabel == srcDriveName
+                              select drive;
 
-            // Return drive if found
-            if (_drives.Count() > 0)
-            {
-                return _drives.First().RootDirectory.ToString() + _root;
+                // Return drive if found
+                if (_drives.Count() > 0) {
+                    return _drives.First().RootDirectory.ToString() + _root;
+                }
+            }
+            catch (Exception) {
+                Terminal.WriteLine($"System contains problematic IO device. Falling back to {SrcDriveFallback}", "!");
+                return SrcDriveFallback + _root;
             }
 
             return null;
