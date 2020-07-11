@@ -23,6 +23,13 @@ namespace ScriptExDee_II
 
         static void Main()
         {
+            // Redirect unhandled exception to custom handler
+            // See: https://stackoverflow.com/questions/31366174/enable-console-window-to-show-exception-error-details
+            if (!System.Diagnostics.Debugger.IsAttached) {
+                AppDomain.CurrentDomain.UnhandledException += ReportUnhandledException;
+            }
+
+            // Initialise
             InitialiseConfig();
 
             ExitHandler.Start();
@@ -66,6 +73,19 @@ namespace ScriptExDee_II
             Shelleton.Shell.Run(Config.Program.StartupCommands);
 
             TitleScreen.ShowSummary();
+        }
+
+        private static void ReportUnhandledException(object sender, UnhandledExceptionEventArgs e) {
+            Console.WriteLine();
+            Console.WriteLine(new String('=', 119));
+            Console.WriteLine("SCRIPTEX HAS CRASHED. SHOW SOMEONE THE LOGS BELOW.");
+            Console.WriteLine(new String('=', 119));
+            Console.WriteLine(e.ExceptionObject.ToString());
+            Console.WriteLine(new String('-', 119));
+            Console.WriteLine("Please press any key to end the program...");
+            Console.WriteLine(new String('=', 119));
+            Console.ReadKey();
+            Environment.Exit(1);
         }
     }
 }
